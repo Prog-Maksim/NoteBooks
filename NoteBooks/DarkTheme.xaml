@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Top Button -->
+    <Style x:Key="topButton" TargetType="Button" BasedOn="{StaticResource topButtonBase}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2C2C2C"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="LogoStyle" TargetType="Border" BasedOn="{StaticResource LogoStyleBase}">
+        <Setter Property="Background" Value="#2C2C2C"></Setter>
+    </Style>
+    
+    <Style x:Key="MainWindowsStyle" TargetType="Border">
+        <Setter Property="Background" Value="#1E1E1E"></Setter>
+    </Style>
+    
+    <Style x:Key="WindowsButton" TargetType="Button" BasedOn="{StaticResource WindowsButtonBase}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#323232"></Setter>
+                <Setter Property="Foreground" Value="#ffffff"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- Menu list sticky -->
+    <Style x:Key="settingsButton" TargetType="Button" BasedOn="{StaticResource topButton}">
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="Background" Value="#2C2C2C"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+        <Setter Property="Margin" Value="0 20 20 0"></Setter>
+    </Style>
+    
+    <Style x:Key="MainTextProgram" TargetType="TextBlock" BasedOn="{StaticResource MainTextProgramBase}">
+        <Setter Property="Foreground" Value="White"></Setter>
+    </Style>
+    
+    <Style
+        x:Key="tabButton" TargetType="Button" BasedOn="{StaticResource tabButtonBase}">
+        <Setter Property="Foreground" Value="White"></Setter>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="#784ff1"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" Value="#784ff1"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="textboxFilter" TargetType="TextBox" BasedOn="{StaticResource textboxFilterBase}">
+        <Setter Property="Background" Value="#2C2C2C"></Setter>
+    </Style>
+    
+    <Style x:Key="addButton" BasedOn="{StaticResource addButton}"></Style>
+    <Style x:Key="styleSeparator" TargetType="Separator">
+        <Setter Property="Height" Value="1"></Setter>
+        <Setter Property="Background" Value="#B3B3B3"></Setter>
+        <Setter Property="Margin" Value="0 -1 0 10"></Setter>
+    </Style>
+    
+</ResourceDictionary>
