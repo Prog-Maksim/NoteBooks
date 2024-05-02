@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace NoteBooks
 {
-    public partial class MainWindow: Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -15,16 +15,8 @@ namespace NoteBooks
             OpenMainMenu();
             OpenThumbrackSticky();
             
-            try
-            {
-                string executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-                string executableDirectory = System.IO.Path.GetDirectoryName(executablePath);
-                string imagePath = $"{executableDirectory}/Icons/apps.png";
-                this.Icon = new BitmapImage(new Uri(imagePath));
-            }
-            catch {}
-            
-            GC.Collect(5);
+            var path = new Uri("pack://application:,,,/Resource/ImageTaskBar/apps.png");
+            this.Icon = new BitmapImage(path);
         }
         
         private void OpenThumbrackSticky()
@@ -122,11 +114,6 @@ namespace NoteBooks
         private void WindowsMinimizide_OnClick(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
-        }
-
-        private void ButtonBase_OnClick_1(object sender, RoutedEventArgs e)
-        {
-            GC.Collect(5);
         }
     }
 }
