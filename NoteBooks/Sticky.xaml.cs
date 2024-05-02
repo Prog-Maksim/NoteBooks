@@ -86,21 +86,22 @@ public partial class Sticky : Window
 
     private void installIcon()
     {
-        try
-        {
-            string executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-            string executableDirectory = System.IO.Path.GetDirectoryName(executablePath);
-            string imagePath = "";
-            if (fontnum == 0) imagePath = $"{executableDirectory}/Icons/purple_sticky_icon.png";
-            else if (fontnum == 1) imagePath = $"{executableDirectory}/Icons/pink_sticky_icon.png";
-            else if (fontnum == 2) imagePath = $"{executableDirectory}/Icons/green_sticky_icon.png";
-            else if (fontnum == 3) imagePath = $"{executableDirectory}/Icons/blue_sticky_icon.png";
-            else if (fontnum == 4) imagePath = $"{executableDirectory}/Icons/yellow_sticky_icon.png";
-            else if (fontnum == 5) imagePath = $"{executableDirectory}/Icons/dark_sticky_icon.png";
-            else if (fontnum == 6) imagePath = $"{executableDirectory}/Icons/gray_sticky_icon.png";
-            this.Icon = new BitmapImage(new Uri(imagePath));
-        }
-        catch {}
+        string imagePath = "";
+        if (fontnum == 0) imagePath = "pack://application:,,,/Resource/ImageTaskBar/purple_sticky_icon.png";
+        else if (fontnum == 1)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/pink_sticky_icon.png";
+        else if (fontnum == 2)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/green_sticky_icon.png";
+        else if (fontnum == 3)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/blue_sticky_icon.png";
+        else if (fontnum == 4)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/yellow_sticky_icon.png";
+        else if (fontnum == 5)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/dark_sticky_icon.png";
+        else if (fontnum == 6)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/gray_sticky_icon.png";
+        var path = new Uri(imagePath);
+        this.Icon = new BitmapImage(path);
     }
 
     public Sticky(string name)
@@ -341,7 +342,7 @@ public partial class Sticky : Window
 
     private void Italic()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty).Equals(FontStyles.Italic))
+        if (!MainRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty).Equals(FontStyles.Italic))
         {
             if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
             {
@@ -629,10 +630,5 @@ public partial class Sticky : Window
     {
         var sticky = new Sticky();
         sticky.Show();
-    }
-
-    ~Sticky()
-    {
-        
     }
 }

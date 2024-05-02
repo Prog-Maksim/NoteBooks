@@ -24,4 +24,29 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resource\ImageTaskBar\apps.png" />
+    <Resource Include="Resource\ImageTaskBar\apps.png" />
+    <None Remove="Resource\ImageTaskBar\blue_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\blue_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\dark_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\dark_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\gray_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\gray_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\green_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\green_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\pink_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\pink_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\purple_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\purple_sticky_icon.png" />
+    <None Remove="Resource\ImageTaskBar\yellow_sticky_icon.png" />
+    <Resource Include="Resource\ImageTaskBar\yellow_sticky_icon.png" />
+    <None Remove="Resource\ProgramData.txt" />
+    <Resource Include="Resource\ProgramData.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resource\Stickers\" />
+  </ItemGroup>
+
 </Project>
