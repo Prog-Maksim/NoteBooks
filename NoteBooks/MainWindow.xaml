@@ -34,7 +34,6 @@
                 <Button
                     Grid.Row="0"
                     VerticalAlignment="Top"
-                    Click="ButtonBase_OnClick_1"
                     Style="{StaticResource topButton}"
                     Margin="20 28 0 35"
                     HorizontalAlignment="Left">
