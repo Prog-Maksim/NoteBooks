@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
@@ -70,9 +71,16 @@ public partial class Sticky : Window
     private bool _isMaximized; 
     private double _baseSizeFont = 16;
 
-    private bool stateLock; // есть ли защита на стикере
-    private bool _Lockinformation; // текущее состояние стикера
+    // Безопасность стикера
+    private bool _stateSecurity;
+    private bool _lockState;
     private string _stickyPassword;
+
+    // Настройки анимации стикера
+    private bool _stickyFocusAnimation = true;
+    private bool _stickyAnimation = true;
+    private double _timeSpanTopMenu = 0.3;
+    private double _timeSpanBottonMenu = 0.1;
 
     private string _stickyName;
 
@@ -143,8 +151,8 @@ public partial class Sticky : Window
                 string passwd = Cryptography.Decrypt(index.Value);
                 if (passwd != "None")
                 {
-                    stateLock = true;
-                    _Lockinformation = true;
+                    _stateSecurity = true;
+                    _lockState = true;
                     _stickyPassword = passwd;
                 }
             }
@@ -215,8 +223,8 @@ public partial class Sticky : Window
         this.Left = this._windowsСoordinates.Y;
         
         MainRichTextBox.Focus();
-        if (stateLock) SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
-        if (stateLock) LockSticky();
+        if (_stateSecurity) SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+        if (_stateSecurity) LockSticky();
     }
     
     private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
@@ -234,23 +242,23 @@ public partial class Sticky : Window
 
     private void LockSticky()
     {
-        if (!stateLock) return;
+        if (!_stateSecurity) return;
         
         stateOnlySticky();
-        _Lockinformation = true;
+        _lockState = true;
         CheckMark.Kind = PackIconMaterialKind.Eye;
         MainRichTextBox.Opacity = 0;
     }
 
     private void UnlockSticky()
     {
-        if (!stateLock) return;
+        if (!_stateSecurity) return;
         
         var passwordWindow = new PasswordWindow();
 
         if (passwordWindow.ShowDialog() == true && passwordWindow.Password == _stickyPassword)
         {
-            _Lockinformation = false;
+            _lockState = false;
             CheckMark.Kind = PackIconMaterialKind.Pencil;
             MainRichTextBox.Opacity = 1;
         }
@@ -346,7 +354,10 @@ public partial class Sticky : Window
     private void stateOnlySticky()
     {
         _changeStickyState = false;
-        BottonMenuSettings.Height = 0;
+        if (_stickyAnimation)
+            StickyCloseBottonMenuAnimation();
+        else
+            BottonMenuSettings.Height = 0;
         ShowInTaskbar = false;
         CheckMark.Kind = PackIconMaterialKind.Pencil;
         MainRichTextBox.IsReadOnly = !_changeStickyState;
@@ -354,13 +365,16 @@ public partial class Sticky : Window
 
     private void StateReadOnlySticky()
     {
-        if (_Lockinformation) UnlockSticky();
+        if (_lockState) UnlockSticky();
         
         if (_changeStickyState) stateOnlySticky();
         else
         {
             _changeStickyState = true;
-            BottonMenuSettings.Height = 30;
+            if (_stickyAnimation)
+                StickyOpenBottonMenuAnimation();
+            else
+                BottonMenuSettings.Height = 30;
             ShowInTaskbar = true;
             CheckMark.Kind = PackIconMaterialKind.Check;
             MainRichTextBox.IsReadOnly = !_changeStickyState;
@@ -393,11 +407,11 @@ public partial class Sticky : Window
             var sticky = new Sticky();
             sticky.Show();
         }
-        else if (e.Key == Key.Enter && _Lockinformation)
+        else if (e.Key == Key.Enter && _lockState)
                 UnlockSticky();
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
             StateReadOnlySticky();
-        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.L && !_Lockinformation)
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.L && !_lockState)
             LockSticky();
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Q)
         {
@@ -556,21 +570,84 @@ public partial class Sticky : Window
         sticky.Show();
     }
 
-    private void Sticky_OnDeactivated(object? sender, EventArgs e)
+    private void StickyCloseBottonMenuAnimation()
+    {
+        DoubleAnimation menuHeightAnimation = new DoubleAnimation();
+        menuHeightAnimation.To = 0;
+        menuHeightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanBottonMenu));
+
+        BottonMenuSettings.BeginAnimation(HeightProperty, menuHeightAnimation);
+    }
+
+    private void StickyOpenBottonMenuAnimation()
+    {
+        DoubleAnimation menuHeightAnimation = new DoubleAnimation();
+        menuHeightAnimation.To = 30;
+        menuHeightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanBottonMenu));
+
+        BottonMenuSettings.BeginAnimation(HeightProperty, menuHeightAnimation);
+    }
+
+    private void StickyCloseMenu()
     {
         BorderInform.Height = 10;
         MainStickyName.Visibility = Visibility.Hidden;
-        
+        if (_changeStickyState) BottonMenuSettings.Height = 0;
+    }
+
+    private void StickyOpenMenu()
+    {
+        BorderInform.Height = 35;
+        MainStickyName.Visibility = Visibility.Hidden;
+        if (_changeStickyState) BottonMenuSettings.Height = 30;
+    }
+
+    private void StickyCloseMenuAnimation()
+    {
+        DoubleAnimation heightAnimation = new DoubleAnimation();
+        heightAnimation.To = 10;
+        heightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanTopMenu));
+
+        BorderInform.BeginAnimation(HeightProperty, heightAnimation);
+
+        MainStickyName.Visibility = Visibility.Hidden;
+
         if (_changeStickyState)
-            BottonMenuSettings.Height = 0;
+            StickyCloseBottonMenuAnimation();
+    }
+
+    private void StickyOpenMenuAnimation()
+    {
+        DoubleAnimation heightAnimation = new DoubleAnimation();
+        heightAnimation.To = 35;
+        heightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanTopMenu));
+
+        BorderInform.BeginAnimation(HeightProperty, heightAnimation);
+
+        MainStickyName.Visibility = Visibility.Visible;
+
+        if (_changeStickyState)
+            StickyOpenBottonMenuAnimation();
+    }
+
+    private void Sticky_OnDeactivated(object? sender, EventArgs e)
+    {
+        if (!_stickyFocusAnimation) return;
+        
+        if (_stickyAnimation)
+            StickyCloseMenuAnimation();
+        else
+            StickyCloseMenu();
     }
 
     private void Sticky_OnActivated(object? sender, EventArgs e)
     {
-        BorderInform.Height = 35;
-        MainStickyName.Visibility = Visibility.Visible;
-
-        if (_changeStickyState) BottonMenuSettings.Height = 30;
+        if (!_stickyFocusAnimation) return;
+        
+        if (_stickyAnimation)
+            StickyOpenMenuAnimation();
+        else
+            StickyOpenMenu();
     }
 
     private void MainRichTextBox_OnSelectionChanged(object sender, RoutedEventArgs e)
