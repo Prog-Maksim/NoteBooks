@@ -321,46 +321,18 @@ public partial class Sticky : Window
 
     private void Bold()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty).Equals(FontWeights.Bold))
-        {
-            if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
-            {
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
-            }
-            else if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
-            {
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
-            }
-            else
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
-
-            MainRichTextBox.Selection.ClearAllProperties(); // Убираем выделение
-            MainRichTextBox.CaretPosition = MainRichTextBox.Document.ContentEnd; // Устанавливаем курсор в конец строки
-        }
+        if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+        else
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
     }
 
     private void Italic()
     {
-        if (!MainRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty).Equals(FontStyles.Italic))
-        {
-            if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
-            {
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
-            }
-            else if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
-            {
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
-            }
-            else
-                MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
-
-            MainRichTextBox.Selection.ClearAllProperties(); // Убираем выделение
-            MainRichTextBox.CaretPosition = MainRichTextBox.Document.ContentEnd; // Устанавливаем курсор в конец строки
-        }
+        if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
+        else
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
     }
 
     private void InstallColor()
