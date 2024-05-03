@@ -59,7 +59,7 @@
                             Margin="20 -30 0 0">
                             <Ellipse>
                                 <Ellipse.Fill>
-                                    <ImageBrush>
+                                    <ImageBrush ImageSource="Resource/ImageTaskBar/apps.png">
                                     </ImageBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
