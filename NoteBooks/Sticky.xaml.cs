@@ -441,18 +441,11 @@ public partial class Sticky : Window
             mainWindow.Show();
         }
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.T)
-            {
-                if (_thumbtack)
-                {
-                    _thumbtack = false;
-                    MessageBox.Show("Стикер был откреплен!");
-                }
-                else
-                {   
-                    _thumbtack = true;
-                    MessageBox.Show("Стикер был закреплен!");
-                }
-            }
+        {
+            _thumbtack = !_thumbtack;
+            string text = "Стикер был " + (_thumbtack? "закреплен!": "откреплен!");
+            MessageBox.Show(text, "StickyNotes", MessageBoxButton.OK);
+        }
         
         else if (!_changeStickyState) return;
         
