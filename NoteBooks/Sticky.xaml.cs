@@ -572,4 +572,29 @@ public partial class Sticky : Window
 
         if (_changeStickyState) BottonMenuSettings.Height = 30;
     }
+
+    private void MainRichTextBox_OnSelectionChanged(object sender, RoutedEventArgs e)
+    {
+        if (MainRichTextBox.Selection.Text.Length < 1)
+        {
+            IconBold.Foreground = new SolidColorBrush(Colors.Gray);
+            IconItalic.Foreground = new SolidColorBrush(Colors.Gray);
+            IconStrikeout.Foreground = new SolidColorBrush(Colors.Gray);
+            IconUnderline.Foreground = new SolidColorBrush(Colors.Gray);
+        }
+        else
+        {
+            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
+                IconBold.Foreground = new SolidColorBrush(Colors.Black);
+            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
+                IconItalic.Foreground = new SolidColorBrush(Colors.Black);
+            
+            TextRange selectionRange = new TextRange(MainRichTextBox.Selection.Start, MainRichTextBox.Selection.End);
+
+            if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
+                IconUnderline.Foreground = new SolidColorBrush(Colors.Black);
+            if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
+                IconStrikeout.Foreground = new SolidColorBrush(Colors.Black);
+        }
+    }
 }
