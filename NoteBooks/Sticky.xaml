@@ -48,6 +48,7 @@
                     <Button
                         Grid.Column="0"
                         Click="CheckMark_OnMouseDown"
+                        Margin="2 0 0 0"
                         Style="{StaticResource StickyButton}">
                         <Icon:PackIconMaterial
                             Kind="Check" 
@@ -94,6 +95,7 @@
                 x:Name="MainRichTextBox"
                 BorderThickness="0"
                 Background="Transparent"
+                SelectionChanged="MainRichTextBox_OnSelectionChanged"
                 PreviewKeyDown="RichTextBox_OnPreviewKeyDown">
             </RichTextBox>
             
@@ -101,7 +103,7 @@
                 Grid.Row="2"
                 x:Name="BottonMenuSettings"
                 BorderBrush="Gray"
-                BorderThickness="0 1 0 0"
+                BorderThickness="0 0.5 0 0"
                 Height="30"
                 CornerRadius="0 0 10 10">
                 <Grid>
@@ -118,8 +120,9 @@
                         Grid.Column="0"
                         Width="30"
                         Click="StateBoldFont"
-                        Style="{StaticResource StickyButton}">
+                        Style="{StaticResource StickyButtonBotton}">
                         <Icon:PackIconMaterial
+                            x:Name="IconBold"
                             Kind="FormatBold" 
                             Foreground="Gray"
                             HorizontalAlignment="Center"
@@ -132,8 +135,9 @@
                         Grid.Column="1"
                         Width="30"
                         Click="StateItalicFont"
-                        Style="{StaticResource StickyButton}">
+                        Style="{StaticResource StickyButtonBotton}">
                         <Icon:PackIconMaterial 
+                            x:Name="IconItalic"
                             Kind="FormatItalic" 
                             Foreground="Gray"
                             VerticalAlignment="Center"
@@ -145,8 +149,9 @@
                         Grid.Column="2"
                         Width="30"
                         Click="StateUnderlineFont"
-                        Style="{StaticResource StickyButton}">
+                        Style="{StaticResource StickyButtonBotton}">
                         <Icon:PackIconMaterial 
+                            x:Name="IconUnderline"
                             Kind="FormatUnderline" 
                             Foreground="Gray"
                             VerticalAlignment="Center"
@@ -158,8 +163,9 @@
                         Grid.Column="3"
                         Width="30"
                         Click="StateStrikeoutFont"
-                        Style="{StaticResource StickyButton}">
+                        Style="{StaticResource StickyButtonBotton}">
                         <Icon:PackIconMaterial 
+                            x:Name="IconStrikeout"
                             Kind="FormatStrikethroughVariant" 
                             Foreground="Gray"
                             VerticalAlignment="Center"
@@ -171,12 +177,12 @@
                         Grid.Column="5"
                         Width="30"
                         HorizontalAlignment="Right"
-                        Style="{StaticResource StickyButton}"
+                        Style="{StaticResource StickyButtonBotton}"
                         Click="new_Sticky">
                         <Icon:PackIconMaterial
                             Grid.Column="5"
                             Kind="Plus" 
-                            Foreground="Gray"
+                            Foreground="Black"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                         </Icon:PackIconMaterial>
