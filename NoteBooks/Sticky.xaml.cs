@@ -382,7 +382,8 @@ public partial class Sticky : Window
     private void StateReadOnlySticky()
     {
         if (_Lockinformation) UnlockSticky();
-        else if (_changeStickyState) stateOnlySticky();
+        
+        if (_changeStickyState) stateOnlySticky();
         else
         {
             _changeStickyState = true;
