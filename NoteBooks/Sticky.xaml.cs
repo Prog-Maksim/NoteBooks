@@ -107,6 +107,7 @@ public partial class Sticky : Window
     public Sticky(string name)
     {
         InitializeComponent();
+        this.Title = name;
         
         try
         {
@@ -516,6 +517,7 @@ public partial class Sticky : Window
                 Random rnd = new Random();
                 this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
                 MainStickyName.Text = this._stickyName;
+                this.Title = this._stickyName;
 
                 Dictionary<string, string> stickyData = new Dictionary<string, string>()
                 {
