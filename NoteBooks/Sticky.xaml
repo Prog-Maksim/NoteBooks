@@ -11,6 +11,8 @@
         MinWidth="250"
         MinHeight="285"
         WindowStyle="None"
+        Window.Deactivated="Sticky_OnDeactivated"
+        Window.Activated="Sticky_OnActivated"
         AllowsTransparency="True"
         Background="Transparent">
     <Border
@@ -45,7 +47,6 @@
                     
                     <Button
                         Grid.Column="0"
-                        Cursor="Hand"
                         Click="CheckMark_OnMouseDown"
                         Style="{StaticResource StickyButton}">
                         <Icon:PackIconMaterial

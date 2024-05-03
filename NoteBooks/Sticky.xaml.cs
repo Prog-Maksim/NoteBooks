@@ -631,4 +631,21 @@ public partial class Sticky : Window
         var sticky = new Sticky();
         sticky.Show();
     }
+
+    private void Sticky_OnDeactivated(object? sender, EventArgs e)
+    {
+        BorderInform.Height = 10;
+        MainStickyName.Visibility = Visibility.Hidden;
+        
+        if (_changeStickyState)
+            BottonMenuSettings.Height = 0;
+    }
+
+    private void Sticky_OnActivated(object? sender, EventArgs e)
+    {
+        BorderInform.Height = 35;
+        MainStickyName.Visibility = Visibility.Visible;
+
+        if (_changeStickyState) BottonMenuSettings.Height = 30;
+    }
 }
