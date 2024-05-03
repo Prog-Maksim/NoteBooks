@@ -420,40 +420,26 @@ public partial class Sticky : Window
             var sticky = new Sticky();
             sticky.Show();
         }
-        else if (e.Key == Key.Enter)
-        {
-            if (_Lockinformation)
+        else if (e.Key == Key.Enter && _Lockinformation)
                 UnlockSticky();
-        }
-        
-        else switch (e.KeyboardDevice.Modifiers)
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
+            StateReadOnlySticky();
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.L && !_Lockinformation)
+            LockSticky();
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Q)
         {
-            case ModifierKeys.Control when e.Key == Key.Y:
-                StateReadOnlySticky();
-                break;
-            case ModifierKeys.Control when e.Key == Key.L:
+            foreach(Window window in App.Current.Windows)
             {
-                if (!_Lockinformation)
-                    LockSticky();
-                break;
-            }
-            case ModifierKeys.Control when e.Key == Key.Q:
-            {
-                foreach(Window window in App.Current.Windows)
+                if (window is MainWindow)
                 {
-                    if (window is MainWindow)
-                    {
-                        window.WindowState = WindowState.Normal;
-                        return;
-                    }
+                    window.WindowState = WindowState.Normal;
+                    return;
                 }
-                var mainWindow = new MainWindow();
-                mainWindow.Show();
-                break;
             }
-            
-            // Обработчик закрепления и открепления стикера
-            case ModifierKeys.Control when e.Key == Key.T:
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.T)
             {
                 if (_thumbtack)
                 {
@@ -465,126 +451,96 @@ public partial class Sticky : Window
                     _thumbtack = true;
                     MessageBox.Show("Стикер был закреплен!");
                 }
-                
-                break;
             }
-            
-            default:
+        
+        else if (!_changeStickyState) return;
+        
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.X)
+        {
+            fontnum++;
+
+            UpdateBackgroundFontSticky();
+            InstallColor();
+        }
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S)
+            Strikeout();
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Alt) && e.Key == Key.Oem4)
+        {
+            if (_opacitySticky >= 0.2) _opacitySticky -= 0.1;
+            InstallColor();
+        }
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Alt) && e.Key == Key.Oem6)
+        {
+            if (_opacitySticky <= 0.9) _opacitySticky += 0.1;
+            InstallColor();
+        }
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift ) && e.Key == Key.Oem4)
+        {
+            if (_baseSizeFont > 5) _baseSizeFont -= 1;
+            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
+        }
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.Oem6)
+        {
+            if (_baseSizeFont < 30) _baseSizeFont += 1;
+            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
+        }
+        
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.B)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Blue);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.R)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.G)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Green);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.Y)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Yellow);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.W)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.White);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.O)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Orange);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.D)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.P)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Purple);
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.F)
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);
+        
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.OemPlus && _stickyWidth < 750)
+            ModifyStickySize(50);
+        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.OemMinus && _stickyWidth > 250)
+            ModifyStickySize(-50);
+        
+        else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
+        {
+            if (this._stickyName == baseStickyName)
             {
-                if (_changeStickyState)
+                Random rnd = new Random();
+                this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
+                MainStickyName.Text = this._stickyName;
+
+                Dictionary<string, string> stickyData = new Dictionary<string, string>()
                 {
-                    switch (e.KeyboardDevice.Modifiers)
-                    {
-                        case ModifierKeys.Control when e.Key == Key.X:
-                        {
-                            fontnum++;
-
-                            UpdateBackgroundFontSticky();
-                            InstallColor();
-                            break;
-                        }
-                        case ModifierKeys.Control when e.Key == Key.S:
-                            Strikeout();
-                            break;
-                        
-                        case ModifierKeys.Control | ModifierKeys.Alt when e.Key == Key.Oem4:
-                        {
-                            if (_opacitySticky >= 0.2) _opacitySticky -= 0.1;
-                            InstallColor();
-                            break;
-                        }
-                        case ModifierKeys.Control | ModifierKeys.Alt when e.Key == Key.Oem6:
-                        {
-                            if (_opacitySticky <= 0.9) _opacitySticky += 0.1;
-                            InstallColor();
-                            break;
-                        }
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.Oem4:
-                        {
-                            if (_baseSizeFont > 5) _baseSizeFont -= 1;
-                            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
-                            break;
-                        }
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.Oem6:
-                        {
-                            if (_baseSizeFont < 30) _baseSizeFont += 1;
-                            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
-                            break;
-                        }
-                        
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.B:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Blue);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.R:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.G:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Green);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.Y:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Yellow);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.W:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.White);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.O:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Orange);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.D:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.P:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Purple);
-                            break;
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.F:
-                            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);
-                            break;
-                        
-                        case ModifierKeys.Control when e.Key == Key.OemPlus && _stickyWidth < 750:
-                            ModifyStickySize(50);
-                            break;
-                        case ModifierKeys.Control when e.Key == Key.OemMinus && _stickyWidth > 250:
-                            ModifyStickySize(-50);
-                            break;
-                        
-                        case ModifierKeys.Control | ModifierKeys.Shift when e.Key == Key.S:
-                            // Метод сохранения стикера
-                            if (this._stickyName == baseStickyName)
-                            {
-                                Random rnd = new Random();
-                                this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
-                                MainStickyName.Text = this._stickyName;
-
-                                Dictionary<string, string> stickyData = new Dictionary<string, string>()
-                                {
-                                    {"Password", "None"},
-                                    {"Color", fontnum.ToString()},
-                                    {"Position", $"{Convert.ToInt32(this._windowsСoordinates.X)}; {Convert.ToInt32(this._windowsСoordinates.Y)}"},
-                                    {"Size", _stickyWidth.ToString()},
-                                    {"Opasity", Math.Round(_opacitySticky, 1).ToString(CultureInfo.GetCultureInfo("ru-RU"))},
-                                    {"ExitState", Convert.ToInt32(_changeStickyState).ToString()}
-                                };
-                                string date = $"{DateTime.Now.Year:D2}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}";
-                                Dictionary<string, string> settingsData = new Dictionary<string, string>()
-                                {
-                                    {"Color", RandomColorStickyName()},
-                                    {"Date", date},
-                                    {"Favorite", "0"},
-                                    {"Thumbtack", "0"},
+                    {"Password", "None"},
+                    {"Color", fontnum.ToString()},
+                    {"Position", $"{Convert.ToInt32(this._windowsСoordinates.X)}; {Convert.ToInt32(this._windowsСoordinates.Y)}"},
+                    {"Size", _stickyWidth.ToString()},
+                    {"Opasity", Math.Round(_opacitySticky, 1).ToString(CultureInfo.GetCultureInfo("ru-RU"))},
+                    {"ExitState", Convert.ToInt32(_changeStickyState).ToString()}
+                };
+                string date = $"{DateTime.Now.Year:D2}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}";
+                Dictionary<string, string> settingsData = new Dictionary<string, string>()
+                {
+                    {"Color", RandomColorStickyName()},
+                    {"Date", date},
+                    {"Favorite", "0"},
+                    {"Thumbtack", "0"},
             
-                                };
+                };
                                 
-                                WorkingFiles.createSticker(_stickyName, stickyData, settingsData);
+                WorkingFiles.createSticker(_stickyName, stickyData, settingsData);
                                 
-                                this.Closing += MainWindow_Closing;
-                            }
-                            SaveToFile();
-                            break;
-                    }
-                }
-
-                break;
+                this.Closing += MainWindow_Closing;
             }
+            SaveToFile();
         }
     }
 
