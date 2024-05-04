@@ -91,6 +91,7 @@
             <RichTextBox
                 Grid.Row="1"
                 FontSize="16"
+                SelectionBrush="#d0a2ff"
                 x:Name="MainRichTextBox"
                 BorderThickness="0"
                 Background="Transparent"

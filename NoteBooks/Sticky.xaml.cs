@@ -53,13 +53,13 @@ public partial class Sticky : Window
     private double _opacitySticky = 1;
     private readonly string[,] FontColor = {
         // Заголовок, остальная часть стикера
-        { "#E7CFFF", "#F2E6FF" },  // Фиолетовый
-        { "#FFCCE5", "#FFE4F1" },  // Розовый
-        { "#CBF1C4", "#E4F9E0" },  // Зеленый
-        { "#CDE9FF", "#E2F1FF" },  // Голубой
-        { "#FFF2AB", "#FFF7D1" },  // Желтый
-        { "#494745", "#696969" },  // Черный
-        { "#E1DFDD", "#F3F2F1" }   // Серый
+        { "#E7CFFF", "#F2E6FF", "#d0a2ff" },  // Фиолетовый
+        { "#FFCCE5", "#FFE4F1", "#ffacd5" },  // Розовый
+        { "#CBF1C4", "#E4F9E0", "#afffa0" },  // Зеленый
+        { "#CDE9FF", "#E2F1FF", "#a7d8ff" },  // Голубой
+        { "#FFF2AB", "#FFF7D1", "#ffee94" },  // Желтый
+        { "#494745", "#696969", "#3c3c3c" },  // Черный
+        { "#E1DFDD", "#F3F2F1", "#bebebe" }   // Серый
     };
     
     private int _stickyWidth = 300;
@@ -347,7 +347,9 @@ public partial class Sticky : Window
     {
         var color = (Color)ColorConverter.ConvertFromString(FontColor[fontnum, 1]);
         color.A = (byte)(_opacitySticky * 255);
-            
+
+        var selectionColor = (Color)ColorConverter.ConvertFromString(FontColor[fontnum, 2]);
+        MainRichTextBox.SelectionBrush = new SolidColorBrush(selectionColor);            
         SomeSticky.Background = new SolidColorBrush(color);
     }
 
