@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="BackroundColorMainWindows" Color="#F2F2F2"/>
+    <SolidColorBrush x:Key="LeftMenu" Color="#623ed0"/>
+    
+    <SolidColorBrush x:Key="BaseTextColor" Color="Black"/>
+    <SolidColorBrush x:Key="BacgroundColorTextBlock" Color="White"/>
+    <SolidColorBrush x:Key="ForegroundTextColorTextBox" Color="Black"/>
+    <SolidColorBrush x:Key="TextBoxBorderColor" Color="#E5E5EB"/>
+    
+    <SolidColorBrush x:Key="BackgoundButtonSettingsMenu" Color="#DBDBDB"/>
+    <SolidColorBrush x:Key="HoverButtonColorSettingsMenu" Color="#dcdcdc"/>
+    
+    <SolidColorBrush x:Key="ColorRowDataGrid" Color="White"/>
+    <SolidColorBrush x:Key="ColorTextDataGrid" Color="Black"/>
+    <SolidColorBrush x:Key="ColorCheckBoxDataGrid" Color="White"/>
+    <SolidColorBrush x:Key="BorderBrushCheckBoxDataGrid" Color="#D7D7D7"/>
+    <SolidColorBrush x:Key="CheckBoxDataGridMouseOver" Color="#FFF3F9FF"/>
+    
+    <SolidColorBrush x:Key="MainButtonMenu" Color="#DBDBDB"/>
+    
+    <SolidColorBrush x:Key="ColorSeparate" Color="#dfdfdf"/>
+</ResourceDictionary>
