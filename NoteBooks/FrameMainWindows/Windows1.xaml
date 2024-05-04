@@ -1,0 +1,191 @@
+﻿<Page x:Class="NoteBooks.FrameMainWindows.Windows1"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d"
+      Title="Windows1">
+    <Grid>
+        <Grid Grid.Column="1" Margin="30 20 20 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>  
+            
+                <Button
+                    Grid.Row="0"
+                    Style="{StaticResource settingsButton}"
+                    Click="SettingsMenuButton_OnClick">
+                    <Icon:PackIconMaterial Kind="Cog"></Icon:PackIconMaterial>
+                </Button>
+                
+                <!-- Page Title -->
+                <TextBlock
+                    Text="Sticky"
+                    Style="{StaticResource MainTextProgram}">
+                </TextBlock>
+                
+                <!-- Add Button -->
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Cursor="Hand"
+                    Grid.Row="1"
+                    Style="{StaticResource addButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Icon:PackIconMaterial 
+                            Kind="Plus" 
+                            VerticalAlignment="Center"
+                            Width="11"
+                            Height="11"
+                            Margin="0 1 8 0">
+                        </Icon:PackIconMaterial>
+                        <TextBlock
+                            Text="Добавить новый стикер">
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                
+                <!-- Separator -->
+                <Separator
+                    Grid.Row="3"  Style="{StaticResource styleSeparator}">
+                </Separator>
+                
+                <!-- Tab Buttons -->
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0 10 0 0">
+                    <Button 
+                        Content="Стикеры"
+                        Style="{StaticResource tabButton}">
+                    </Button>
+                </StackPanel>
+                
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0 10 0 0">
+                    <Button 
+                        x:Name="StickyButton"
+                        Content="Стикеры"
+                        Cursor="Hand"
+                        BorderBrush="#784ff1"
+                        Click="StickyButton_OnClick"
+                        Style="{StaticResource tabButton}">
+                    </Button>
+                    
+                    <Button 
+                        x:Name="ThumbtackButton"
+                        Content="Закрепленные"
+                        Cursor="Hand"
+                        Click="ThumbtackButton_OnClick"
+                        Style="{StaticResource tabButton}">
+                    </Button>
+                    
+                    <Button 
+                        x:Name="FavoritesButton"
+                        Content="Избранное"
+                        Cursor="Hand"
+                        Click="FavoritesButton_OnClick"
+                        Style="{StaticResource tabButton}">
+                    </Button>
+                </StackPanel>
+                
+                <!-- Counter Title -->
+                <TextBlock
+                    Grid.Row="4"
+                    x:Name="TitleNumSticky"
+                    Text="Стикеров: 0"
+                    FontSize="18"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainTextProgram}">
+                </TextBlock>
+                
+                <!-- Filter TextBox -->
+                <Grid
+                    Grid.Row="4"
+                    Width="240"
+                    HorizontalAlignment="Right">
+                    
+                    <TextBox
+                        x:Name="txtSearch"
+                        Tag="искать в: "
+                        Style="{StaticResource SearchTextBox}"
+                        KeyUp="TxtSearch_OnKeyUp">
+                    </TextBox>
+                </Grid>
+                
+                <!-- Sticky DataGrid -->
+                <DataGrid 
+                    x:Name="stickyDataGrid"
+                    Grid.Row="5" 
+                    Cursor="Hand"
+                    MouseLeftButtonDown="StickyDataGrid_OnMouseDown"
+                    VerticalScrollBarVisibility="Hidden"
+                    Style="{StaticResource DataGridStyle1}" 
+                    CellStyle="{StaticResource DataGridCellStyle1}" 
+                    ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle1}" 
+                    RowStyle="{StaticResource DataGridRowStyle1}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Style="{StaticResource CheckBoxStyle1}" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked">
+                                    </CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Number}"></DataGridTextColumn>
+                        
+                        <DataGridTemplateColumn Header="Название" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border HorizontalAlignment="Left" Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="{Binding BgColor}">
+                                            <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"></TextBlock>
+                                        </Border>
+                                        
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Name}">
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <DataGridTextColumn Header="Последнее изменение" IsReadOnly="True" Width="auto" Binding="{Binding CurrentDate}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата создания" IsReadOnly="True" Width="auto" Binding="{Binding StartDate}"></DataGridTextColumn>
+                        
+                        <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Click="Change_ButtonBase_OnClick" Background="#8e59c0" Style="{StaticResource gridEditButton}">
+                                            <Icon:PackIconMaterial Kind="{Binding IconT}" Style="{StaticResource gridButtonIcon}"></Icon:PackIconMaterial>
+                                        </Button>
+                                        
+                                        <Button Click="Star_ButtonBase_OnClick" Background="#F69F1E" Style="{StaticResource gridEditButton}">
+                                            <Icon:PackIconMaterial Kind="{Binding IconF}" Style="{StaticResource gridButtonIcon}"></Icon:PackIconMaterial>
+                                        </Button>
+                                        
+                                        <Button Click="Delete_ButtonBase_OnClick" Style="{StaticResource gridRemoveButton}" Margin="1 0 0 0">
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"></Icon:PackIconMaterial>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+    </Grid>
+</Page>
