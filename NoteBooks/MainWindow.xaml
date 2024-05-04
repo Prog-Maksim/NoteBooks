@@ -1,17 +1,17 @@
 ﻿<Window x:Class="NoteBooks.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="StickyNotes"
-        Width="1080"
-        Height="720"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
+        Background="Transparent"
         AllowsTransparency="True"
-        Background="Transparent">
+        Title="StickyNotes"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Width="1080"
+        Height="720">
     <Border
         CornerRadius="10"
         Style="{StaticResource MainWindowsStyle}"
@@ -31,18 +31,18 @@
                 </Grid.RowDefinitions>
             
                 <!-- Menu Icon -->
+
                 <Button
                     Grid.Row="0"
                     VerticalAlignment="Top"
-                    Style="{StaticResource topButton}"
+                    HorizontalAlignment="Left"
                     Margin="20 28 0 35"
-                    HorizontalAlignment="Left">
+                    Style="{StaticResource topButton}">
                     <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"></Icon:PackIconMaterial>
                 </Button>
-            
                 <Border
                     Grid.Row="1"
-                    Background="#623ed0"
+                    Background="{DynamicResource LeftMenu}"
                     CornerRadius="0, 50, 0, 10">
                     <DockPanel>
                         
@@ -51,7 +51,7 @@
                             Width="80"
                             Height="80"
                             Padding="3"
-                            Background="White"
+                            Background="{DynamicResource BacgroundColorTextBlock}"
                             CornerRadius="100"
                             DockPanel.Dock="Top"
                             HorizontalAlignment="Left"
@@ -70,7 +70,8 @@
                             Text="StickyNotes"
                             Foreground="White"
                             FontSize="22"
-                            FontWeight="SemiBold"
+                            FontFamily="Montserrat"
+                            FontWeight="Bold"
                             DockPanel.Dock="Top"
                             TextAlignment="Center"
                             Margin="5 25 0 10">
@@ -105,17 +106,14 @@
                         <!-- Menu Buttons -->
                         <StackPanel
                             DockPanel.Dock="Top">
-                            <Button 
-                                Background="#7b5cd6"
-                                Foreground="White"
-                                Click="HomeButtonBown"
-                                Style="{StaticResource menuButton}">
+                            <Button Background="#7b5cd6" Foreground="White" Click="HomeButtonBown"
+                                    Style="{StaticResource menuButton}">
                                 <StackPanel Orientation="Horizontal">
-                                   <Icon:PackIconMaterial 
-                                       Kind="HomeVariant"
-                                       Style="{StaticResource menuButtonIcon}">
-                                   </Icon:PackIconMaterial>
-                                   <TextBlock Text="Главное меню"></TextBlock>
+                                    <Icon:PackIconMaterial
+                                        Kind="HomeVariant"
+                                        Style="{StaticResource menuButtonIcon}">
+                                    </Icon:PackIconMaterial>
+                                    <TextBlock Text="Главное меню"></TextBlock>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -129,20 +127,6 @@
                                         Style="{StaticResource menuButtonIcon}">
                                     </Icon:PackIconMaterial>
                                     <TextBlock Text="Создать"></TextBlock>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                        
-                        <StackPanel
-                            Visibility="Hidden"
-                            DockPanel.Dock="Top">
-                            <Button Click="StatsButtonBown" Style="{StaticResource menuButton}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial 
-                                        Kind="StairsUp"
-                                        Style="{StaticResource menuButtonIcon}">
-                                    </Icon:PackIconMaterial>
-                                    <TextBlock Text="Статистика"></TextBlock>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -174,7 +158,6 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                        
                     </DockPanel>
                 </Border>
             </Grid>
@@ -201,6 +184,7 @@
                     <!-- State Menu -->
                     <Button
                         Grid.Column="0"
+                        Cursor="Hand"
                         Click="WindowsMinimizide_OnClick"
                         Style="{StaticResource WindowsButton}">
                         <Icon:PackIconMaterial
@@ -211,6 +195,7 @@
                     </Button>
                     <Button
                         Grid.Column="1"
+                        Cursor="Hand"
                         Click="WindowsSize_OnClick"
                         Style="{StaticResource WindowsButton}">
                         <Icon:PackIconMaterial
@@ -221,6 +206,7 @@
                     </Button>
                     <Button
                         Grid.Column="2"
+                        Cursor="Hand"
                         Click="ButtonBase_OnClick"
                         Style="{StaticResource CloseButton}">
                         <Icon:PackIconMaterial
