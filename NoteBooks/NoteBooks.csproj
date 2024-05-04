@@ -12,19 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="LightTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="DarkTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resource\ImageTaskBar\apps.png" />
     <Resource Include="Resource\ImageTaskBar\apps.png" />
     <None Remove="Resource\ImageTaskBar\blue_sticky_icon.png" />
@@ -43,6 +30,8 @@
     <Resource Include="Resource\ImageTaskBar\yellow_sticky_icon.png" />
     <None Remove="Resource\ProgramData.txt" />
     <Resource Include="Resource\ProgramData.txt" />
+    <None Remove="Resource\MainMenuImage\search.png" />
+    <Resource Include="Resource\MainMenuImage\search.png" />
   </ItemGroup>
 
   <ItemGroup>
