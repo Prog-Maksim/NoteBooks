@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
 namespace NoteBooks
@@ -42,14 +42,12 @@ namespace NoteBooks
         private void WindowsMaksimum()
         {
             WindowState = WindowState.Maximized;
-
             IsMaximized = true;
         }
 
         private void WindowsBase()
         {
             WindowState = WindowState.Normal;
-
             IsMaximized = false;
         }
 
@@ -76,14 +74,11 @@ namespace NoteBooks
         {
             MainFrame.Content = new FrameMainWindows.WindowsNewSticky(this);
         }
-        public void OpenStatsMenu()
-        {
-            MainFrame.Content = new FrameMainWindows.WindowsStats();
-        }
         public void OpenSettingsMenu()
         {
             MainFrame.Content = new FrameMainWindows.WindowsSetting(this);
         }
+        
 
         private void HomeButtonBown(object sender, RoutedEventArgs e)
         {
@@ -95,15 +90,11 @@ namespace NoteBooks
             OpenCreateMenu();
         }
         
-        private void StatsButtonBown(object sender, RoutedEventArgs e)
-        {
-            OpenStatsMenu();
-        }
-        
         private void SettingsButtonBown(object sender, RoutedEventArgs e)
         {
             OpenSettingsMenu();
         }
+        
 
         private void WindowsSize_OnClick(object sender, RoutedEventArgs e)
         {
