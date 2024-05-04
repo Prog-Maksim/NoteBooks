@@ -11,8 +11,8 @@
         MinWidth="250"
         MinHeight="285"
         WindowStyle="None"
-        Window.Deactivated="Sticky_OnDeactivated"
-        Window.Activated="Sticky_OnActivated"
+        Deactivated="Sticky_OnDeactivated"
+        Activated="Sticky_OnActivated"
         AllowsTransparency="True"
         Background="Transparent">
     <Border
@@ -73,7 +73,6 @@
                     
                     <Button
                         Grid.Column="2"
-                        Cursor="Hand"
                         Click="Exit"
                         Style="{StaticResource StickyButton}">
                         <Icon:PackIconMaterial

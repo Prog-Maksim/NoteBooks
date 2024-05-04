@@ -400,7 +400,7 @@ public partial class Sticky : Window
         return listColor[index];
     }
 
-    private void RichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e) // Валидация событий на текстовом поле
+    private void RichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.A)
         {
