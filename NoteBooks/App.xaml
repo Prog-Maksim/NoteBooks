@@ -13,8 +13,10 @@
                 <ResourceDictionary Source="Styles/OtherStyles.xaml"/>
                 <ResourceDictionary Source="Styles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ToolTipStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ScrollViewStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ExpanderStyle.xaml"></ResourceDictionary>
                 
-                <ResourceDictionary Source="ColorTheme/DarkTheme.xaml"/>
+                <ResourceDictionary Source="ColorTheme/LightTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
