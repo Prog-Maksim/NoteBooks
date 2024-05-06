@@ -8,9 +8,9 @@ using System.Windows.Media;
 
 namespace NoteBooks.FrameMainWindows;
 
-public partial class Windows1 : Page
+public partial class WindowsMainMenu : Page
 {
-    public Windows1()
+    public WindowsMainMenu()
     {
         InitializeComponent();
     }
@@ -19,7 +19,7 @@ public partial class Windows1 : Page
     private int SelectMenuFrame = 1;
     private bool CheckOnDelete = WorkingFiles.checkDeleteSticker();
     
-    public Windows1(MainWindow window)
+    public WindowsMainMenu(MainWindow window)
     {
         InitializeComponent();
         _window = window;
