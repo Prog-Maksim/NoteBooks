@@ -38,4 +38,17 @@
     <Folder Include="Resource\Stickers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="OtherWindowsProgram\PasswordWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OtherWindowsProgram\Sticky.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
