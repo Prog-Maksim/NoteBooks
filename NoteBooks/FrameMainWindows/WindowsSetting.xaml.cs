@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
+using NoteBooks.Models;
 
 namespace NoteBooks.FrameMainWindows;
 
@@ -19,20 +21,20 @@ public partial class WindowsSetting : Page
         InitializeComponent();
 
         this.app = app;
-        InitializeWindows();
+        // InitializeWindows();
     }
 
     private void InitializeWindows()
     {
         if (IsRunAsAdmin()) ButtonIsAdministrator.Visibility = Visibility.Hidden;
         else CheckBoxAutoStart.IsEnabled = false;
-
+        
         if (checkIsAutoStartProgram())
         {
             CheckBoxAutoStart.IsChecked = true;
             TextAutoStart.Text = "Включено";
         }
-
+        
         DeleteSticker.IsChecked = true;
     }
 
@@ -83,23 +85,23 @@ public partial class WindowsSetting : Page
     
     private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
     {
-        if (!checkIsAutoStartProgram())
-        {
-            RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            key.SetValue("NoteBook", PathToFileProject());
-            key.Close();
-            TextAutoStart.Text = "Включено";
-        }
+        // if (!checkIsAutoStartProgram())
+        // {
+        //     RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        //     key.SetValue("NoteBook", PathToFileProject());
+        //     key.Close();
+        //     TextAutoStart.Text = "Включено";
+        // }
     }
     private void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
     {
-        if (checkIsAutoStartProgram())
-        {
-            RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            key.DeleteValue("NoteBook");
-            key.Close();
-            TextAutoStart.Text = "Выключено";
-        }
+        // if (checkIsAutoStartProgram())
+        // {
+        //     RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        //     key.DeleteValue("NoteBook");
+        //     key.Close();
+        //     // TextAutoStart.Text = "Выключено";
+        // }
     }
 
     private void DeleteSticker_OnChecked(object sender, RoutedEventArgs e)
@@ -130,19 +132,45 @@ public partial class WindowsSetting : Page
 
     private async Task clearinformMessage()
     {
-        MessageText.Visibility = Visibility.Visible;
+        // MessageText.Visibility = Visibility.Visible;
 
         await Task.Delay(1500);
-        MessageText.Visibility = Visibility.Hidden;
+        // MessageText.Visibility = Visibility.Hidden;
     }
     
     private void RadioButton_Checked(object sender, RoutedEventArgs e)
     {
         if (Convert.ToBoolean(LightRadioButton.IsChecked))
+        {
             CurrentTheme = "Light";
+            themeChange(themeNameStyle.light);
+        }
         else if (Convert.ToBoolean(DarkRadioButton.IsChecked))
+        {
             CurrentTheme = "Dark";
+            themeChange(themeNameStyle.dark);
+        }
         else if (Convert.ToBoolean(SystemRadioButton.IsChecked))
+        {
             CurrentTheme = "System";
+        }
+    }
+
+    private void themeChange(themeNameStyle theme)
+    {
+        if (theme == themeNameStyle.light)
+        {
+            var uri = new Uri("ColorTheme/LightTheme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
+        else if (theme == themeNameStyle.dark)
+        {
+            var uri = new Uri("ColorTheme/DarkTheme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
     }
 }
