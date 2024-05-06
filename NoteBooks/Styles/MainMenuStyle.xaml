@@ -115,10 +115,8 @@
 
     <Style x:Key="MainTextProgram" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource BaseTextColor}"/>
-        <Setter Property="Grid.Row" Value="1"/>
         <Setter Property="FontSize" Value="32"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Margin" Value="0 30 0 0"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
     </Style>
 
