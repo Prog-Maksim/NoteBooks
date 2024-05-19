@@ -357,14 +357,6 @@ public partial class Sticky
         BorderInform.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[0]));
         installIcon();
     }
-    private string RandomColorStickyName()
-    {
-        string[] listColor = { "#ECC300", "#7E00FC", "#E80000", "#2F96E5", "#F69F1E", "#EF0090", "#F05D63", "#0ECF4F", "#461BDA", "#EC7616" };
-        
-        Random random = new Random();
-        int index = random.Next(listColor.Length);
-        return listColor[index];
-    }
 
     private void RichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
@@ -459,7 +451,7 @@ public partial class Sticky
             MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
         {
-            
+            // сохранение данных стикера
         }
     }
 
