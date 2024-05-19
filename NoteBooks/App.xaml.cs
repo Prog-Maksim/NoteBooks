@@ -28,31 +28,23 @@ namespace NoteBooks
             {
                 try
                 {
-                    if (File.Exists(e.Args[0]))
-                    {
-                        string name = new FileInfo(e.Args[0]).Name.Replace(".rtf", "");
-
-                        if (!Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}")))
-                        {
-                            if (Sticker.checkIsAvailabilityFile(name))
-                            {
-                                openStickers(name);
-                            }
-                            else
-                            {
-                                Sticker.addNewStickerContextMenu(new FileInfo(e.Args[0]));
-                                openStickers(name);
-                            }
-                        }
-                        else
-                            Application.Current.Shutdown();
-                    }
-                    else
+                    string name = new FileInfo(e.Args[0]).Name.Replace(".rtf", "");
+                    
+                    if (!File.Exists(e.Args[0]) && Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}")))
                         Application.Current.Shutdown();
+                    
+                    
+                    if (Sticker.checkIsAvailabilityFile(name))
+                        openStickers(name);
+                    else
+                    {
+                        Sticker.addNewStickerContextMenu(new FileInfo(e.Args[0]));
+                        openStickers(name);
+                    }
                 }
                 catch (Exception exception)
                 {
-                    MessageBox.Show(exception.Message + "\n" + exception.StackTrace, "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(exception.Message, "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Error);
                     Application.Current.Shutdown();
                 }
             }

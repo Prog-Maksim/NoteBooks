@@ -177,6 +177,7 @@ public partial class WindowsMainMenu : Page
     
     private void deleteSticker(string name)
     {
+        
         Sticker.deleteSticker(name);
         openCurrentMenu();
     }
@@ -222,16 +223,6 @@ public partial class WindowsMainMenu : Page
         SelectMenuFrame = 3;
         CreateFavoriteSticky();
         createAnimationOrPressed(sender);
-    }
-    
-    private void checkBox_Checked(object sender, RoutedEventArgs e)
-    {
-        // MessageBox.Show("Отмечен");
-    }
- 
-    private void checkBox_Unchecked(object sender, RoutedEventArgs e)
-    {
-        // MessageBox.Show("не отмечен");
     }
 
     private void StickyDataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)

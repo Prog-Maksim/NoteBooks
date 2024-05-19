@@ -144,8 +144,7 @@
                     <DataGridTemplateColumn Header="" IsReadOnly="True" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Style="{StaticResource CheckBoxStyle1}" Checked="checkBox_Checked"
-                                          Unchecked="checkBox_Unchecked">
+                                <CheckBox Style="{StaticResource CheckBoxStyle1}">
                                 </CheckBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

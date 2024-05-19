@@ -203,8 +203,16 @@ public class Sticker: ColorSticky
         {
             if (stickersList.Stickers[i].Name == nameSticker)
             {
-                File.Delete(stickersList.Stickers[i].StickerCurrentPath);
-                stickersList.Stickers.RemoveAt(i);
+                if (!Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{nameSticker}")))
+                {
+                    File.Delete(stickersList.Stickers[i].StickerCurrentPath);
+                    stickersList.Stickers.RemoveAt(i);
+                }
+                else
+                {
+                    MessageBox.Show("Невозможно удалить стикер т.к он открыт!", "StickyNotes", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
         }
         updateAllStickerData(stickersList);
