@@ -38,6 +38,7 @@
                     HorizontalAlignment="Left"
                     Margin="20 28 0 35"
                     Style="{StaticResource topButton}">
+                    
                     <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"></Icon:PackIconMaterial>
                 </Button>
                 <Border
@@ -106,8 +107,11 @@
                         <!-- Menu Buttons -->
                         <StackPanel
                             DockPanel.Dock="Top">
-                            <Button Background="#7b5cd6" Foreground="White" Click="HomeButtonBown"
-                                    Style="{StaticResource menuButton}">
+                            <Button Click="HomeButtonBown"
+                                    x:Name="MainMenu"
+                                    Style="{StaticResource menuButton}"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial
                                         Kind="HomeVariant"
@@ -120,13 +124,30 @@
                         
                         <StackPanel
                             DockPanel.Dock="Top">
-                            <Button Click="CreateButtonBown" Style="{StaticResource menuButton}">
+                            <Button x:Name="CreateMenu" Click="CreateButtonBown" Style="{StaticResource menuButton}"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial 
                                         Kind="FolderPlus"
                                         Style="{StaticResource menuButtonIcon}">
                                     </Icon:PackIconMaterial>
                                     <TextBlock Text="Создать"></TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        
+                        <StackPanel
+                            DockPanel.Dock="Top">
+                            <Button x:Name="InformSticky" Click="InformButtonBown" Style="{StaticResource menuButton}"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial 
+                                        Kind="Newspaper"
+                                        Style="{StaticResource menuButtonIcon}">
+                                    </Icon:PackIconMaterial>
+                                    <TextBlock Text="Информация"></TextBlock>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -148,7 +169,9 @@
                             VerticalAlignment="Bottom"
                             DockPanel.Dock="Bottom"
                             Margin="0 0 0 10">
-                            <Button Click="SettingsButtonBown" Style="{StaticResource menuButton}">
+                            <Button x:Name="SettingsMenu" Click="SettingsButtonBown" Style="{StaticResource menuButton}"
+                                    MouseEnter="UIElement_OnMouseEnter"
+                                    MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
                                     <Icon:PackIconMaterial 
                                         Kind="Cog"
