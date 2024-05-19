@@ -5,6 +5,9 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resource\ImageTaskBar\apps.ico</ApplicationIcon>
+    <AssemblyName>StickyNotes</AssemblyName>
+    <RootNamespace>StickyNotes</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
