@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,7 +18,7 @@ public partial class WindowsMainMenu : Page
     
     private MainWindow _window;
     private int SelectMenuFrame = 1;
-    private bool CheckOnDelete = WorkingFiles.checkDeleteSticker();
+    private bool CheckOnDelete = FileSettings.deleteNotification;
     
     public WindowsMainMenu(MainWindow window)
     {
@@ -25,6 +26,7 @@ public partial class WindowsMainMenu : Page
         _window = window;
 
         CreateStickyFrame();
+        createAnimationOrPressed(StickyButton);
     }
     
     public class Sticky
@@ -42,32 +44,32 @@ public partial class WindowsMainMenu : Page
     private BrushConverter converter = new BrushConverter();
     private Dictionary<int, string> NameSticky = new Dictionary<int, string>();
     private ObservableCollection<Sticky> sticky = new ObservableCollection<Sticky>();
-    
+
     private void CreateStickyFrame()
     {
         NameSticky.Clear();
         sticky.Clear();
         int num = 1;
-        
-        foreach (KeyValuePair<string,List<string>> data in  WorkingFiles.getStickyDataProgram())
+
+        foreach (var sticker in Sticker.getAllDataSticker().Stickers)
         {
             sticky.Add(new Sticky
             {
-                Character = data.Key.Substring(0, 1), 
-                Number = num.ToString(), 
-                Name = data.Key, 
-                StartDate = data.Value[1], 
-                CurrentDate = data.Value[2],
-                BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                IconF = (Convert.ToBoolean(Convert.ToInt32(data.Value[3])))? "Star": "StarOutline",
-                IconT = (Convert.ToBoolean(Convert.ToInt32(data.Value[4])))? "Pin": "PinOutline"
+                Character = sticker.Name.Substring(0, 1),
+                Number = num.ToString(),
+                Name = sticker.Name,
+                StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
             });
-            NameSticky.Add(num-1, data.Key);
+            NameSticky.Add(num - 1, sticker.Name);
             num++;
         }
-        
+
         stickyDataGrid.ItemsSource = sticky;
-        TitleNumSticky.Text = $"Стикеров: {num-1}";
+        TitleNumSticky.Text = $"Стикеров: {num - 1}";
     }
 
     private void CreateThumbtackSticky()
@@ -76,53 +78,58 @@ public partial class WindowsMainMenu : Page
         sticky.Clear();
         int num = 1;
 
-        foreach (KeyValuePair<string,List<string>> data in WorkingFiles.getDataThumbtackSticky())
+        foreach (var sticker in Sticker.getAllDataSticker().Stickers)
         {
-            sticky.Add(new Sticky
+            if (sticker.StickerThumbtack)
             {
-                Character = data.Key.Substring(0, 1), 
-                Number = num.ToString(), 
-                Name = data.Key, 
-                StartDate = data.Value[1], 
-                CurrentDate = data.Value[2],
-                BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                IconF = (Convert.ToBoolean(Convert.ToInt32(data.Value[3])))? "Star": "StarOutline",
-                IconT = "Pin"
-            });
-            NameSticky.Add(num-1, data.Key);
-            num++;
+                sticky.Add(new Sticky
+                {
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                    IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
+                });
+                NameSticky.Add(num - 1, sticker.Name);
+                num++;
+            }
         }
-        
+
         stickyDataGrid.ItemsSource = sticky;
-        TitleNumSticky.Text = $"Закрепленных стикеров: {num-1}";
+        TitleNumSticky.Text = $"Стикеров: {num - 1}";
     }
 
     private void CreateFavoriteSticky()
     {
-        sticky.Clear();
         NameSticky.Clear();
+        sticky.Clear();
         int num = 1;
 
-        foreach (KeyValuePair<string,List<string>> data in WorkingFiles.getDataFavoriteSticky())
+        foreach (var sticker in Sticker.getAllDataSticker().Stickers)
         {
-            sticky.Add(new Sticky
+            if (sticker.StickerFavorite)
             {
-                Character = data.Key.Substring(0, 1), 
-                Number = num.ToString(), 
-                Name = data.Key, 
-                StartDate = data.Value[1], 
-                CurrentDate = data.Value[2],
-                BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                IconF = "Star",
-                IconT = (Convert.ToBoolean(Convert.ToInt32(data.Value[4])))? "Pin": "PinOutline"
-            });
-            
-            NameSticky.Add(num-1, data.Key);
-            num++;
+                sticky.Add(new Sticky
+                {
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                    IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
+                });
+                NameSticky.Add(num - 1, sticker.Name);
+                num++;
+            }
         }
-        
+
         stickyDataGrid.ItemsSource = sticky;
-        TitleNumSticky.Text = $"Избранных стикеров: {num-1}";
+        TitleNumSticky.Text = $"Стикеров: {num - 1}";
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -144,14 +151,17 @@ public partial class WindowsMainMenu : Page
     
     private void Star_ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        WorkingFiles.updateFavoriteStatus(NameSticky[stickyDataGrid.SelectedIndex]);
+        string nameSticker = NameSticky[stickyDataGrid.SelectedIndex];
+        Sticker.updateStateStickerFavorite(nameSticker);
         openCurrentMenu();
     }
-    private void Change_ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    private void Thumbtack_ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        WorkingFiles.updateThumbtackStatus(NameSticky[stickyDataGrid.SelectedIndex]);
+        string nameSticker = NameSticky[stickyDataGrid.SelectedIndex];
+        Sticker.updateStateStickerThumbtack(nameSticker);
         openCurrentMenu();
     }
+    
     private void Delete_ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
         if (CheckOnDelete)
@@ -164,30 +174,54 @@ public partial class WindowsMainMenu : Page
         else
             deleteSticker(NameSticky[stickyDataGrid.SelectedIndex]);
     }
-
+    
     private void deleteSticker(string name)
     {
-        WorkingFiles.deleteSticker(name);
+        Sticker.deleteSticker(name);
         openCurrentMenu();
     }
 
     private int CheckOpenMenu = 1;
+    private List<Button> _currButton = new List<Button>();
+    
+    private void createAnimationOrPressed(object sender)
+    {
+        Button btn = (Button)sender;
+        btn.BorderBrush = (Brush)converter.ConvertFromString("#784ff1");
+
+        try
+        {
+            if (_currButton[0].Name != btn.Name)
+            {
+                _currButton[0].BorderBrush = new SolidColorBrush(Colors.Transparent);
+                _currButton[0] = btn;
+            }
+        }
+        catch
+        {
+            _currButton.Add(btn);
+        }
+    }
+    
     private void StickyButton_OnClick(object sender, RoutedEventArgs e)
     {
         CreateStickyFrame();
         SelectMenuFrame = 1;
+        createAnimationOrPressed(sender);
     }
 
     private void ThumbtackButton_OnClick(object sender, RoutedEventArgs e)
     {
         SelectMenuFrame = 2;
         CreateThumbtackSticky();
+        createAnimationOrPressed(sender);
     }
 
     private void FavoritesButton_OnClick(object sender, RoutedEventArgs e)
     {
         SelectMenuFrame = 3;
         CreateFavoriteSticky();
+        createAnimationOrPressed(sender);
     }
     
     private void checkBox_Checked(object sender, RoutedEventArgs e)
@@ -202,10 +236,11 @@ public partial class WindowsMainMenu : Page
 
     private void StickyDataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
+        if(e.ClickCount != 2) return;
         try
         {
             string name = NameSticky[stickyDataGrid.SelectedIndex];
-            if (!WorkingFiles.checkIsOpenFile(name)) return;
+            if (Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}"))) return;
             try
             {
                 NoteBooks.Sticky sticky = new NoteBooks.Sticky(name);
@@ -221,79 +256,101 @@ public partial class WindowsMainMenu : Page
         if (txtSearch.Text == "") openCurrentMenu();
         else
         {
-            Dictionary<string, List<string>> data = WorkingFiles.searchSticky(txtSearch.Text);
-            CreateSearchSticky(data);
+            List<Models.Sticker> stickers = new List<Models.Sticker>();
+            foreach (var sticker in Sticker.getAllDataSticker().Stickers)
+            {
+                if (sticker.Name.Contains(txtSearch.Text))
+                {
+                    stickers.Add(sticker);
+                }
+            }
+            
+            CreateSearchSticky(stickers);
         }
     }
     
-    private void CreateSearchSticky(Dictionary<string, List<string>> dataSticker)
+    private void CreateSearchSticky(List<Models.Sticker> dataSticker)
     {
         sticky.Clear();
         NameSticky.Clear();
         int num = 1;
 
-        foreach (KeyValuePair<string,List<string>> data in dataSticker)
+        foreach (var sticker in dataSticker)
         {
             if (SelectMenuFrame == 1)
             {
                 sticky.Add(new Sticky
                 {
-                    Character = data.Key.Substring(0, 1), 
-                    Number = num.ToString(), 
-                    Name = data.Key, 
-                    StartDate = data.Value[1], 
-                    CurrentDate = data.Value[2],
-                    BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                    IconF = (Convert.ToBoolean(Convert.ToInt32(data.Value[3])))? "Star": "StarOutline",
-                    IconT = (Convert.ToBoolean(Convert.ToInt32(data.Value[4])))? "Pin": "PinOutline"
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                    IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
                 });
-                
-                NameSticky.Add(num-1, data.Key);
+                NameSticky.Add(num - 1, sticker.Name);
                 num++;
             }
-            else if (SelectMenuFrame == 2)
+            else if (SelectMenuFrame == 2 && sticker.StickerThumbtack)
             {
-                if (int.Parse(data.Value[4]) == 1)
+                sticky.Add(new Sticky
                 {
-                    sticky.Add(new Sticky
-                    {
-                        Character = data.Key.Substring(0, 1), 
-                        Number = num.ToString(), 
-                        Name = data.Key, 
-                        StartDate = data.Value[1], 
-                        CurrentDate = data.Value[2],
-                        BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                        IconF = (Convert.ToBoolean(Convert.ToInt32(data.Value[3])))? "Star": "StarOutline",
-                        IconT = (Convert.ToBoolean(Convert.ToInt32(data.Value[4])))? "Pin": "PinOutline"
-                    });
-                
-                    NameSticky.Add(num-1, data.Key);
-                    num++;
-                }
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                    IconT = "Pin"
+                });
+                NameSticky.Add(num - 1, sticker.Name);
+                num++;
             }
-            else if (SelectMenuFrame == 3)
+            else if (SelectMenuFrame == 3 && sticker.StickerFavorite)
             {
-                if (int.Parse(data.Value[3]) == 1)
+                sticky.Add(new Sticky
                 {
-                    sticky.Add(new Sticky
-                    {
-                        Character = data.Key.Substring(0, 1), 
-                        Number = num.ToString(), 
-                        Name = data.Key, 
-                        StartDate = data.Value[1], 
-                        CurrentDate = data.Value[2],
-                        BgColor = (Brush)converter.ConvertFromString(data.Value[0]),
-                        IconF = (Convert.ToBoolean(Convert.ToInt32(data.Value[3])))? "Star": "StarOutline",
-                        IconT = (Convert.ToBoolean(Convert.ToInt32(data.Value[4])))? "Pin": "PinOutline"
-                    });
-                
-                    NameSticky.Add(num-1, data.Key);
-                    num++;
-                }
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = "Star",
+                    IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
+                });
+                NameSticky.Add(num - 1, sticker.Name);
+                num++;
             }
         }
         
         stickyDataGrid.ItemsSource = sticky;
         TitleNumSticky.Text = $"Найдено стикеров: {num-1}";
+    }
+    
+    private List<Button> _buttons = new List<Button>();
+    
+    private void UIElement_OnMouseEnter(object sender, MouseEventArgs e)
+    {
+        Button btn = (Button)sender;
+        btn.BorderBrush = (Brush)converter.ConvertFromString("#784ff1");
+            
+        try
+        {
+            _buttons[0] = btn;
+        }
+        catch
+        {
+            _buttons.Add(btn);
+        }
+    }
+
+    private void UIElement_OnMouseLeave(object sender, MouseEventArgs e)
+    {
+        if (_currButton[0].Name != _buttons[0].Name)
+            _buttons[0].BorderBrush = new SolidColorBrush(Colors.Transparent);
     }
 }
