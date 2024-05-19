@@ -1,7 +1,7 @@
 ﻿<Application x:Class="NoteBooks.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainWindow.xaml">
+             Startup="App_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,9 +14,9 @@
                 <ResourceDictionary Source="Styles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ToolTipStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ScrollViewStyle.xaml"/>
-                <ResourceDictionary Source="Styles/ExpanderStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Styles/ExpanderStyle.xaml"/>
                 
-                <ResourceDictionary Source="ColorTheme/LightTheme.xaml"/>
+                <ResourceDictionary Source="ColorTheme/DarkTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

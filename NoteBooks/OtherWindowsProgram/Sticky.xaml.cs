@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
+using NoteBooks.Models;
 
 namespace NoteBooks;
 
@@ -45,28 +44,18 @@ public class Cryptography
     }
 }
 
-public partial class Sticky : Window
+public partial class Sticky
 {
     // Характеристики стикера
     private readonly string baseStickyName = "Sticky";
-    private int fontnum;
+    private ColorSticky.stickyColor fontnum;
     private double _opacitySticky = 1;
-    private readonly string[,] FontColor = {
-        // Заголовок, остальная часть стикера
-        { "#E7CFFF", "#F2E6FF", "#d0a2ff" },  // Фиолетовый
-        { "#FFCCE5", "#FFE4F1", "#ffacd5" },  // Розовый
-        { "#CBF1C4", "#E4F9E0", "#afffa0" },  // Зеленый
-        { "#CDE9FF", "#E2F1FF", "#a7d8ff" },  // Голубой
-        { "#FFF2AB", "#FFF7D1", "#ffee94" },  // Желтый
-        { "#494745", "#696969", "#3c3c3c" },  // Черный
-        { "#E1DFDD", "#F3F2F1", "#bebebe" }   // Серый
-    };
     
     private int _stickyWidth = 300;
     private int _stickyHeight = 335;
     private Point _windowsСoordinates;
     
-    private bool _changeStickyState = true;
+    private bool _changeStickyState = true; // отвечает за состояние стикера
     private bool _thumbtack;
     private bool _isMaximized; 
     private double _baseSizeFont = 16;
@@ -87,129 +76,99 @@ public partial class Sticky : Window
     public Sticky()
     {
         InitializeComponent();
-        
+
         MainStickyName.Text = _stickyName = baseStickyName;
         installIcon();
-    }
-
-    private void installIcon()
-    {
-        string imagePath = "";
-        if (fontnum == 0) imagePath = "pack://application:,,,/Resource/ImageTaskBar/purple_sticky_icon.png";
-        else if (fontnum == 1)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/pink_sticky_icon.png";
-        else if (fontnum == 2)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/green_sticky_icon.png";
-        else if (fontnum == 3)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/blue_sticky_icon.png";
-        else if (fontnum == 4)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/yellow_sticky_icon.png";
-        else if (fontnum == 5)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/dark_sticky_icon.png";
-        else if (fontnum == 6)
-            imagePath = "pack://application:,,,/Resource/ImageTaskBar/gray_sticky_icon.png";
-        var path = new Uri(imagePath);
-        this.Icon = new BitmapImage(path);
+        installStickySettings();
     }
 
     public Sticky(string name)
     {
         InitializeComponent();
-        this.Title = name;
         
-        try
-        {
-            WorkingFiles.checkStickerAvailability(name);
-            MainStickyName.Text = _stickyName = name;
-
-            GetDataSticky();
-            StartInitiation();
-        }
-        catch (DirectoryNotFoundException ex)
-        {
-            new Thread(() => MessageBox.Show(ex.Message, "ошибка", MessageBoxButton.OK)).Start();
-            Close();
-        }
-        catch (FileNotFoundException ex)
-        {
-            new Thread(() => MessageBox.Show(ex.Message, "ошибка", MessageBoxButton.OK)).Start();
-            Close();
-        }
+        MainStickyName.Text = _stickyName = name;
+        GetDataSticky();
+        StartInitiation();
+        installStickySettings();
+        
         this.Closing += MainWindow_Closing;
-        
-        installIcon();
+        Sticker.InstallOpenSticky(name);
+    }
+
+    private void installStickySettings()
+    {
+        _stickyFocusAnimation = FileSettings.closeMenu;
+        _stickyAnimation = FileSettings.closeMenuAnimation;
+        _timeSpanTopMenu = FileSettings.delayTopMenu;
+        _timeSpanBottonMenu = FileSettings.delayBottonMenu;
     }
 
     private void GetDataSticky()
     {
-        Dictionary<string, string> data =  WorkingFiles.readDataSticker(this._stickyName);
+        StickyData data = Sticker.readDataSticker(this._stickyName);
 
-        foreach (var index in data)
-        {
-            if (index.Key == "Password")
-            {
-                string passwd = Cryptography.Decrypt(index.Value);
-                if (passwd != "None")
-                {
-                    _stateSecurity = true;
-                    _lockState = true;
-                    _stickyPassword = passwd;
-                }
-            }
-            else if (index.Key == "Color")
-                fontnum = Convert.ToInt32(index.Value);
-            else if (index.Key == "Position")
-            {
-                string[] pos = index.Value.Split("; ");
-                _windowsСoordinates = new Point(Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]));
-            }
-            else if (index.Key == "Size")
-            {
-                _stickyHeight = Convert.ToInt32(index.Value) + 35;
-                _stickyWidth = Convert.ToInt32(index.Value);
-            }
-            else if (index.Key == "Opasity")
-                _opacitySticky = Convert.ToDouble(index.Value);
-            else if (index.Key == "ExitState")
-            {
-                _changeStickyState = Convert.ToBoolean(Convert.ToInt32(index.Value));
-                if (!Convert.ToBoolean(Convert.ToInt32(index.Value)))
-                    stateOnlySticky();
-            }
-        }
+        _stateSecurity = data.Security;
+        _lockState = data.Security;
+        if (data.Security)
+            _stickyPassword = Cryptography.Decrypt(data.Password!);
+
+        fontnum = data.Color;
+        _windowsСoordinates = new Point(data.Position[0], data.Position[1]);
+        _stickyWidth = data.Size[0];
+        _stickyHeight = data.Size[1];
+        _opacitySticky = data.Opacity;
     }
     
     private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        Dictionary<string, string> stickyData = new Dictionary<string, string>
-        {
-            {"Color", fontnum.ToString()},
-            {"Position", $"{Convert.ToInt32(this._windowsСoordinates.X)}; {Convert.ToInt32(this._windowsСoordinates.Y)}"},
-            {"Size", _stickyWidth.ToString()},
-            {"Opasity", Math.Round(_opacitySticky, 1).ToString(CultureInfo.GetCultureInfo("ru-RU"))},
-            {"ExitState", Convert.ToInt32(_changeStickyState).ToString()}
-        };
-        WorkingFiles.updateDataSticker(_stickyName, stickyData);
+        List<int> pos = new List<int>() {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
+        List<int> size = new List<int>() { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
+        
+        StickyData stickyData = new StickyData(security: _stateSecurity, color: fontnum, size: size,
+            opacity: _opacitySticky, position: pos, password: _stickyPassword);
+        Sticker.updateStickerData(_stickyName, stickyData);
             
         SaveToFile();
+        Sticker.DeleteOpenSticky(_stickyName);
     }
-
+    
+    private void installIcon()
+    {
+        string imagePath = "";
+        if (fontnum == ColorSticky.stickyColor.purple) 
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/purple_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.pink)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/pink_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.green)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/green_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.blue)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/blue_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.yellow)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/yellow_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.black)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/dark_sticky_icon.png";
+        else if (fontnum == ColorSticky.stickyColor.gray)
+            imagePath = "pack://application:,,,/Resource/ImageTaskBar/gray_sticky_icon.png";
+        var path = new Uri(imagePath);
+        this.Icon = new BitmapImage(path);
+    }
+    
     private void SaveToFile()
     {
         TextRange doc = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
-        using (FileStream fs = File.Create(WorkingFiles.getPathDataSticker(_stickyName)))
+        using (FileStream fs = File.Create(Sticker.getPathDataSticker(_stickyName)))
             doc.Save(fs, DataFormats.Rtf);
     }
-
+    
     private void LoadTextSticky()
     {
         try
         {
             TextRange doc = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
-            using (FileStream fs = new FileStream(WorkingFiles.getPathDataSticker(_stickyName), FileMode.Open))
+            using (FileStream fs = new FileStream(Sticker.getPathDataSticker(_stickyName), FileMode.Open))
                 doc.Load(fs, DataFormats.Rtf);
         }
-        catch {}
+        catch { }
     }
 
     private void StartInitiation()
@@ -218,6 +177,8 @@ public partial class Sticky : Window
         SettingStickySize();
         UpdateBackgroundFontSticky();
         LoadTextSticky();
+        
+        this.Title = _stickyName;
         
         this.Top = this._windowsСoordinates.X;
         this.Left = this._windowsСoordinates.Y;
@@ -250,9 +211,9 @@ public partial class Sticky : Window
         MainRichTextBox.Opacity = 0;
     }
 
-    private void UnlockSticky()
+    private bool UnlockSticky()
     {
-        if (!_stateSecurity) return;
+        if (!_stateSecurity) return true;
         
         var passwordWindow = new PasswordWindow();
 
@@ -261,11 +222,10 @@ public partial class Sticky : Window
             _lockState = false;
             CheckMark.Kind = PackIconMaterialKind.Pencil;
             MainRichTextBox.Opacity = 1;
+            return true;
         }
-        else
-        {
-            MessageBox.Show("Введенный вами пароль не верен или\nВвод пароля был отменен", "Проверка пароля", MessageBoxButton.OK);
-        }
+        MessageBox.Show("Введенный вами пароль не верен или\nВвод пароля был отменен", "Проверка пароля", MessageBoxButton.OK);
+        return false;
     }
 
     private void Exit(object sender, RoutedEventArgs e)
@@ -345,10 +305,10 @@ public partial class Sticky : Window
 
     private void InstallColor()
     {
-        var color = (Color)ColorConverter.ConvertFromString(FontColor[fontnum, 1]);
+        var color = (Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[1]);
         color.A = (byte)(_opacitySticky * 255);
 
-        var selectionColor = (Color)ColorConverter.ConvertFromString(FontColor[fontnum, 2]);
+        var selectionColor = (Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[2]);
         MainRichTextBox.SelectionBrush = new SolidColorBrush(selectionColor);            
         SomeSticky.Background = new SolidColorBrush(color);
     }
@@ -361,13 +321,16 @@ public partial class Sticky : Window
         else
             BottonMenuSettings.Height = 0;
         ShowInTaskbar = false;
+        ResizeMode = ResizeMode.NoResize;
         CheckMark.Kind = PackIconMaterialKind.Pencil;
         MainRichTextBox.IsReadOnly = !_changeStickyState;
     }
 
     private void StateReadOnlySticky()
     {
-        if (_lockState) UnlockSticky();
+        if (_lockState)
+            if (!UnlockSticky())
+                return;
         
         if (_changeStickyState) stateOnlySticky();
         else
@@ -379,18 +342,19 @@ public partial class Sticky : Window
                 BottonMenuSettings.Height = 30;
             ShowInTaskbar = true;
             CheckMark.Kind = PackIconMaterialKind.Check;
+            ResizeMode = ResizeMode.CanResize;
             MainRichTextBox.IsReadOnly = !_changeStickyState;
         }
     }
 
     private void UpdateBackgroundFontSticky()
     {
-        if (fontnum >= FontColor.GetLength(0)) fontnum = 0;
-
+        if (fontnum > ColorSticky.stickyColor.gray) fontnum = ColorSticky.stickyColor.purple;
+        
         MainRichTextBox.Foreground = new SolidColorBrush(Colors.Black);
-        if (fontnum == 5) MainRichTextBox.Foreground = new SolidColorBrush(Colors.White);
+        if (fontnum == ColorSticky.stickyColor.black) MainRichTextBox.Foreground = new SolidColorBrush(Colors.White);
 
-        BorderInform.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(FontColor[fontnum, 0]));
+        BorderInform.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[0]));
         installIcon();
     }
     private string RandomColorStickyName()
@@ -417,16 +381,24 @@ public partial class Sticky : Window
             LockSticky();
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Q)
         {
-            foreach(Window window in App.Current.Windows)
+            try
             {
-                if (window is MainWindow)
+                foreach (Window window in App.Current.Windows)
                 {
-                    window.WindowState = WindowState.Normal;
-                    return;
+                    if (window is MainWindow)
+                    {
+                        window.WindowState = WindowState.Normal;
+                        return;
+                    }
                 }
+
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
             }
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+            }
         }
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.T)
         {
@@ -485,53 +457,10 @@ public partial class Sticky : Window
             MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Purple);
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.F)
             MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);
-        
-        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.OemPlus && _stickyWidth < 750)
-            ModifyStickySize(50);
-        else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.OemMinus && _stickyWidth > 250)
-            ModifyStickySize(-50);
-        
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
         {
-            if (this._stickyName == baseStickyName)
-            {
-                Random rnd = new Random();
-                this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
-                MainStickyName.Text = this._stickyName;
-                this.Title = this._stickyName;
-
-                Dictionary<string, string> stickyData = new Dictionary<string, string>()
-                {
-                    {"Password", "None"},
-                    {"Color", fontnum.ToString()},
-                    {"Position", $"{Convert.ToInt32(this._windowsСoordinates.X)}; {Convert.ToInt32(this._windowsСoordinates.Y)}"},
-                    {"Size", _stickyWidth.ToString()},
-                    {"Opasity", Math.Round(_opacitySticky, 1).ToString(CultureInfo.GetCultureInfo("ru-RU"))},
-                    {"ExitState", Convert.ToInt32(_changeStickyState).ToString()}
-                };
-                string date = $"{DateTime.Now.Year:D2}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}";
-                Dictionary<string, string> settingsData = new Dictionary<string, string>()
-                {
-                    {"Color", RandomColorStickyName()},
-                    {"Date", date},
-                    {"Favorite", "0"},
-                    {"Thumbtack", "0"},
             
-                };
-                                
-                WorkingFiles.createSticker(_stickyName, stickyData, settingsData);
-                                
-                this.Closing += MainWindow_Closing;
-            }
-            SaveToFile();
         }
-    }
-
-    private void ModifyStickySize(int windowsSize)
-    {
-        _stickyWidth += windowsSize;
-        _stickyHeight += windowsSize;
-        SettingStickySize();
     }
 
     private void SettingStickySize()
@@ -600,7 +529,7 @@ public partial class Sticky : Window
     private void StickyOpenMenu()
     {
         BorderInform.Height = 35;
-        MainStickyName.Visibility = Visibility.Hidden;
+        MainStickyName.Visibility = Visibility.Visible;
         if (_changeStickyState) BottonMenuSettings.Height = 30;
     }
 
@@ -611,11 +540,11 @@ public partial class Sticky : Window
         heightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanTopMenu));
 
         BorderInform.BeginAnimation(HeightProperty, heightAnimation);
-
-        MainStickyName.Visibility = Visibility.Hidden;
-
+        
         if (_changeStickyState)
             StickyCloseBottonMenuAnimation();
+        
+        MainStickyName.Visibility = Visibility.Hidden;
     }
 
     private void StickyOpenMenuAnimation()
@@ -625,11 +554,11 @@ public partial class Sticky : Window
         heightAnimation.Duration = new Duration(TimeSpan.FromSeconds(_timeSpanTopMenu));
 
         BorderInform.BeginAnimation(HeightProperty, heightAnimation);
-
-        MainStickyName.Visibility = Visibility.Visible;
-
+        
         if (_changeStickyState)
             StickyOpenBottonMenuAnimation();
+        
+        MainStickyName.Visibility = Visibility.Visible;
     }
 
     private void Sticky_OnDeactivated(object? sender, EventArgs e)
@@ -654,26 +583,30 @@ public partial class Sticky : Window
 
     private void MainRichTextBox_OnSelectionChanged(object sender, RoutedEventArgs e)
     {
-        if (MainRichTextBox.Selection.Text.Length < 1)
+        try
         {
-            IconBold.Foreground = new SolidColorBrush(Colors.Gray);
-            IconItalic.Foreground = new SolidColorBrush(Colors.Gray);
-            IconStrikeout.Foreground = new SolidColorBrush(Colors.Gray);
-            IconUnderline.Foreground = new SolidColorBrush(Colors.Gray);
-        }
-        else
-        {
-            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
-                IconBold.Foreground = new SolidColorBrush(Colors.Black);
-            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
-                IconItalic.Foreground = new SolidColorBrush(Colors.Black);
+            if (MainRichTextBox.Selection.Text.Length < 1)
+            {
+                IconBold.Foreground = new SolidColorBrush(Colors.Gray);
+                IconItalic.Foreground = new SolidColorBrush(Colors.Gray);
+                IconStrikeout.Foreground = new SolidColorBrush(Colors.Gray);
+                IconUnderline.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+            else
+            {
+                if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
+                    IconBold.Foreground = new SolidColorBrush(Colors.Black);
+                if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
+                    IconItalic.Foreground = new SolidColorBrush(Colors.Black);
             
-            TextRange selectionRange = new TextRange(MainRichTextBox.Selection.Start, MainRichTextBox.Selection.End);
+                TextRange selectionRange = new TextRange(MainRichTextBox.Selection.Start, MainRichTextBox.Selection.End);
 
-            if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
-                IconUnderline.Foreground = new SolidColorBrush(Colors.Black);
-            if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
-                IconStrikeout.Foreground = new SolidColorBrush(Colors.Black);
+                if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
+                    IconUnderline.Foreground = new SolidColorBrush(Colors.Black);
+                if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
+                    IconStrikeout.Foreground = new SolidColorBrush(Colors.Black);
+            }
         }
+        catch { }
     }
 }

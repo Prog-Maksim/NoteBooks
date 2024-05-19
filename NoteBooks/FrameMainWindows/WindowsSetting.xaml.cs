@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using NoteBooks.Models;
 
 namespace NoteBooks.FrameMainWindows;
 
 public partial class WindowsSetting : Page
 {
     private MainWindow app;
-    private string CurrentTheme;
+    private themeNameStyle CurrentTheme;
     
     public WindowsSetting(MainWindow app)
     {
         InitializeComponent();
+        InitializeProgram();
 
         this.app = app;
-        // InitializeWindows();
+        InitializeWindows();
     }
 
     private void InitializeWindows()
@@ -34,10 +33,47 @@ public partial class WindowsSetting : Page
             CheckBoxAutoStart.IsChecked = true;
             TextAutoStart.Text = "Включено";
         }
-        
-        DeleteSticker.IsChecked = true;
     }
 
+    private void InitializeProgram()
+    {
+        # region theme
+        
+        themeNameStyle themeStyle = FileSettings.themeStyle;
+        if (themeStyle == themeNameStyle.light)
+            LightRadioButton.IsChecked = true;
+        else if (themeStyle == themeNameStyle.dark)
+            DarkRadioButton.IsChecked = true;
+        else if (themeStyle == themeNameStyle.system)
+            SystemRadioButton.IsChecked = true;
+        
+        # endregion
+        
+        # region autostart
+
+        CheckBoxAutoStart.IsChecked = FileSettings.autoStart;
+        
+        # endregion
+        
+        # region deleteNotification
+
+        DeleteSticker.IsChecked = FileSettings.deleteNotification;
+
+        # endregion
+        
+        # region stickySettings
+
+        CloseMenuCheckBox.IsChecked = FileSettings.closeMenu;
+        AnimationCheckBox.IsChecked = FileSettings.closeMenuAnimation;
+        Slider1.Value = FileSettings.delayTopMenu;
+        Slider2.Value = FileSettings.delayBottonMenu;
+
+        Slider1.ValueChanged += Slider1_OnValueChanged;
+        Slider2.ValueChanged += Slider2_OnValueChanged;
+
+        # endregion
+    }
+    
     private void IsAdministrator()
     {
         try
@@ -69,7 +105,7 @@ public partial class WindowsSetting : Page
         p.StartInfo.FileName = path.Replace("NoteBooks.exe", "main.exe");
         p.Start();
         
-        string newPath = path.Replace("NoteBooks.exe", "StickyNotes.lnk");
+        string newPath = path.Replace("NoteBooks.exe", "StickyNotes.lnk /OpenSticker");
         return newPath;
     }
     
@@ -85,23 +121,26 @@ public partial class WindowsSetting : Page
     
     private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
     {
-        // if (!checkIsAutoStartProgram())
-        // {
-        //     RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        //     key.SetValue("NoteBook", PathToFileProject());
-        //     key.Close();
-        //     TextAutoStart.Text = "Включено";
-        // }
+        if (!checkIsAutoStartProgram())
+        {
+            RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            key.SetValue("NoteBook", PathToFileProject());
+            key.Close();
+            TextAutoStart.Text = "Включено";
+            FileSettings.autoStart = true;
+        }
     }
     private void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
     {
-        // if (checkIsAutoStartProgram())
-        // {
-        //     RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        //     key.DeleteValue("NoteBook");
-        //     key.Close();
-        //     // TextAutoStart.Text = "Выключено";
-        // }
+        if (checkIsAutoStartProgram())
+        {
+            RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            key.DeleteValue("NoteBook");
+            key.Close();
+            TextAutoStart.Text = "Выключено";
+        }
+
+        FileSettings.autoStart = false;
     }
 
     private void DeleteSticker_OnChecked(object sender, RoutedEventArgs e)
@@ -109,6 +148,7 @@ public partial class WindowsSetting : Page
         try
         {
             TextDeleteSticker.Text = "Запрашивать";
+            FileSettings.deleteNotification = true;
         }
         catch (Exception exception) {}
     }
@@ -116,18 +156,12 @@ public partial class WindowsSetting : Page
     private void DeleteSticker_OnUnchecked(object sender, RoutedEventArgs e)
     {
         TextDeleteSticker.Text = "Не запрашивать";
+        FileSettings.deleteNotification = false;
     }
 
     private void ButtonIsAdministrator_OnClick(object sender, RoutedEventArgs e)
     {
         IsAdministrator();
-    }
-    
-
-    private void Save_OnClick(object sender, RoutedEventArgs e)
-    {
-        // Сохранение обновленных настроек
-        clearinformMessage();
     }
 
     private async Task clearinformMessage()
@@ -141,19 +175,13 @@ public partial class WindowsSetting : Page
     private void RadioButton_Checked(object sender, RoutedEventArgs e)
     {
         if (Convert.ToBoolean(LightRadioButton.IsChecked))
-        {
-            CurrentTheme = "Light";
-            themeChange(themeNameStyle.light);
-        }
+            CurrentTheme = themeNameStyle.light;
         else if (Convert.ToBoolean(DarkRadioButton.IsChecked))
-        {
-            CurrentTheme = "Dark";
-            themeChange(themeNameStyle.dark);
-        }
+            CurrentTheme = themeNameStyle.dark;
         else if (Convert.ToBoolean(SystemRadioButton.IsChecked))
-        {
-            CurrentTheme = "System";
-        }
+            CurrentTheme = themeNameStyle.system;
+        
+        themeChange(CurrentTheme);
     }
 
     private void themeChange(themeNameStyle theme)
@@ -172,5 +200,42 @@ public partial class WindowsSetting : Page
             Application.Current.Resources.Clear();
             Application.Current.Resources.MergedDictionaries.Add(resourceDict);
         }
+        else if (theme == themeNameStyle.system)
+        {
+            themeNameStyle themeStyle = ClassRegistry.getCurrentThemeStyle();
+            themeChange(themeStyle);
+        }
+
+        FileSettings.themeStyle = theme;
+    }
+
+    private void CloseMenuCheckBox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        FileSettings.closeMenu = true;
+    }
+
+    private void CloseMenuCheckBox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        FileSettings.closeMenu = false;
+    }
+
+    private void AnimationCheckBox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        FileSettings.closeMenuAnimation = true;
+    }
+
+    private void AnimationCheckBox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        FileSettings.closeMenuAnimation = false;
+    }
+
+    private void Slider1_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        FileSettings.delayTopMenu = e.NewValue;
+    }
+
+    private void Slider2_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        FileSettings.delayBottonMenu = e.NewValue;
     }
 }

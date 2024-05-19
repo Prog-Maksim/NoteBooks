@@ -67,7 +67,6 @@
                                 GroupName="ColorTheme"
                                 HorizontalAlignment="Left"
                                 IsEnabled="True"
-                                IsChecked="True"
                                 Checked="RadioButton_Checked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 10">
@@ -160,7 +159,6 @@
                             Foreground="White"
                             Width="52"
                             HorizontalAlignment="Left"
-                            IsChecked="True"
                             Checked="DeleteSticker_OnChecked"
                             Unchecked="DeleteSticker_OnUnchecked"
                             Style="{StaticResource toggleButton}"
@@ -195,7 +193,8 @@
                                 Foreground="White"
                                 Width="52"
                                 HorizontalAlignment="Left"
-                                IsChecked="True"
+                                Checked="CloseMenuCheckBox_OnChecked"
+                                Unchecked="CloseMenuCheckBox_OnUnchecked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 5">
                             </CheckBox>
@@ -213,8 +212,9 @@
                                 x:Name="AnimationCheckBox"
                                 Foreground="White"
                                 Width="52"
-                                IsChecked="True"
                                 HorizontalAlignment="Left"
+                                Checked="AnimationCheckBox_OnChecked"
+                                Unchecked="AnimationCheckBox_OnUnchecked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 5">
                             </CheckBox>
@@ -257,7 +257,6 @@
                                     IsSelectionRangeEnabled="True"
                                     Ticks="0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1"
                                     IsSnapToTickEnabled="True"
-                                    Value="0.5"
                                     HorizontalAlignment="Left">
                                 </Slider>
 
@@ -301,7 +300,6 @@
                                     IsSelectionRangeEnabled="True"
                                     Ticks="0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1"
                                     IsSnapToTickEnabled="True"
-                                    Value="0.1"
                                     HorizontalAlignment="Left">
                                 </Slider>
 

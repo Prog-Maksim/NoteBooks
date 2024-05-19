@@ -78,8 +78,9 @@
                     x:Name="StickyButton"
                     Content="Стикеры"
                     Cursor="Hand"
-                    BorderBrush="#784ff1"
                     Click="StickyButton_OnClick"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
                     Style="{StaticResource tabButton}">
                 </Button>
 
@@ -88,6 +89,8 @@
                     Content="Закрепленные"
                     Cursor="Hand"
                     Click="ThumbtackButton_OnClick"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
                     Style="{StaticResource tabButton}">
                 </Button>
 
@@ -96,6 +99,8 @@
                     Content="Избранное"
                     Cursor="Hand"
                     Click="FavoritesButton_OnClick"
+                    MouseEnter="UIElement_OnMouseEnter"
+                    MouseLeave="UIElement_OnMouseLeave"
                     Style="{StaticResource tabButton}">
                 </Button>
             </StackPanel>
@@ -181,7 +186,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Click="Change_ButtonBase_OnClick" Background="#8e59c0"
+                                    <Button Click="Thumbtack_ButtonBase_OnClick" Background="#8e59c0"
                                             Style="{StaticResource gridEditButton}">
                                         <Icon:PackIconMaterial Kind="{Binding IconT}"
                                                                Style="{StaticResource gridButtonIcon}">
