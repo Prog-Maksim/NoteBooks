@@ -5,8 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Sticky" 
-        Height="335" 
+        Title="Sticky"
+        Height="335"
         Width="300"
         MinWidth="250"
         MinHeight="285"
@@ -15,8 +15,20 @@
         Activated="Sticky_OnActivated"
         AllowsTransparency="True"
         Background="Transparent">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"
+            CornerRadius ="10"
+            ResizeBorderThickness="8"
+            GlassFrameThickness="8">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    
     <Border
         x:Name="SomeSticky"
+        BorderThickness="3"
+        BorderBrush="Transparent"
         CornerRadius="10">
         <Border.Background>
             <SolidColorBrush Opacity="1" Color="#F2E6FF" />
@@ -27,7 +39,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            
+
             <Border
                 x:Name="BorderInform"
                 Grid.Row="0"
@@ -44,14 +56,14 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Button
                         Grid.Column="0"
                         Click="CheckMark_OnMouseDown"
                         Margin="2 0 0 0"
                         Style="{StaticResource StickyButton}">
                         <Icon:PackIconMaterial
-                            Kind="Check" 
+                            Kind="Check"
                             x:Name="CheckMark"
                             Foreground="Gray"
                             VerticalAlignment="Center"
@@ -60,8 +72,8 @@
                             Height="15">
                         </Icon:PackIconMaterial>
                     </Button>
-                    
-                    <TextBlock 
+
+                    <TextBlock
                         x:Name="MainStickyName"
                         Grid.Column="1"
                         FontSize="12"
@@ -70,14 +82,14 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left">
                     </TextBlock>
-                    
+
                     <Button
                         Grid.Column="2"
                         Click="Exit"
                         Style="{StaticResource StickyButton}">
                         <Icon:PackIconMaterial
                             Grid.Column="2"
-                            Kind="WindowClose" 
+                            Kind="WindowClose"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right"
@@ -87,7 +99,7 @@
                     </Button>
                 </Grid>
             </Border>
-            
+
             <RichTextBox
                 Grid.Row="1"
                 FontSize="16"
@@ -98,7 +110,7 @@
                 SelectionChanged="MainRichTextBox_OnSelectionChanged"
                 PreviewKeyDown="RichTextBox_OnPreviewKeyDown">
             </RichTextBox>
-            
+
             <Border
                 Grid.Row="2"
                 x:Name="BottonMenuSettings"
@@ -115,7 +127,7 @@
                         <ColumnDefinition Width="40"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Button
                         Grid.Column="0"
                         Width="30"
@@ -123,56 +135,56 @@
                         Style="{StaticResource StickyButtonBotton}">
                         <Icon:PackIconMaterial
                             x:Name="IconBold"
-                            Kind="FormatBold" 
+                            Kind="FormatBold"
                             Foreground="Gray"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                         </Icon:PackIconMaterial>
                     </Button>
-                    
-                    
+
+
                     <Button
                         Grid.Column="1"
                         Width="30"
                         Click="StateItalicFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial 
+                        <Icon:PackIconMaterial
                             x:Name="IconItalic"
-                            Kind="FormatItalic" 
+                            Kind="FormatItalic"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                         </Icon:PackIconMaterial>
                     </Button>
-                    
-                    <Button 
+
+                    <Button
                         Grid.Column="2"
                         Width="30"
                         Click="StateUnderlineFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial 
+                        <Icon:PackIconMaterial
                             x:Name="IconUnderline"
-                            Kind="FormatUnderline" 
+                            Kind="FormatUnderline"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                         </Icon:PackIconMaterial>
                     </Button>
-                    
+
                     <Button
                         Grid.Column="3"
                         Width="30"
                         Click="StateStrikeoutFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial 
+                        <Icon:PackIconMaterial
                             x:Name="IconStrikeout"
-                            Kind="FormatStrikethroughVariant" 
+                            Kind="FormatStrikethroughVariant"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                         </Icon:PackIconMaterial>
                     </Button>
-                    
+
                     <Button
                         Grid.Column="5"
                         Width="30"
@@ -181,7 +193,7 @@
                         Click="new_Sticky">
                         <Icon:PackIconMaterial
                             Grid.Column="5"
-                            Kind="Plus" 
+                            Kind="Plus"
                             Foreground="Black"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
