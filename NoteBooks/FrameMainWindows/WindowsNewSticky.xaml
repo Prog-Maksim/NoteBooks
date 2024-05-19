@@ -53,12 +53,12 @@
                 </Grid.RowDefinitions>
                 
                 <TextBox
+                    x:Name="TextBox_NameSticky"
                     Grid.Row="0"
                     Width="350"
                     HorizontalAlignment="Left"
                     Margin="20 0 0 0 "
                     Style="{StaticResource TextBoxStyle}"
-                    x:Name="TextBox_NameSticky"
                     Tag="Имя стикера ">
                 </TextBox>
                 
@@ -109,6 +109,7 @@
                         Grid.Row="1"
                         Orientation="Horizontal">
                         <Border
+                            x:Name="Purple"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -119,6 +120,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Pink"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -129,6 +131,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Green"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -139,6 +142,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Blue"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -149,6 +153,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Yellow"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -159,6 +164,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Black"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -169,6 +175,7 @@
                         </Border>
                         
                         <Border
+                            x:Name="Gray"
                             Width="40"
                             Height="40"
                             Cursor="Hand"
@@ -255,6 +262,31 @@
                     Text="*В будущем пароль нельзя будет изменить или удалить"
                     Margin="25 38 0 0">
                 </TextBlock>
+                
+                <StackPanel
+                    Grid.Row="6"
+                    Margin="20 15 0 0"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        x:Name="label"
+                        Foreground="White"
+                        Width="52"
+                        Cursor="Hand"
+                        HorizontalAlignment="Left"
+                        IsChecked="False"
+                        Checked="Thumbtack_OnChecked"
+                        Unchecked="Thumbtack_OnUnchecked"
+                        Style="{StaticResource toggleButton}"
+                        Margin="0 0 0 30">
+                    </CheckBox>
+                    <TextBlock 
+                        Foreground="{DynamicResource BaseTextColor}" 
+                        FontSize="15"
+                        Text="создать ярлык на рабочем столе"
+                        VerticalAlignment="Center" 
+                        Margin="5 0 0 30">
+                    </TextBlock>
+                </StackPanel>
             </Grid>
             
             <!-- Menu preview sticky -->
