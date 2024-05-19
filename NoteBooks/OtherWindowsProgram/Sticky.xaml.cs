@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -395,8 +396,9 @@ public partial class Sticky
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.T)
         {
             _thumbtack = !_thumbtack;
+            Sticker.updateStateStickerThumbtack(this._stickyName);
             string text = "Стикер был " + (_thumbtack? "закреплен!": "откреплен!");
-            MessageBox.Show(text, "StickyNotes", MessageBoxButton.OK);
+            new Thread(() => MessageBox.Show(text, "StickyNotes", MessageBoxButton.OK)).Start();
         }
         
         else if (!_changeStickyState) return;
