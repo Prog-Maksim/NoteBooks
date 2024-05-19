@@ -32,13 +32,8 @@
     <None Remove="Resource\ImageTaskBar\yellow_sticky_icon.png" />
     <Resource Include="Resource\ImageTaskBar\yellow_sticky_icon.png" />
     <None Remove="Resource\ProgramData.txt" />
-    <Resource Include="Resource\ProgramData.txt" />
     <None Remove="Resource\MainMenuImage\search.png" />
     <Resource Include="Resource\MainMenuImage\search.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resource\Stickers\" />
   </ItemGroup>
 
   <ItemGroup>
