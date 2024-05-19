@@ -121,8 +121,8 @@ public partial class Sticky
     
     private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        List<int> pos = new List<int>() {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
-        List<int> size = new List<int>() { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
+        List<int> pos = new List<int>(2) {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
+        List<int> size = new List<int>(2) { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
         
         StickyData stickyData = new StickyData(security: _stateSecurity, color: fontnum, size: size,
             opacity: _opacitySticky, position: pos, password: _stickyPassword);
@@ -357,14 +357,6 @@ public partial class Sticky
         BorderInform.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[0]));
         installIcon();
     }
-    private string RandomColorStickyName()
-    {
-        string[] listColor = { "#ECC300", "#7E00FC", "#E80000", "#2F96E5", "#F69F1E", "#EF0090", "#F05D63", "#0ECF4F", "#461BDA", "#EC7616" };
-        
-        Random random = new Random();
-        int index = random.Next(listColor.Length);
-        return listColor[index];
-    }
 
     private void RichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
@@ -459,7 +451,38 @@ public partial class Sticky
             MainRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
         {
-            
+            if (this._stickyName == baseStickyName)
+            {
+                Random rnd = new Random();
+                this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
+                MainStickyName.Text = this._stickyName;
+                
+                List<int> pos = new List<int>(2) {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
+                List<int> size = new List<int>(2) { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
+
+                StickyData sticky = new StickyData(
+                    security: false,
+                    color: this.fontnum,
+                    size: size,
+                    opacity: this._opacitySticky,
+                    position: pos
+                    );
+
+                Models.Sticker stickerData = new Models.Sticker(
+                    name: this._stickyName,
+                    color: (int)fontnum,
+                    dateStart: DateTime.Now,
+                    currentDateUpdate: DateTime.Now,
+                    stickerThumbtack: this._thumbtack,
+                    stickerFavorite: false,
+                    stickerCurrentPath: Path.Combine(ClassRegistry.PathStickyFolder, $"{this._stickyName}.rtf"),
+                    stickyData: sticky
+                    );
+                Sticker.createNewSticker(stickerData);
+                Directory.CreateDirectory(Path.Combine(ClassRegistry.PathOpenStickers, $"~{this._stickyName}"));
+                this.Closing += MainWindow_Closing;
+            }
+            SaveToFile();
         }
     }
 

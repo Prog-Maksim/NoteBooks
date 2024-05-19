@@ -79,8 +79,6 @@ public class Sticker: ColorSticky
         
         string jsonData = JsonSerializer.Serialize(data);
         File.WriteAllText(file_path, jsonData);
-
-        File.Create(dataSticker.StickerCurrentPath);
     }
 
     public static bool getResultDublicateStickerName(string nameSticker)
