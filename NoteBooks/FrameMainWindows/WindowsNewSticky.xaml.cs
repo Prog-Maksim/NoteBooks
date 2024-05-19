@@ -34,7 +34,6 @@ public partial class WindowsNewSticky : Page
         return listColor[index];
     }
     
-    // TODO: Реализовать проверку на дубликат стикера
     private void CreateSticky_OnClick(object sender, RoutedEventArgs e)
     {
         if (TextBox_NameSticky.Text == "")
