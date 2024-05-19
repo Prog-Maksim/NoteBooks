@@ -248,15 +248,9 @@
 
                                 <Slider
                                     x:Name="Slider1"
+                                    Style="{StaticResource SliderStyle1}"
                                     Margin="10 3 0 0"
-                                    Width="500"
-                                    Minimum="0.1"
-                                    Maximum="1"
-                                    SelectionStart="0.1"
                                     SelectionEnd="{Binding ElementName=Slider1, Path=Value}"
-                                    IsSelectionRangeEnabled="True"
-                                    Ticks="0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1"
-                                    IsSnapToTickEnabled="True"
                                     HorizontalAlignment="Left">
                                 </Slider>
 
@@ -291,15 +285,9 @@
 
                                 <Slider
                                     x:Name="Slider2"
+                                    Style="{StaticResource SliderStyle1}"
                                     Margin="10 3 0 0"
-                                    Width="500"
-                                    Minimum="0.1"
-                                    Maximum="1"
-                                    SelectionStart="0.1"
                                     SelectionEnd="{Binding ElementName=Slider2, Path=Value}"
-                                    IsSelectionRangeEnabled="True"
-                                    Ticks="0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1"
-                                    IsSnapToTickEnabled="True"
                                     HorizontalAlignment="Left">
                                 </Slider>
 
