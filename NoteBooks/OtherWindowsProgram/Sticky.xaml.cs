@@ -156,9 +156,13 @@ public partial class Sticky
     
     private void SaveToFile()
     {
-        TextRange doc = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
-        using (FileStream fs = File.Create(Sticker.getPathDataSticker(_stickyName)))
-            doc.Save(fs, DataFormats.Rtf);
+        try
+        {
+            TextRange doc = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
+            using (FileStream fs = File.Create(Sticker.getPathDataSticker(_stickyName)))
+                doc.Save(fs, DataFormats.Rtf);
+        }
+        catch { }
     }
     
     private void LoadTextSticky()
@@ -169,7 +173,11 @@ public partial class Sticky
             using (FileStream fs = new FileStream(Sticker.getPathDataSticker(_stickyName), FileMode.Open))
                 doc.Load(fs, DataFormats.Rtf);
         }
-        catch { }
+        catch (IOException)
+        {
+            MessageBox.Show("Файл будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!", "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch {}
     }
 
     private void StartInitiation()
