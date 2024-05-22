@@ -34,6 +34,35 @@
     <None Remove="Resource\ProgramData.txt" />
     <None Remove="Resource\MainMenuImage\search.png" />
     <Resource Include="Resource\MainMenuImage\search.png" />
+    <None Remove="Resource\SturtUpMenuImage\Frame1.png" />
+    <None Remove="Resource\SturtUpMenuImage\image 98.png" />
+    <None Remove="Resource\SturtUpMenuImage\right-arrow.png" />
+    <Resource Include="Resource\SturtUpMenuImage\right-arrow.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 200149.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 200706.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ImagePage2.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 200843.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 201252.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\BlackSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\BlackSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\BlueSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\BlueSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\GraySticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\GraySticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\GreenSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\GreenSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\PinkSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\PinkSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\PurpleSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\PurpleSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\ColorSticky\YellowSticky.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ColorSticky\YellowSticky.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 205619.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ImagePage5.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 210446.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ImagePage6.png" />
+    <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 221017.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ImagePage8.png" />
   </ItemGroup>
 
   <ItemGroup>
