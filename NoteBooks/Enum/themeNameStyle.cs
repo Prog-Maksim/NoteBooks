@@ -1,4 +1,4 @@
-﻿namespace NoteBooks;
+﻿namespace StickyNotes;
 
 public enum themeNameStyle
 {

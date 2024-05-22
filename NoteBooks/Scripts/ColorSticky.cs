@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NoteBooks;
+namespace StickyNotes;
 
 public class ColorSticky
 {

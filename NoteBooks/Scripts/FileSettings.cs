@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.Json;
-using NoteBooks.Models;
+using System.Windows;
+using StickyNotes.Models;
 
-namespace NoteBooks;
+namespace StickyNotes;
 
 public class FileSettings
 {
@@ -178,6 +180,62 @@ public class FileSettings
             config.StickerSetings.DelayAnimationBottonMenu = value;
             string jsonData = JsonSerializer.Serialize(config);
             File.WriteAllText(path, jsonData);
+        }
+    }
+    
+    
+    public static void themeChange(themeNameStyle theme)
+    {
+        if (theme == themeNameStyle.light)
+        {
+            var uri = new Uri("ColorTheme/LightTheme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
+        else if (theme == themeNameStyle.dark)
+        {
+            var uri = new Uri("ColorTheme/DarkTheme.xaml", UriKind.Relative);
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
+        else if (theme == themeNameStyle.system)
+        {
+            themeNameStyle themeStyle = ClassRegistry.getCurrentThemeStyle();
+            themeChange(themeStyle);
+        }
+
+        FileSettings.themeStyle = theme;
+    }
+    
+    
+    public static void createSystemFiles()
+    {
+        string progSettings = Path.Combine(ClassRegistry.mainBasePath, "ProgramSettings.json");
+        string stickersData = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
+            
+        createSystemSettings(progSettings);
+        createFileStickersList(stickersData);
+    }
+    
+    private static void createSystemSettings(string file)
+    {
+        using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
+        {
+            StickerSetings stickerSetings = new StickerSetings(true, true, 0.5, 0.1);
+            Config systemSettings = new Config(themeNameStyle.light, true, false, stickerSetings);
+            
+            JsonSerializer.SerializeAsync(fs, systemSettings);
+        }
+    }
+
+    private static void createFileStickersList(string file)
+    {
+        using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
+        {
+            StickersList stickersList = new StickersList();
+            JsonSerializer.Serialize(fs, stickersList);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NoteBooks.Models;
+namespace StickyNotes.Models;
 
 public class StickersList
 {
