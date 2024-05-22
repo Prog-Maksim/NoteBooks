@@ -1,48 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using NoteBooks.Models;
+using StickyNotes.Models;
 
-namespace NoteBooks;
+namespace StickyNotes;
 
 public class Sticker: ColorSticky
 {
     private static readonly FileInfo filePath = new FileInfo("Stickers.json");
     
-    public static StickersList? getData()
-    {
-        if (!filePath.Exists) return new StickersList();
-            
-        using (FileStream fs = new FileStream(filePath.Name, FileMode.OpenOrCreate))
-        {
-            StickersList? stickersList = JsonSerializer.Deserialize<StickersList>(fs);
-            return stickersList;
-        }
-    }
-    
     public static bool checkIsAvailabilityFile(string nameSticker)
     {
-        foreach (var sticker in getAllDataSticker().Stickers)
+        try
         {
-            if (sticker.Name == nameSticker) return true;
+            foreach (var sticker in getAllDataSticker().Stickers)
+            {
+                if (sticker.Name == nameSticker) return true;
+            }
         }
+        catch { }
 
         return false;
-    }
-    
-    public static List<string> getThumbtackSticky()
-    {
-        List<string> data = new List<string>();
-        // foreach (KeyValuePair<string,List<string>> index in getStickyDataProgram())
-        // {
-        //     if (Convert.ToInt32(index.Value[4]) == 1)
-        //         data.Add(index.Key);
-        // }
-
-        return data;
     }
 
     public static bool addNewStickerContextMenu(FileInfo pathSticker)
