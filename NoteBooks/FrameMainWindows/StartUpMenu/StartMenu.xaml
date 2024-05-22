@@ -1,0 +1,111 @@
+﻿<Window x:Class="StickyNotes.FrameMainWindows.StartUpMenu.StartMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:StickyNotes.FrameMainWindows.StartUpMenu"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="StartMenu" 
+        Height="450" 
+        Width="800"
+        ResizeMode="NoResize">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"
+            CornerRadius="10"
+            ResizeBorderThickness="8"
+            GlassFrameThickness="8">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Border 
+        MouseDown="Border_MouseDows"
+        Background="White" 
+        CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <!-- Title Menu -->
+            
+            <Image
+                Grid.Row="0"
+                Width="20"
+                Height="20"
+                HorizontalAlignment="Left"
+                Margin="10 0 0 0"
+                Source="/Resource/ImageTaskBar/apps.png">
+            </Image>
+            
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                FontFamily="Montserrat"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="40 0 0 0"
+                HorizontalAlignment="Left">
+                <Run Text="StickyNotes"></Run>
+            </TextBlock>
+            
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    Cursor="Hand"
+                    Click="WindowsMinimizide_OnClick"
+                    Style="{StaticResource WindowsButton}">
+                    <Icon:PackIconMaterial
+                        Height="10"
+                        Width="10"
+                        Kind="Minus">
+                    </Icon:PackIconMaterial>
+                </Button>
+                <Button
+                    Style="{StaticResource WindowsButton}">
+                    <Icon:PackIconMaterial
+                        Height="10"
+                        Width="10"
+                        Kind="CheckboxBlankOutline">
+                    </Icon:PackIconMaterial>
+                </Button>
+                <Button
+                    Cursor="Hand"
+                    Click="ButtonBase_OnClick"
+                    Style="{StaticResource CloseButton}">
+                    <Icon:PackIconMaterial
+                        Height="10"
+                        Width="10"
+                        Kind="WindowClose">
+                    </Icon:PackIconMaterial>
+                </Button>
+            </StackPanel>
+            
+            <ProgressBar
+                x:Name="ProgressBar"
+                Grid.Row="0"
+                Height="5"
+                Value="0"
+                Style="{StaticResource ProgressBarStyle1}"
+                VerticalAlignment="Bottom"
+                Minimum="0"
+                Maximum="8"
+                Margin="-2 0 0 0">
+            </ProgressBar>
+            
+            <!-- Main Menu -->
+            <Frame
+                Grid.Row="1"
+                x:Name="MainFrame"
+                NavigationUIVisibility="Hidden">
+            </Frame>
+            
+        </Grid>
+    </Border>
+</Window>

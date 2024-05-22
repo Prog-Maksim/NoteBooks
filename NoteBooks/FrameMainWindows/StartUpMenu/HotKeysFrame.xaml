@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="StickyNotes.FrameMainWindows.StartUpMenu.HotKeysFrame"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StickyNotes.FrameMainWindows.StartUpMenu"
+             mc:Ignorable="d"
+             Background="Transparent">
+    <Border
+        Width="200"
+        Height="50"
+        Cursor="Hand"
+        Background="White"
+        CornerRadius="20">
+        <TextBlock
+            Text="{Binding hotKeys}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            FontFamily="Montserrat"
+            Foreground="Gray"
+            FontSize="18">
+        </TextBlock>
+    </Border>
+</UserControl>

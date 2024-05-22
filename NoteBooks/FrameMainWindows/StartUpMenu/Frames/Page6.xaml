@@ -1,0 +1,116 @@
+﻿<Page x:Class="StickyNotes.FrameMainWindows.StartUpMenu.Frames.Page6"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="Page6" Height="410" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.56*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Image
+            Grid.Column="0"
+            Width="600"
+            Height="480"
+            Source="/Resource/SturtUpMenuImage/ImagePage6.png">
+        </Image>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="80"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Text="Размеры"
+                FontFamily="Montserrat"
+                FontSize="25"
+                FontWeight="Bold"
+                Foreground="Black"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 100">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="0"
+                TextWrapping="Wrap"
+                Width="350"
+                TextAlignment="Center"
+                Text="новая система изменения размера стикера"
+                FontFamily="Montserrat"
+                FontSize="18"
+                FontWeight="Bold"
+                Foreground="Gray"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 20">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="0"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Width="350"
+                FontFamily="Montserrat"
+                FontSize="15"
+                Foreground="Gray"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 100 0 0">
+                <Run>для этого переместите курсор к краю стикера</Run>
+            </TextBlock>
+
+            <Button
+                Grid.Row="1"
+                Width="250"
+                Height="50"
+                Focusable="False"
+                Click="NextButton_OnClick"
+                Style="{StaticResource buttonStyle}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 15">
+                <Button.Content>
+                    <TextBlock
+                        Text="ДАЛЕЕ"
+                        FontWeight="Bold"
+                        FontSize="15"
+                        FontFamily="Montserrat">
+                    </TextBlock>
+                </Button.Content>
+
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                </Button.BitmapEffect>
+            </Button>
+
+            <Button
+                Grid.Row="1"
+                Width="50"
+                Height="50"
+                Focusable="False"
+                Click="BackButton_OnClick"
+                Style="{StaticResource buttonStyle}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0 0 350 15">
+                <Button.Content>
+                    <Image
+                        Height="25"
+                        Source="/Resource/SturtUpMenuImage/right-arrow.png">
+                    </Image>
+                </Button.Content>
+
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                </Button.BitmapEffect>
+            </Button>
+            
+        </Grid>
+    </Grid>
+</Page>

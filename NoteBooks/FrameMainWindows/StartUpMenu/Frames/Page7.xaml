@@ -1,0 +1,339 @@
+﻿<Page x:Class="StickyNotes.FrameMainWindows.StartUpMenu.Frames.Page7"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:StickyNotes.FrameMainWindows.StartUpMenu"
+      mc:Ignorable="d"
+      Title="Page7" Height="410" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.6*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Image
+            Grid.Column="0"
+            Width="300"
+            Height="460"
+            Opacity="0.5"
+            Source="/Resource/SturtUpMenuImage/ImagePage2.png">
+        </Image>
+        
+        <ScrollViewer
+            Grid.Column="0"
+            VerticalScrollBarVisibility="Hidden">
+            <StackPanel 
+                VerticalAlignment="Center">
+                <Separator Opacity="0" Height="150"/>
+                
+                <local:HotKeysFrame
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    ToolTip="распологает текст по правой стороне стикера"
+                    hotKeys="CTRL + R">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="добавляет новый временный стикер"
+                    hotKeys="CTRL + A">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="меняет цветовую тему стикера"
+                    hotKeys="CTRL + X">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="закрепляет стикер"
+                    hotKeys="CTRL + T">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="блокировка изменения стикера"
+                    hotKeys="CTRL + Y">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="открытие основного окна"
+                    hotKeys="CTRL + Q">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="защита содержимого стикера"
+                    hotKeys="CTRL + L">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="разблокировка содержимого стикера"
+                    hotKeys="CTRL + Enter">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="создание маркированного списка"
+                    hotKeys="CTRL + SHIFT + N">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="создание точечного списка"
+                    hotKeys="CTRL + SHIFT + L">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="уменьшение прозрачности стикера"
+                    hotKeys="CTRL + ALT + [">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="увеличение размера шрифта"
+                    hotKeys="CTRL + SHIFT + ]">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="выделение текста жирным шрифтом"
+                    hotKeys="CTRL + B">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="увеличение прозрачности стикера"
+                    hotKeys="CTRL + ALT + ]">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="сохранение стикера"
+                    hotKeys="CTRL + SHIFT + S">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="расположение текста по середине"
+                    hotKeys="CTRL + E">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в синий цвет"
+                    hotKeys="CTRL + SHIFT + B">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в красный цвет"
+                    hotKeys="CTRL + SHIFT + R">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в зеленый цвет"
+                    hotKeys="CTRL + SHIFT + G">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в желтый цвет"
+                    hotKeys="CTRL + SHIFT + Y">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в белый цвет"
+                    hotKeys="CTRL + SHIFT + W">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в орандевый цвет"
+                    hotKeys="CTRL + SHIFT + O">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в черный цвет"
+                    hotKeys="CTRL + SHIFT + D">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в фиолетовый цвет"
+                    hotKeys="CTRL + SHIFT + P">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="окрашивание текста в серый цвет"
+                    hotKeys="CTRL + SHIFT + F">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="левое расположение текста"
+                    hotKeys="CTRL + L/J">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="зачеркивание текста"
+                    hotKeys="CTRL + S">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="подчеркивание текста"
+                    hotKeys="CTRL + U">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="создание наклонного текста"
+                    hotKeys="CTRL + I">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="100"/>
+                
+                <local:HotKeysFrame
+                    ToolTip="уменьшение размера шрифта"
+                    hotKeys="CTRL + SHIFT + [">
+                </local:HotKeysFrame>
+                
+                <Separator Opacity="0" Height="180"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="80"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Text="Горячие клавиши"
+                FontFamily="Montserrat"
+                FontSize="25"
+                FontWeight="Bold"
+                Foreground="Black"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 100">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="0"
+                TextWrapping="Wrap"
+                Width="350"
+                TextAlignment="Center"
+                Text="обновленные горячие клавиши для удобной работы"
+                FontFamily="Montserrat"
+                FontSize="18"
+                FontWeight="Bold"
+                Foreground="Gray"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 10">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="0"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Width="350"
+                FontFamily="Montserrat"
+                FontSize="15"
+                Foreground="Gray"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="0 100 0 0">
+                <Run>к слову их 29 штук</Run>
+            </TextBlock>
+
+            <Button
+                Grid.Row="1"
+                Width="250"
+                Height="50"
+                Focusable="False"
+                Click="NextButton_OnClick"
+                Style="{StaticResource buttonStyle}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 15">
+                <Button.Content>
+                    <TextBlock
+                        Text="ДАЛЕЕ"
+                        FontWeight="Bold"
+                        FontSize="15"
+                        FontFamily="Montserrat">
+                    </TextBlock>
+                </Button.Content>
+
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                </Button.BitmapEffect>
+            </Button>
+
+            <Button
+                Grid.Row="1"
+                Width="50"
+                Height="50"
+                Focusable="False"
+                Click="BackButton_OnClick"
+                Style="{StaticResource buttonStyle}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0 0 350 15">
+                <Button.Content>
+                    <Image
+                        Height="25"
+                        Source="/Resource/SturtUpMenuImage/right-arrow.png">
+                    </Image>
+                </Button.Content>
+
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                </Button.BitmapEffect>
+            </Button>
+            
+        </Grid>
+    </Grid>
+</Page>
