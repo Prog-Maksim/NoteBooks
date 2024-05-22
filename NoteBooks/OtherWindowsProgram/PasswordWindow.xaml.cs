@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace NoteBooks;
+namespace StickyNotes;
 
 public partial class PasswordWindow : Window
 {
