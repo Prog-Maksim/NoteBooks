@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 
-namespace NoteBooks.FrameMainWindows;
+namespace StickyNotes.FrameMainWindows;
 
 public partial class WindowsSetting : Page
 {
@@ -101,12 +101,11 @@ public partial class WindowsSetting : Page
     {
         string path = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
         
-        Process p = new Process();
-        p.StartInfo.FileName = path.Replace("NoteBooks.exe", "main.exe");
-        p.Start();
+        // Process p = new Process();
+        // p.StartInfo.FileName = path.Replace("NoteBooks.exe", "main.exe");
+        // p.Start();
         
-        string newPath = path.Replace("NoteBooks.exe", "StickyNotes.lnk /OpenSticker");
-        return newPath;
+        return path.Replace("StickyNotes.exe", "StickyNotes.exe /OpenSticker");
     }
     
     private bool checkIsAutoStartProgram()
@@ -163,14 +162,6 @@ public partial class WindowsSetting : Page
     {
         IsAdministrator();
     }
-
-    private async Task clearinformMessage()
-    {
-        // MessageText.Visibility = Visibility.Visible;
-
-        await Task.Delay(1500);
-        // MessageText.Visibility = Visibility.Hidden;
-    }
     
     private void RadioButton_Checked(object sender, RoutedEventArgs e)
     {
@@ -181,32 +172,7 @@ public partial class WindowsSetting : Page
         else if (Convert.ToBoolean(SystemRadioButton.IsChecked))
             CurrentTheme = themeNameStyle.system;
         
-        themeChange(CurrentTheme);
-    }
-
-    private void themeChange(themeNameStyle theme)
-    {
-        if (theme == themeNameStyle.light)
-        {
-            var uri = new Uri("ColorTheme/LightTheme.xaml", UriKind.Relative);
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
-        else if (theme == themeNameStyle.dark)
-        {
-            var uri = new Uri("ColorTheme/DarkTheme.xaml", UriKind.Relative);
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
-        else if (theme == themeNameStyle.system)
-        {
-            themeNameStyle themeStyle = ClassRegistry.getCurrentThemeStyle();
-            themeChange(themeStyle);
-        }
-
-        FileSettings.themeStyle = theme;
+        FileSettings.themeChange(CurrentTheme);
     }
 
     private void CloseMenuCheckBox_OnChecked(object sender, RoutedEventArgs e)
