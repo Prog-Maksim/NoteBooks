@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NoteBooks.Models;
+namespace StickyNotes.Models;
 
 public class Sticker
 {

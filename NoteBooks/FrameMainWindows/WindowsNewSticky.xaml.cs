@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using NoteBooks.Models;
+using StickyNotes.Models;
 
-namespace NoteBooks.FrameMainWindows;
+namespace StickyNotes.FrameMainWindows;
 
 public partial class WindowsNewSticky : Page
 {

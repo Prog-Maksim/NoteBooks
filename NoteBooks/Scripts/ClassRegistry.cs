@@ -5,15 +5,15 @@ using System.Security.Principal;
 using System.Windows;
 using Microsoft.Win32;
 
-namespace NoteBooks;
+namespace StickyNotes;
 
 public class ClassRegistry
 {
-    public ClassRegistry(MainWindow window)
+    public ClassRegistry()
     {
         if (!checkProgramIsAdministrator())
         {
-            IsAdministrator(window);
+            IsAdministrator();
         }
     }
     
@@ -24,23 +24,15 @@ public class ClassRegistry
         return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
     
-    public static void IsAdministrator(MainWindow app)
+    public static void IsAdministrator()
     {
-        try
-        {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.UseShellExecute = true;
-            proc.WorkingDirectory = Environment.CurrentDirectory;
-            proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
-            proc.Verb = "runas";
-            Process.Start(proc);
-            app.Close();
-        }
-        catch
-        {
-            MessageBox.Show("Произошла ошибка, повторите попытку позже...", "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Error);
-            app.Close();
-        }
+        ProcessStartInfo proc = new ProcessStartInfo();
+        proc.UseShellExecute = true;
+        proc.WorkingDirectory = Environment.CurrentDirectory;
+        proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
+        proc.Verb = "runas";
+        Process.Start(proc);
+     
     }
     
     public static bool checkPathFolderIsRegistry()

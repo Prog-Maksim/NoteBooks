@@ -2,80 +2,27 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using NoteBooks.Models;
-using Color = System.Drawing.Color;
 
-namespace NoteBooks
+namespace StickyNotes
 {
     public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            
             OpenMainMenu(MainMenu);
-            checkProgramData();
-
-            var path = new Uri("pack://application:,,,/Resource/ImageTaskBar/apps.png");
-            this.Icon = new BitmapImage(path);
-        }
-
-        private string mainBasePathFolder;
-        private void checkProgramData()
-        {
-            if (ClassRegistry.checkPathFolderIsRegistry())
-                mainBasePathFolder = ClassRegistry.getDataForRegistry();
-            else
-            {
-                var result = MessageBox.Show("Для продолжения нужно создать папку конфигурации.\nДля этого нужны права администратора", "StickyNotes",
-                    MessageBoxButton.YesNo, MessageBoxImage.Information);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    ClassRegistry classRegistry = new ClassRegistry(this);
-                    ClassRegistry.createFolderData();
-                    classRegistry.createPathFolderIsRegistry();
-                    createSystemFiles();
-                }
-                else if (result == MessageBoxResult.No)
-                {
-                    this.Close();
-                }
-            }
-        }
-
-        private void createSystemFiles()
-        {
-            string progSettings = Path.Combine(ClassRegistry.mainBasePath, "ProgramSettings.json");
-            string stickersData = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
+            installColorTheme();
             
-            createSystemSettings(progSettings);
-            createFileStickersList(stickersData);
-        }
-        
-        private void createSystemSettings(string file)
-        {
-            using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
-            {
-                StickerSetings stickerSetings = new StickerSetings(true, true, 0.5, 0.1);
-                Config systemSettings = new Config(themeNameStyle.dark, true, false, stickerSetings);
-            
-                JsonSerializer.SerializeAsync(fs, systemSettings);
-            }
+            this.Icon = new BitmapImage(new Uri("pack://application:,,,/Resource/ImageTaskBar/apps.png"));
         }
 
-        private void createFileStickersList(string file)
+        private void installColorTheme()
         {
-            using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
-            {
-                StickersList stickersList = new StickersList();
-                JsonSerializer.Serialize(fs, stickersList);
-            }
+            FileSettings.themeChange(FileSettings.themeStyle);
         }
 
         private bool IsMaximized ;
@@ -192,7 +139,6 @@ namespace NoteBooks
             OpenSettingsMenu(sender);
         }
         
-
         private void WindowsSize_OnClick(object sender, RoutedEventArgs e)
         {
             if (IsMaximized) WindowsBase();

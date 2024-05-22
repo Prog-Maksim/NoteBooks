@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace NoteBooks.FrameMainWindows;
+namespace StickyNotes.FrameMainWindows;
 
 public partial class WindowsMainMenu : Page
 {
@@ -50,23 +50,26 @@ public partial class WindowsMainMenu : Page
         NameSticky.Clear();
         sticky.Clear();
         int num = 1;
-
-        foreach (var sticker in Sticker.getAllDataSticker().Stickers)
+        try
         {
-            sticky.Add(new Sticky
+            foreach (var sticker in Sticker.getAllDataSticker().Stickers)
             {
-                Character = sticker.Name.Substring(0, 1),
-                Number = num.ToString(),
-                Name = sticker.Name,
-                StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
-                CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
-                BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
-                IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
-                IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
-            });
-            NameSticky.Add(num - 1, sticker.Name);
-            num++;
+                sticky.Add(new Sticky
+                {
+                    Character = sticker.Name.Substring(0, 1),
+                    Number = num.ToString(),
+                    Name = sticker.Name,
+                    StartDate = $"{sticker.DateStart.Day:D2}.{sticker.DateStart.Month:D2}.{sticker.DateStart.Year:D2}",
+                    CurrentDate = $"{sticker.CurrentDateUpdate.Day:D2}.{sticker.CurrentDateUpdate.Month:D2}.{sticker.CurrentDateUpdate.Year:D2}",
+                    BgColor = (Brush)converter.ConvertFromString(ColorSticky.color((ColorSticky.stickyColor)sticker.Color)[3]),
+                    IconF = sticker.StickerFavorite ? "Star" : "StarOutline",
+                    IconT = sticker.StickerThumbtack ? "Pin" : "PinOutline"
+                });
+                NameSticky.Add(num - 1, sticker.Name);
+                num++;
+            }
         }
+        catch (NullReferenceException) { }
 
         stickyDataGrid.ItemsSource = sticky;
         TitleNumSticky.Text = $"Стикеров: {num - 1}";
@@ -234,7 +237,7 @@ public partial class WindowsMainMenu : Page
             if (Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}"))) return;
             try
             {
-                NoteBooks.Sticky sticky = new NoteBooks.Sticky(name);
+                StickyNotes.Sticky sticky = new StickyNotes.Sticky(name);
                 sticky.Show();
             }
             catch {}

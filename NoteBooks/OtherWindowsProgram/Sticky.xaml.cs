@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
@@ -12,38 +10,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
-using NoteBooks.Models;
+using StickyNotes.Models;
 
-namespace NoteBooks;
-
-public class Cryptography
-{
-    private const int Key = 3;
-
-    public static string Encrypt(string input)
-    {
-        StringBuilder encrypted = new StringBuilder();
-
-        foreach (char c in input)
-        {
-            encrypted.Append((char)(c + Key));
-        }
-
-        return encrypted.ToString();
-    }
-
-    public static string Decrypt(string input)
-    {
-        StringBuilder decrypted = new StringBuilder();
-
-        foreach (char c in input)
-        {
-            decrypted.Append((char)(c - Key));
-        }
-
-        return decrypted.ToString();
-    }
-}
+namespace StickyNotes;
 
 public partial class Sticky
 {
@@ -126,7 +95,7 @@ public partial class Sticky
         List<int> size = new List<int>(2) { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
         
         StickyData stickyData = new StickyData(security: _stateSecurity, color: fontnum, size: size,
-            opacity: _opacitySticky, position: pos, password: _stickyPassword);
+            opacity: _opacitySticky, position: pos, password: Cryptography.Encrypt(_stickyPassword));
         Sticker.updateStickerData(_stickyName, stickyData);
             
         SaveToFile();
