@@ -4,20 +4,21 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
+      Background="Transparent"
       Title="Page2" Height="410" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.6*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
+
         <Image
             Grid.Column="0"
             Width="350"
             Height="460"
             Source="/Resource/SturtUpMenuImage/ImagePage2.png">
         </Image>
-        
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -79,7 +80,7 @@
                 </Button.Content>
 
                 <Button.BitmapEffect>
-                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2" />
                 </Button.BitmapEffect>
             </Button>
 
@@ -102,10 +103,10 @@
                 </Button.Content>
 
                 <Button.BitmapEffect>
-                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowBitmapEffect Color="Black" Direction="310" ShadowDepth="2" Opacity="0.2" />
                 </Button.BitmapEffect>
             </Button>
-            
+
         </Grid>
     </Grid>
 </Page>

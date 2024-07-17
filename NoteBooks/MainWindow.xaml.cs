@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,7 +24,22 @@ namespace StickyNotes
         private void installColorTheme()
         {
             FileSettings.themeChange(FileSettings.themeStyle);
+            
+            var t = new Thread(() => autoUpdateTheme());
+            t.IsBackground = true;
+            t.Start();
         }
+
+        public void autoUpdateTheme()
+        {
+            while (FileSettings.themeStyle == themeNameStyle.system)
+            {
+                FileSettings.setNewColorTheme(themeNameStyle.system);
+                Thread.Sleep(500);
+            }
+            FileSettings.setNewColorTheme(FileSettings.themeStyle);
+        }
+        
 
         private bool IsMaximized ;
         private void Border_MouseDows(object sender, MouseButtonEventArgs e)

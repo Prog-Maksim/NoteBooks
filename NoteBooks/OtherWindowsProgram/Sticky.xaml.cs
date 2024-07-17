@@ -139,11 +139,16 @@ public partial class Sticky
         try
         {
             TextRange doc = new TextRange(MainRichTextBox.Document.ContentStart, MainRichTextBox.Document.ContentEnd);
-            using (FileStream fs = new FileStream(Sticker.getPathDataSticker(_stickyName), FileMode.Open))
-                doc.Load(fs, DataFormats.Rtf);
+            var path = Sticker.getPathDataSticker(_stickyName);
+            if (File.Exists(path))
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Open))
+                    doc.Load(fs, DataFormats.Rtf);
+            }
         }
-        catch (IOException)
+        catch (IOException ex)
         {
+            Console.WriteLine(ex.Message);
             MessageBox.Show("Файл будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!", "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch {}

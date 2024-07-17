@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,40 +73,17 @@ public partial class WindowsSetting : Page
         Slider2.ValueChanged += Slider2_OnValueChanged;
 
         # endregion
+
+        LightRadioButton.Click += RadioButton_Checked;
+        DarkRadioButton.Click += RadioButton_Checked;
+        SystemRadioButton.Click += RadioButton_Checked;
     }
     
-    private void IsAdministrator()
-    {
-        try
-        {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.UseShellExecute = true;
-            proc.WorkingDirectory = Environment.CurrentDirectory;
-            proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
-            proc.Verb = "runas";
-            Process.Start(proc);
-            this.app.Close();
-        }
-        catch { }
-    }
-
-
     static internal bool IsRunAsAdmin()
     {
         WindowsIdentity id = WindowsIdentity.GetCurrent();
         WindowsPrincipal principal = new WindowsPrincipal(id);
         return principal.IsInRole(WindowsBuiltInRole.Administrator);
-    }
-    
-    private string PathToFileProject()
-    {
-        string path = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
-        
-        // Process p = new Process();
-        // p.StartInfo.FileName = path.Replace("NoteBooks.exe", "main.exe");
-        // p.Start();
-        
-        return path.Replace("StickyNotes.exe", "StickyNotes.exe /OpenSticker");
     }
     
     private bool checkIsAutoStartProgram()
@@ -123,12 +101,13 @@ public partial class WindowsSetting : Page
         if (!checkIsAutoStartProgram())
         {
             RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            key.SetValue("NoteBook", PathToFileProject());
+            key.SetValue("NoteBook", Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName));
             key.Close();
             TextAutoStart.Text = "Включено";
             FileSettings.autoStart = true;
         }
     }
+    
     private void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
     {
         if (checkIsAutoStartProgram())
@@ -160,7 +139,7 @@ public partial class WindowsSetting : Page
 
     private void ButtonIsAdministrator_OnClick(object sender, RoutedEventArgs e)
     {
-        IsAdministrator();
+        ClassRegistry.IsAdministrator(this.app);
     }
     
     private void RadioButton_Checked(object sender, RoutedEventArgs e)

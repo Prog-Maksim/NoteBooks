@@ -67,7 +67,6 @@
                                 GroupName="ColorTheme"
                                 HorizontalAlignment="Left"
                                 IsEnabled="True"
-                                Checked="RadioButton_Checked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 10">
                             </RadioButton>
@@ -87,7 +86,6 @@
                                 x:Name="DarkRadioButton"
                                 GroupName="ColorTheme"
                                 HorizontalAlignment="Left"
-                                Checked="RadioButton_Checked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 10">
                             </RadioButton>
@@ -108,7 +106,6 @@
                                 GroupName="ColorTheme"
                                 IsChecked="False"
                                 HorizontalAlignment="Left"
-                                Checked="RadioButton_Checked"
                                 Style="{StaticResource toggleButton}"
                                 Margin="10 0 0 10">
                             </RadioButton>

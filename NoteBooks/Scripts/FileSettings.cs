@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -182,30 +183,42 @@ public class FileSettings
             File.WriteAllText(path, jsonData);
         }
     }
+
+
+    public static void setNewColorTheme(themeNameStyle theme)
+    {
+        try
+        {
+            if (theme == themeNameStyle.light)
+            {
+                var uri = new Uri("ColorTheme/LightTheme.xaml", UriKind.Relative);
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                Application.Current.Resources.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+            }
+            else if (theme == themeNameStyle.dark)
+            {
+                var uri = new Uri("ColorTheme/DarkTheme.xaml", UriKind.Relative);
+                ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+                Application.Current.Resources.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+            }
+            else if (theme == themeNameStyle.system)
+            {
+                themeNameStyle themeStyle = ClassRegistry.getCurrentThemeStyle();
+                setNewColorTheme(themeStyle);
+            }
+        }
+        catch
+        {
+            
+        }
+    }
     
     
     public static void themeChange(themeNameStyle theme)
     {
-        if (theme == themeNameStyle.light)
-        {
-            var uri = new Uri("ColorTheme/LightTheme.xaml", UriKind.Relative);
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
-        else if (theme == themeNameStyle.dark)
-        {
-            var uri = new Uri("ColorTheme/DarkTheme.xaml", UriKind.Relative);
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
-        else if (theme == themeNameStyle.system)
-        {
-            themeNameStyle themeStyle = ClassRegistry.getCurrentThemeStyle();
-            themeChange(themeStyle);
-        }
-
+        setNewColorTheme(theme);
         FileSettings.themeStyle = theme;
     }
     
@@ -235,6 +248,7 @@ public class FileSettings
         using (FileStream fs = new FileStream(file, FileMode.OpenOrCreate))
         {
             StickersList stickersList = new StickersList();
+            stickersList.Stickers = new List<Models.Sticker>();
             JsonSerializer.Serialize(fs, stickersList);
         }
     }

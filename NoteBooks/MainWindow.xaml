@@ -145,6 +145,7 @@
                         </StackPanel>
 
                         <StackPanel
+                            Visibility="Hidden"
                             DockPanel.Dock="Top">
                             <Button
                                 x:Name="InformSticky"

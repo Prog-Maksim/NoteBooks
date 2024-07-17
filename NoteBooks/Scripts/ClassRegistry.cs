@@ -32,7 +32,17 @@ public class ClassRegistry
         proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
         proc.Verb = "runas";
         Process.Start(proc);
-     
+    }
+    
+    public static void IsAdministrator(MainWindow app)
+    {
+        ProcessStartInfo proc = new ProcessStartInfo();
+        proc.UseShellExecute = true;
+        proc.WorkingDirectory = Environment.CurrentDirectory;
+        proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
+        proc.Verb = "runas";
+        Process.Start(proc);
+        app.Close();
     }
     
     public static bool checkPathFolderIsRegistry()

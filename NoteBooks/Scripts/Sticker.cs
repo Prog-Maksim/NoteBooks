@@ -55,6 +55,7 @@ public class Sticker: ColorSticky
         string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
         
         StickersList data = getAllDataSticker();
+        
         data.Stickers.Add(dataSticker);
         
         string jsonData = JsonSerializer.Serialize(data);
@@ -63,13 +64,14 @@ public class Sticker: ColorSticky
 
     public static bool getResultDublicateStickerName(string nameSticker)
     {
-        StickersList stickersList = getAllDataSticker();
+        StickersList? stickersList = getAllDataSticker();
 
-        foreach (var sticker in stickersList.Stickers)
-        {
-            if (sticker.Name == nameSticker)
-                return true;
-        }
+        if (stickersList.Stickers != null)
+            foreach (var sticker in stickersList.Stickers)
+            {
+                if (sticker.Name == nameSticker)
+                    return true;
+            }
 
         return false;
     }
@@ -77,10 +79,16 @@ public class Sticker: ColorSticky
     public static StickersList getAllDataSticker()
     {
         string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
+        
         using (FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate))
         {
             StickersList? data = JsonSerializer.Deserialize<StickersList>(fs);
-            return data;
+            if (data != null)
+                return data;
+            
+            StickersList list = new StickersList();
+            list.Stickers = new List<Models.Sticker>();
+            return list;
         }
     }
 

@@ -63,6 +63,8 @@
     <Resource Include="Resource\SturtUpMenuImage\ImagePage6.png" />
     <None Remove="Resource\SturtUpMenuImage\Снимок экрана 2024-05-21 221017.png" />
     <Resource Include="Resource\SturtUpMenuImage\ImagePage8.png" />
+    <None Remove="Resource\SturtUpMenuImage\ImagePage3.png" />
+    <Resource Include="Resource\SturtUpMenuImage\ImagePage3.png" />
   </ItemGroup>
 
   <ItemGroup>
