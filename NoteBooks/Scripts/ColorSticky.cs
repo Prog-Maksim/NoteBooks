@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StickyNotes;
+namespace StickyNotes.Scripts;
 
 public class ColorSticky
 {

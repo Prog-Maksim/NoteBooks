@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 
-namespace StickyNotes;
+namespace StickyNotes.OtherWindowsProgram;
 
-public partial class PasswordWindow : Window
+public partial class PasswordWindow
 {
     public PasswordWindow()
     {

@@ -10,6 +10,7 @@
         Title="StickyNotes"
         WindowStyle="None"
         mc:Ignorable="d"
+        Icon="Resource/ImageTaskBar/apps.png"
         Width="1080"
         Height="720">
     <Border

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using StickyNotes.Scripts;
 
 namespace StickyNotes.FrameMainWindows;
 
@@ -237,7 +238,7 @@ public partial class WindowsMainMenu : Page
             if (Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}"))) return;
             try
             {
-                StickyNotes.Sticky sticky = new StickyNotes.Sticky(name);
+                OtherWindowsProgram.Sticky sticky = new OtherWindowsProgram.Sticky(name);
                 sticky.Show();
             }
             catch {}

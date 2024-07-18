@@ -1,53 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Windows;
 using StickyNotes.Models;
 
-namespace StickyNotes;
+namespace StickyNotes.Scripts;
 
 public class Sticker: ColorSticky
 {
-    private static readonly FileInfo filePath = new FileInfo("Stickers.json");
-    
     public static bool checkIsAvailabilityFile(string nameSticker)
     {
-        try
+        var stickers = getAllDataSticker().Stickers;
+        if (stickers != null && stickers.Any(sticker => sticker.Name == nameSticker))
         {
-            foreach (var sticker in getAllDataSticker().Stickers)
-            {
-                if (sticker.Name == nameSticker) return true;
-            }
+            return true;
         }
-        catch { }
 
         return false;
     }
 
-    public static bool addNewStickerContextMenu(FileInfo pathSticker)
+    public static void addNewStickerContextMenu(FileInfo pathSticker)
     {
         StickersList stickers = getAllDataSticker();
-        List<int> pos = new List<int>(2) { 100, 100 };
-        List<int> size = new List<int>() { 300, 325 };
-        StickyData stickyData = new StickyData(security: false, color: stickyColor.purple, size: size, opacity: 1, position:pos);
-        Models.Sticker sticker = new Models.Sticker(name: pathSticker.Name.Replace(".rtf", ""), dateStart: DateTime.Now,
-            currentDateUpdate: DateTime.Now,
-            color: 0, stickerThumbtack: false, stickerFavorite: false, stickerCurrentPath: pathSticker.ToString(),
-            stickyData: stickyData);
-        try
+        var sticker = CreateBaseSticker(pathSticker);
+     
+        if (stickers.Stickers != null)
         {
             stickers.Stickers.Add(sticker);
             updateAllStickerData(stickers);
-            return true;
         }
-        catch
+        else
         {
-            List<Models.Sticker> stickersList = new List<Models.Sticker>();
-            stickersList.Add(sticker);
+            List<Models.Sticker> stickersList = new List<Models.Sticker> { sticker };
             updateAllStickerData(new StickersList(stickersList));
-            return true;
         }
+    }
+
+    private static Models.Sticker CreateBaseSticker(FileInfo pathSticker)
+    {
+        StickyData stickyData = new StickyData(
+            security: false, 
+            color: stickyColor.purple, 
+            size: new StickerSize {width = 300, height = 325}, 
+            opacity: 1, 
+            position: new StickerPosition {posX = 100, posY = 100}
+            );
+        Models.Sticker sticker = new Models.Sticker(
+            name: pathSticker.Name.Replace(".rtf", ""), 
+            dateStart: DateTime.Now,
+            currentDateUpdate: DateTime.Now,
+            color: 0, 
+            stickerThumbtack: false, 
+            stickerFavorite: false, 
+            stickerCurrentPath: pathSticker.ToString(),
+            stickyData: stickyData
+        );
+
+        return sticker;
     }
 
     public static void createNewSticker(Models.Sticker dataSticker)
@@ -55,41 +66,35 @@ public class Sticker: ColorSticky
         string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
         
         StickersList data = getAllDataSticker();
-        
-        data.Stickers.Add(dataSticker);
-        
+
+        data.Stickers!.Add(dataSticker);
+
         string jsonData = JsonSerializer.Serialize(data);
         File.WriteAllText(file_path, jsonData);
     }
 
     public static bool getResultDublicateStickerName(string nameSticker)
     {
-        StickersList? stickersList = getAllDataSticker();
+        StickersList stickersList = getAllDataSticker();
 
-        if (stickersList.Stickers != null)
-            foreach (var sticker in stickersList.Stickers)
-            {
-                if (sticker.Name == nameSticker)
-                    return true;
-            }
-
-        return false;
+        if (stickersList.Stickers == null) return false;
+        return stickersList.Stickers.Any(sticker => sticker.Name == nameSticker);
     }
 
     public static StickersList getAllDataSticker()
     {
         string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-        
-        using (FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate))
-        {
-            StickersList? data = JsonSerializer.Deserialize<StickersList>(fs);
-            if (data != null)
-                return data;
+
+        using FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate);
+        StickersList? data = JsonSerializer.Deserialize<StickersList?>(fs);
+        if (data != null)
+            return data;
             
-            StickersList list = new StickersList();
-            list.Stickers = new List<Models.Sticker>();
-            return list;
-        }
+        StickersList list = new StickersList
+        {
+            Stickers = new List<Models.Sticker>()
+        };
+        return list;
     }
 
     private static void updateAllStickerData(StickersList data)
@@ -125,31 +130,20 @@ public class Sticker: ColorSticky
     private static Models.Sticker getDataSticker(string nameSticker)
     {
         string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-        using (FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate))
-        {
-            StickersList? data = JsonSerializer.Deserialize<StickersList>(fs);
-
-            foreach (var sticker in data.Stickers)
-            {
-                if (sticker.Name == nameSticker)
-                {
-                    return sticker;
-                }
-            }
-        }
-
-        return null!;
+        using FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate);
+        StickersList? data = JsonSerializer.Deserialize<StickersList>(fs);
+        
+        if (data is { Stickers: not null })
+            return data.Stickers.FirstOrDefault(sticker => sticker.Name == nameSticker)!;
+        throw new NullReferenceException("данный стикер не найден");
     }
 
     public static void updateStickerData(string nameSticker, StickyData stickyData)
     {
         StickersList stickersList = getAllDataSticker();
-        foreach (var sticker in stickersList.Stickers)
+        foreach (var sticker in stickersList.Stickers!.Where(sticker => sticker.Name == nameSticker))
         {
-            if (sticker.Name == nameSticker)
-            {
-                sticker.StickyData = stickyData;
-            }
+            sticker.StickyData = stickyData;
         }
         
         updateAllStickerData(stickersList);
@@ -158,12 +152,9 @@ public class Sticker: ColorSticky
     public static void updateStateStickerFavorite(string nameSticker)
     {
         StickersList stickersList = getAllDataSticker();
-        foreach (var sticker in stickersList.Stickers)
+        foreach (var sticker in stickersList.Stickers!.Where(sticker => sticker.Name == nameSticker))
         {
-            if (sticker.Name == nameSticker)
-            {
-                sticker.StickerFavorite = !sticker.StickerFavorite;
-            }
+            sticker.StickerFavorite = !sticker.StickerFavorite;
         }
         
         updateAllStickerData(stickersList);
@@ -172,12 +163,9 @@ public class Sticker: ColorSticky
     public static void updateStateStickerThumbtack(string nameSticker)
     {
         StickersList stickersList = getAllDataSticker();
-        foreach (var sticker in stickersList.Stickers)
+        foreach (var sticker in stickersList.Stickers!.Where(sticker => sticker.Name == nameSticker))
         {
-            if (sticker.Name == nameSticker)
-            {
-                sticker.StickerThumbtack = !sticker.StickerThumbtack;
-            }
+            sticker.StickerThumbtack = !sticker.StickerThumbtack;
         }
         
         updateAllStickerData(stickersList);
@@ -187,20 +175,18 @@ public class Sticker: ColorSticky
     {
         StickersList stickersList = getAllDataSticker();
 
-        for (int i = 0; i < stickersList.Stickers.Count; i++)
+        for (int i = 0; i < stickersList.Stickers!.Count; i++)
         {
-            if (stickersList.Stickers[i].Name == nameSticker)
+            if (stickersList.Stickers[i].Name != nameSticker) continue;
+            if (!Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{nameSticker}")))
             {
-                if (!Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{nameSticker}")))
-                {
-                    File.Delete(stickersList.Stickers[i].StickerCurrentPath);
-                    stickersList.Stickers.RemoveAt(i);
-                }
-                else
-                {
-                    MessageBox.Show("Невозможно удалить стикер т.к он открыт!", "StickyNotes", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
+                File.Delete(stickersList.Stickers[i].StickerCurrentPath);
+                stickersList.Stickers.RemoveAt(i);
+            }
+            else
+            {
+                MessageBox.Show("Невозможно удалить стикер т.к он открыт!", "StickyNotes", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
         updateAllStickerData(stickersList);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -11,8 +10,10 @@ using System.Windows.Media.Imaging;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using StickyNotes.Models;
+using StickyNotes.Scripts;
+using Sticker = StickyNotes.Scripts.Sticker;
 
-namespace StickyNotes;
+namespace StickyNotes.OtherWindowsProgram;
 
 public partial class Sticky
 {
@@ -33,7 +34,7 @@ public partial class Sticky
     // Безопасность стикера
     private bool _stateSecurity;
     private bool _lockState;
-    private string _stickyPassword;
+    private string? _stickyPassword;
 
     // Настройки анимации стикера
     private bool _stickyFocusAnimation = true;
@@ -79,27 +80,35 @@ public partial class Sticky
 
         _stateSecurity = data.Security;
         _lockState = data.Security;
-        if (data.Security)
-            _stickyPassword = Cryptography.Decrypt(data.Password!);
+        if (data is { Security: true, Password: not null })
+            _stickyPassword = Cryptography.Decrypt(data.Password);
+        if (data.Position != null) 
+            _windowsСoordinates = new Point(data.Position.posX, data.Position.posY);
 
         fontnum = data.Color;
-        _windowsСoordinates = new Point(data.Position[0], data.Position[1]);
-        _stickyWidth = data.Size[0];
-        _stickyHeight = data.Size[1];
+        _stickyWidth = data.Size.width;
+        _stickyHeight = data.Size.height;
         _opacitySticky = data.Opacity;
     }
     
-    private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
-        List<int> pos = new List<int>(2) {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
-        List<int> size = new List<int>(2) { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
-        
-        StickyData stickyData = new StickyData(security: _stateSecurity, color: fontnum, size: size,
-            opacity: _opacitySticky, position: pos, password: Cryptography.Encrypt(_stickyPassword));
-        Sticker.updateStickerData(_stickyName, stickyData);
-            
+        UpdateSticker();
         SaveToFile();
         Sticker.DeleteOpenSticky(_stickyName);
+    }
+
+    private void UpdateSticker()
+    {
+        StickyData stickyData = new StickyData(
+            security: _stateSecurity, 
+            color: fontnum, 
+            size: new StickerSize {width = Convert.ToInt32(this.Width), height = Convert.ToInt32(this.Height) },
+            opacity: _opacitySticky, 
+            position: new StickerPosition {posX = Convert.ToInt32(this._windowsСoordinates.X), posY = Convert.ToInt32(this._windowsСoordinates.Y)}, 
+            password: _stickyPassword != null? Cryptography.Encrypt(_stickyPassword): String.Empty
+        );
+        Sticker.updateStickerData(_stickyName, stickyData);
     }
     
     private void installIcon()
@@ -131,7 +140,11 @@ public partial class Sticky
             using (FileStream fs = File.Create(Sticker.getPathDataSticker(_stickyName)))
                 doc.Save(fs, DataFormats.Rtf);
         }
-        catch { }
+        catch (Exception error)
+        {
+            Console.WriteLine($"{error.Source} -- {error.Message}");
+            // ignored
+        }
     }
     
     private void LoadTextSticky()
@@ -146,12 +159,16 @@ public partial class Sticky
                     doc.Load(fs, DataFormats.Rtf);
             }
         }
-        catch (IOException ex)
+        catch (IOException)
         {
-            Console.WriteLine(ex.Message);
-            MessageBox.Show("Файл будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!", "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(
+                "Файл будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!",
+                "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-        catch {}
+        catch
+        {
+            // ignored
+        }
     }
 
     private void StartInitiation()
@@ -211,10 +228,7 @@ public partial class Sticky
         return false;
     }
 
-    private void Exit(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
+    private void Exit(object sender, RoutedEventArgs e) => Close();
 
     private void Border_MouseDows(object sender, MouseButtonEventArgs e)
     {
@@ -222,10 +236,12 @@ public partial class Sticky
         try
         {
             DragMove();
-
             this._windowsСoordinates = new Point(this.Top, this.Left);
         }
-        catch {}
+        catch
+        {
+            // ignored
+        }
     }
 
     private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -249,14 +265,13 @@ public partial class Sticky
 
     private void BorderInform_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.ClickCount != 2 || !_changeStickyState) return;
-        if (this._changeStickyState)
-            this.WindowState = WindowState.Minimized;
+        if (e.ClickCount != 2 && !_changeStickyState) return;
+        this.WindowState = WindowState.Minimized;
     }
 
     private void Strikeout()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) == TextDecorations.Strikethrough)
+        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
             MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
         else
             MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
@@ -264,7 +279,7 @@ public partial class Sticky
 
     private void Underline()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) == TextDecorations.Underline)
+        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
             MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
         else
             MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
@@ -358,7 +373,7 @@ public partial class Sticky
         {
             try
             {
-                foreach (Window window in App.Current.Windows)
+                foreach (Window window in Application.Current.Windows)
                 {
                     if (window is MainWindow)
                     {
@@ -407,12 +422,12 @@ public partial class Sticky
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift ) && e.Key == Key.Oem4)
         {
             if (_baseSizeFont > 5) _baseSizeFont -= 1;
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontSizeProperty, _baseSizeFont);
         }
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.Oem6)
         {
             if (_baseSizeFont < 30) _baseSizeFont += 1;
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, _baseSizeFont);
+            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontSizeProperty, _baseSizeFont);
         }
         
         else if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.B)
@@ -441,15 +456,12 @@ public partial class Sticky
                 this._stickyName = $"{baseStickyName}_{rnd.Next(11111, 99999)}";
                 MainStickyName.Text = this._stickyName;
                 
-                List<int> pos = new List<int>(2) {Convert.ToInt32(this._windowsСoordinates.X), Convert.ToInt32(this._windowsСoordinates.Y)};
-                List<int> size = new List<int>(2) { Convert.ToInt32(this.Width), Convert.ToInt32(this.Height) };
-
                 StickyData sticky = new StickyData(
                     security: false,
                     color: this.fontnum,
-                    size: size,
+                    size: new StickerSize {width = Convert.ToInt32(this.Width), height = Convert.ToInt32(this.Height)},
                     opacity: this._opacitySticky,
-                    position: pos
+                    position: new StickerPosition {posX = Convert.ToInt32(this._windowsСoordinates.X), posY = Convert.ToInt32(this._windowsСoordinates.Y)}
                     );
 
                 Models.Sticker stickerData = new Models.Sticker(
@@ -605,7 +617,7 @@ public partial class Sticky
                     IconBold.Foreground = new SolidColorBrush(Colors.Black);
                 if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
                     IconItalic.Foreground = new SolidColorBrush(Colors.Black);
-            
+
                 TextRange selectionRange = new TextRange(MainRichTextBox.Selection.Start, MainRichTextBox.Selection.End);
 
                 if (selectionRange.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
@@ -614,6 +626,15 @@ public partial class Sticky
                     IconStrikeout.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
+    }
+    
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        this.Closing -= MainWindow_Closing;
     }
 }

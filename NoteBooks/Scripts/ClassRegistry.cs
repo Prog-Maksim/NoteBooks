@@ -2,46 +2,44 @@
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
-using System.Windows;
 using Microsoft.Win32;
 
-namespace StickyNotes;
+namespace StickyNotes.Scripts;
 
 public class ClassRegistry
 {
     public ClassRegistry()
     {
         if (!checkProgramIsAdministrator())
-        {
             IsAdministrator();
-        }
     }
     
-    public static bool checkProgramIsAdministrator()
+    private static bool checkProgramIsAdministrator()
     {
         WindowsIdentity id = WindowsIdentity.GetCurrent();
         WindowsPrincipal principal = new WindowsPrincipal(id);
         return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
     
-    public static void IsAdministrator()
+    private static void IsAdministrator()
     {
-        ProcessStartInfo proc = new ProcessStartInfo();
-        proc.UseShellExecute = true;
-        proc.WorkingDirectory = Environment.CurrentDirectory;
-        proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
+        ProcessStartInfo proc = new ProcessStartInfo
+        {
+            UseShellExecute = true,
+            WorkingDirectory = Environment.CurrentDirectory
+        };
+
+        var processModule = Process.GetCurrentProcess().MainModule;
+        if (processModule != null && processModule.FileName != null)
+            proc.FileName = Path.GetFullPath(processModule.FileName);
+
         proc.Verb = "runas";
         Process.Start(proc);
     }
     
     public static void IsAdministrator(MainWindow app)
     {
-        ProcessStartInfo proc = new ProcessStartInfo();
-        proc.UseShellExecute = true;
-        proc.WorkingDirectory = Environment.CurrentDirectory;
-        proc.FileName = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
-        proc.Verb = "runas";
-        Process.Start(proc);
+        IsAdministrator();
         app.Close();
     }
     
@@ -49,20 +47,11 @@ public class ClassRegistry
     {
         using (RegistryKey currentUserKey = Registry.CurrentUser)
         {
-            RegistryKey mainKey = currentUserKey.OpenSubKey("StickyNotes", false);
+            RegistryKey? mainKey = currentUserKey.OpenSubKey("StickyNotes", false);
             
             if (mainKey?.GetValue("FolderPath") != null)
                 return true;
             return false;
-        }
-    }
-
-    public static string getDataForRegistry()
-    {
-        using (RegistryKey currentUserKey = Registry.CurrentUser)
-        {
-            RegistryKey mainKey = currentUserKey.OpenSubKey("StickyNotes", false);
-            return mainKey.GetValue("FolderPath").ToString();
         }
     }
     
@@ -104,12 +93,6 @@ public class ClassRegistry
         }
     }
 
-    public static void DeleteFolderData()
-    {
-        if (Directory.Exists(mainBasePath))
-            Directory.Delete(mainBasePath);
-    }
-
     public void createPathFolderIsRegistry()
     {
         using (RegistryKey currentUserKey = Registry.CurrentUser)
@@ -119,46 +102,38 @@ public class ClassRegistry
             mainKey.Close();
         }
     }
+    
+    public static void DeleteFolderData()
+    {
+        if (Directory.Exists(mainBasePath))
+            Directory.Delete(mainBasePath);
+    }
 
     public void deletePathFolderIsRegistry()
     {
         using (RegistryKey currentUserKey = Registry.CurrentUser)
         {
-            RegistryKey mainKey = currentUserKey.OpenSubKey("StickyNotes", true);
-            mainKey.DeleteValue("FolderPath");
+            RegistryKey? mainKey = currentUserKey.OpenSubKey("StickyNotes", true);
+            mainKey!.DeleteValue("FolderPath");
             mainKey.Close();
             currentUserKey.DeleteSubKey("StickyNotes");
         }
-    }
-
-    public static void AddToContextMenu()
-    {
-        string extension = ".rtf";
-        RegistryKey key = Registry.ClassesRoot.OpenSubKey(extension, true);
-        if (key == null)
-        {
-            key = Registry.ClassesRoot.CreateSubKey(extension);
-        }
-
-        // Создаем подключение к ключу реестра для добавления команды в контекстное меню
-        RegistryKey shellKey = key.CreateSubKey("shell\\sticky");
-        shellKey.SetValue("", "sticky");
-        
-        RegistryKey commandKey = shellKey.CreateSubKey("command");
-        commandKey.SetValue("", "\"D:\\важные файлы\\Program C#\\GraphicsApplication\\NoteBooks\\NoteBooks\\bin\\Debug\\net6.0-windows\\NoteBooks.exe %1\"");
-        MessageBox.Show("Программа успешно добавлена в реестр");
-        key.Close();
     }
     
     public static themeNameStyle getCurrentThemeStyle()
     {
         try
         {
-            var themeId = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", "1");
+            var themeId =
+                Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+                    "AppsUseLightTheme", "1");
             if (themeId != null && themeId.ToString() == "0")
                 return themeNameStyle.dark;
         }
-        catch { }
+        catch
+        {
+            // ignore
+        }
 
         return themeNameStyle.light;
     }

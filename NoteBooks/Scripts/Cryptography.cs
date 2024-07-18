@@ -1,28 +1,21 @@
 ﻿using System.Text;
 
-namespace StickyNotes;
+namespace StickyNotes.Scripts;
 
 public class Cryptography
 {
-    private const int Key = 3;
+    private const int Key = 321847689;
 
     public static string Encrypt(string input)
     {
-        try
-        {
-            StringBuilder encrypted = new StringBuilder();
+        StringBuilder encrypted = new StringBuilder();
 
-            foreach (char c in input)
-            {
-                encrypted.Append((char)(c + Key));
-            }
-
-            return encrypted.ToString();
-        }
-        catch
+        foreach (char c in input)
         {
-            return null;
+            encrypted.Append((char)(c + Key));
         }
+
+        return encrypted.ToString();
     }
 
     public static string Decrypt(string input)

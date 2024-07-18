@@ -4,6 +4,9 @@ using System.IO;
 using System.Windows;
 using StickyNotes.FrameMainWindows.StartUpMenu;
 using StickyNotes.Models;
+using StickyNotes.OtherWindowsProgram;
+using StickyNotes.Scripts;
+using Sticker = StickyNotes.Scripts.Sticker;
 
 
 namespace StickyNotes
@@ -57,8 +60,10 @@ namespace StickyNotes
                 Application.Current.Shutdown();
             try
             {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.WindowState = state;
+                MainWindow mainWindow = new MainWindow
+                {
+                    WindowState = state
+                };
                 mainWindow.Show();
             }
             catch (InvalidOperationException) { }
@@ -77,7 +82,7 @@ namespace StickyNotes
 
             try
             {
-                foreach (var sticker in stickersList.Stickers)
+                foreach (var sticker in stickersList.Stickers!)
                 {
                     if (sticker.StickerThumbtack && !Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{sticker.Name}")))
                     {
@@ -86,7 +91,10 @@ namespace StickyNotes
                     }
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
             return openSticker;
         }

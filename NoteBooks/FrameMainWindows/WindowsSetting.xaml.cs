@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
+using StickyNotes.Scripts;
 
 namespace StickyNotes.FrameMainWindows;
 

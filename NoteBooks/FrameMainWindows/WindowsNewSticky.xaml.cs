@@ -7,6 +7,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 using StickyNotes.Models;
+using StickyNotes.OtherWindowsProgram;
+using StickyNotes.Scripts;
+using Sticker = StickyNotes.Scripts.Sticker;
 
 namespace StickyNotes.FrameMainWindows;
 
@@ -47,18 +50,17 @@ public partial class WindowsNewSticky : Page
             MessageBox.Show("Стикера с данным именем уже существует", "StickyNotes", MessageBoxButton.OK);
             return;
         }
-
-        List<int> size = new List<int>(2) { stickySize, stickySize + 35 };
-        List<int> pos = new List<int>(2) { 250, 250 };
-        string password = (PasswordBox.Text != "") ? Cryptography.Encrypt(PasswordBox.Text): Cryptography.Encrypt("None");
+        
+        string password = (PasswordBox.Text != "") ? Cryptography.Encrypt(PasswordBox.Text): String.Empty;
 
         StickyData sticky = new StickyData(
-            security: PasswordBox.Text.Length > 0 ? true : false,
+            security: PasswordBox.Text.Length > 0,
             color: stickyColor,
-            size: size,
+            size: new StickerSize{width = stickySize, height = stickySize + 35},
             opacity: stickyOpacity,
             password: password,
-            position: pos);
+            position: new StickerPosition{posX = 250, posY = 250}
+            );
 
         Models.Sticker stickerData = new Models.Sticker(
             name: TextBox_NameSticky.Text,
