@@ -13,6 +13,16 @@
         Icon="Resource/ImageTaskBar/apps.png"
         Width="1080"
         Height="720">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"
+            CornerRadius ="10"
+            ResizeBorderThickness="8"
+            GlassFrameThickness="8">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    
     <Border
         CornerRadius="10"
         Style="{StaticResource MainWindowsStyle}"
@@ -110,25 +120,6 @@
                                         Style="{StaticResource menuButtonIcon}">
                                     </Icon:PackIconBootstrapIcons>
                                     <TextBlock Text="Создать" FontWeight="SemiBold"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-
-                        <StackPanel
-                            Visibility="Hidden"
-                            DockPanel.Dock="Top">
-                            <Button
-                                x:Name="InformSticky"
-                                Cursor="Hand"
-                                Style="{StaticResource menuButton}"
-                                MouseEnter="UIElement_OnMouseEnter"
-                                MouseLeave="UIElement_OnMouseLeave">
-                                <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial
-                                        Kind="Newspaper"
-                                        Style="{StaticResource menuButtonIcon}">
-                                    </Icon:PackIconMaterial>
-                                    <TextBlock Text="Информация"></TextBlock>
                                 </StackPanel>
                             </Button>
                         </StackPanel>

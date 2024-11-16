@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
-      Width="870"
-      Height="650"
+      d:DesignWidth="870"
+      d:DesignHeight="650"
       Title="WindowsSetting">
     <Grid>
         <Grid.RowDefinitions>
@@ -307,10 +307,10 @@
                     Foreground="Gray"
                     FontSize="15"
                     VerticalAlignment="Bottom"
-                    Margin="10 0 0 5">
-                    <Run >*Все изменения применяются моментально</Run>
+                    Margin="10 10 0 5">
+                    <Run >*Чтобы цветовая тема: как в системе заработала, перезапустите приложение.</Run>
                     <LineBreak/>
-                    <Run>*Для применения анимации нужно перезапустить стикер</Run>
+                    <Run>*Для применения анимации, перезапустите стикер(ы)</Run>
                 </TextBlock>
             </Grid>
         </ScrollViewer>
