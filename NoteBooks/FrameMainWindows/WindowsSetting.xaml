@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
-      Width="870"
-      Height="650"
+      d:DesignWidth="870"
+      d:DesignHeight="650"
       Title="WindowsSetting">
     <Grid>
         <Grid.RowDefinitions>
@@ -232,6 +232,7 @@
                                 Margin="10 0 0 5">
                                 <Run>Длительности анимации верхнего меню:</Run>
                                 <Run Text="{Binding ElementName=Slider1, Path=Value}"></Run>
+                                <Run Foreground="Gray"> сек</Run>
                             </TextBlock>
 
                             <StackPanel Orientation="Horizontal">
@@ -269,6 +270,7 @@
                                 Margin="10 0 0 5">
                                 <Run>Длительности анимации нижнего меню:</Run>
                                 <Run Text="{Binding ElementName=Slider2, Path=Value}"></Run>
+                                <Run Foreground="Gray"> сек</Run>
                             </TextBlock>
 
                             <StackPanel Orientation="Horizontal">
@@ -305,8 +307,10 @@
                     Foreground="Gray"
                     FontSize="15"
                     VerticalAlignment="Bottom"
-                    Margin="10 0 0 5">
-                    *Все изменения применяются моментально
+                    Margin="10 10 0 5">
+                    <Run >*Чтобы цветовая тема: как в системе заработала, перезапустите приложение.</Run>
+                    <LineBreak/>
+                    <Run>*Для применения анимации, перезапустите стикер(ы)</Run>
                 </TextBlock>
             </Grid>
         </ScrollViewer>

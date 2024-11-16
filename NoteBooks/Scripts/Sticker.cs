@@ -113,8 +113,15 @@ public class Sticker: ColorSticky
 
     public static void DeleteOpenSticky(string stickyName)
     {
-        string path = Path.Combine(ClassRegistry.PathOpenStickers, $"~{stickyName}");
-        Directory.Delete(path);
+        try
+        {
+            string path = Path.Combine(ClassRegistry.PathOpenStickers, $"~{stickyName}");
+            Directory.Delete(path);
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
     }
 
     public static string getPathDataSticker(string nameSticker)

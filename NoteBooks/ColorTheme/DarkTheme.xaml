@@ -20,4 +20,6 @@
     <SolidColorBrush x:Key="MainButtonMenu" Color="#3d3d3d"/>
     
     <SolidColorBrush x:Key="ColorSeparate" Color="#2C2C2C"/>
+    
+    <SolidColorBrush x:Key="Expander.Arrow" Color="White"/>
 </ResourceDictionary>

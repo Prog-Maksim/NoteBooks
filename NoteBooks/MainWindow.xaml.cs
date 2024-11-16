@@ -75,31 +75,42 @@ namespace StickyNotes
         public void OpenMainMenu(object sender)
         {
             createAnimationOrPressed(sender);
-            OpenMainMenu();
+            MainFrame.Content = new FrameMainWindows.WindowsMainMenu(this);
         }
+        public void OpenMainMenu()
+        {
+            var button = this.FindName("OpenMainMenu") as Button;
+            OpenMainMenu(button);
+            MainFrame.Content = new FrameMainWindows.WindowsMainMenu(this);
+        }
+        
+        
         public void OpenCreateMenu(object sender)
         {
             createAnimationOrPressed(sender);
-            OpenCreateMenu();
+            MainFrame.Content = new FrameMainWindows.WindowsNewSticky(this);
         }
-        public void OpenInformMenu(object sender)
+        public void OpenCreateMenu()
         {
-            createAnimationOrPressed(sender);
-            OpenInformMenu();
+            var button = this.FindName("CreateMenu") as Button;
+            OpenMainMenu(button);
+            MainFrame.Content = new FrameMainWindows.WindowsNewSticky(this);
         }
+        
+        
         public void OpenSettingsMenu(object sender)
         {
             createAnimationOrPressed(sender);
-            OpenSettingsMenu();
+            MainFrame.Content = new FrameMainWindows.WindowsSetting(this);
         }
+        public void OpenSettingsMenu()
+        {
+            var button = this.FindName("SettingsMenu") as Button;
+            OpenMainMenu(button);
+            MainFrame.Content = new FrameMainWindows.WindowsSetting(this);
+        }
+
         
-        public void OpenMainMenu() => MainFrame.Content = new FrameMainWindows.WindowsMainMenu(this);
-        public void OpenCreateMenu() => MainFrame.Content = new FrameMainWindows.WindowsNewSticky(this);
-
-        public void OpenInformMenu() {}
-
-        public void OpenSettingsMenu() => MainFrame.Content = new FrameMainWindows.WindowsSetting(this);
-
         private void createAnimationOrPressed(object sender)
         {
             Button btn = (Button)sender;
@@ -122,13 +133,15 @@ namespace StickyNotes
         }
 
         private readonly List<Button> _currButton = new List<Button>(1);
+        
+        
         private void HomeButtonBown(object sender, RoutedEventArgs e) => OpenMainMenu(sender);
         
         private void CreateButtonBown(object sender, RoutedEventArgs e) => OpenCreateMenu(sender);
         
-        private void InformButtonBown(object sender, RoutedEventArgs e) => OpenInformMenu(sender);
-        
         private void SettingsButtonBown(object sender, RoutedEventArgs e) => OpenSettingsMenu(sender);
+        
+        
         
         private void WindowsSize_OnClick(object sender, RoutedEventArgs e)
         {

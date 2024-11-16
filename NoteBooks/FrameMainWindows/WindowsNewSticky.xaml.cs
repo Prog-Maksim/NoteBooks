@@ -44,7 +44,7 @@ public partial class WindowsNewSticky : Page
             MessageBox.Show("Имя стикера не должно быть пустым", "StickyNotes", MessageBoxButton.OK);
             return;
         }
-
+        
         if (Sticker.getResultDublicateStickerName(TextBox_NameSticky.Text))
         {
             MessageBox.Show("Стикера с данным именем уже существует", "StickyNotes", MessageBoxButton.OK);
@@ -52,7 +52,7 @@ public partial class WindowsNewSticky : Page
         }
         
         string password = (PasswordBox.Text != "") ? Cryptography.Encrypt(PasswordBox.Text): String.Empty;
-
+        
         StickyData sticky = new StickyData(
             security: PasswordBox.Text.Length > 0,
             color: stickyColor,
@@ -61,7 +61,7 @@ public partial class WindowsNewSticky : Page
             password: password,
             position: new StickerPosition{posX = 250, posY = 250}
             );
-
+        
         Models.Sticker stickerData = new Models.Sticker(
             name: TextBox_NameSticky.Text,
             color: (int)stickyColor,
@@ -71,7 +71,8 @@ public partial class WindowsNewSticky : Page
             stickerFavorite: false,
             stickerCurrentPath: Path.Combine(ClassRegistry.PathStickyFolder, $"{TextBox_NameSticky.Text}.rtf"),
             stickyData: sticky);
-
+        
+        
         // Цвет: RandomColorStickyName()
         // Имя: TextBox_NameSticky.Text
         // Дата: date
@@ -82,7 +83,8 @@ public partial class WindowsNewSticky : Page
         // Статус закрепления стикера: Convert.ToInt32(stickyThumbtack)
         // Прозрачность: stickyOpacity
         // Избранный стикер: 0
-
+        
+       
         Sticker.createNewSticker(stickerData);
         
         var sticker = new Sticky(TextBox_NameSticky.Text);

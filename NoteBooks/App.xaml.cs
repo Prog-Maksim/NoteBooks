@@ -101,6 +101,7 @@ namespace StickyNotes
 
         private void openStickers(string name)
         {
+            Console.WriteLine(name);
             var sticky = new Sticky(name);
             sticky.Show();
         }
@@ -110,7 +111,8 @@ namespace StickyNotes
             try
             {
                 string name = new FileInfo(nameSticker).Name.Replace(".rtf", "");
-                    
+
+                Console.WriteLine(name);
                 if (!File.Exists(nameSticker) && !Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}")))
                     Application.Current.Shutdown();
                     

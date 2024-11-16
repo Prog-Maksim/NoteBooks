@@ -6,334 +6,530 @@
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d"
       Title="WindowsNewSticky">
-    <Grid>
+    <Grid Margin="30 0 0 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="65"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>  
-        
-        <Button
-            Grid.Row="0"
-            x:Name="SettingsMenuButton"
-            Click="SettingsMenuButton_OnClick"
-            Style="{StaticResource settingsButton}">
-            <Icon:PackIconMaterial Kind="Cog">
-            </Icon:PackIconMaterial>
-        </Button>
-        
+        </Grid.RowDefinitions>
+
+
         <!-- Page Title -->
         <TextBlock
             Text="Создать стикер"
             Grid.Row="1"
             FontSize="32"
             FontWeight="SemiBold"
-            Margin="20 30 0 0"
             HorizontalAlignment="Left"
             Foreground="{DynamicResource BaseTextColor}">
         </TextBlock>
-        
-        <Grid Grid.Row="2">
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="400"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            
-            <!-- Main settings new sticky -->
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                
-                <TextBox
-                    x:Name="TextBox_NameSticky"
-                    Grid.Row="0"
-                    Width="350"
-                    HorizontalAlignment="Left"
-                    Margin="20 0 0 0 "
-                    Style="{StaticResource TextBoxStyle}"
-                    Tag="Имя стикера ">
-                </TextBox>
-                
-                <TextBlock
-                    Grid.Row="1"
-                    Text="Размеры стикера"
-                    Foreground="{DynamicResource BaseTextColor}"
-                    FontSize="15"
-                    Margin="20 0 0 0">
-                </TextBlock>
-                
-                <ComboBox
-                    x:Name="ComboBox_Size"
-                    Grid.Row="1"
-                    Cursor="Hand"
-                    Style="{StaticResource ComboBoxStyle1}"
-                    SelectionChanged="ComboBox_Size_OnSelectionChanged"
-                    HorizontalAlignment="Left"
-                    Margin="20 10 0 0">
-                    <ComboBoxItem Content="250x250"/>
-                    <ComboBoxItem Content="300x300" IsSelected="True"/>
-                    <ComboBoxItem Content="350x350"/>
-                    <ComboBoxItem Content="400x400"/>
-                    <ComboBoxItem Content="450x450"/>
-                    <ComboBoxItem Content="500x500"/>
-                    <ComboBoxItem Content="550x550"/>
-                    <ComboBoxItem Content="600x600"/>
-                    <ComboBoxItem Content="650x650"/>
-                    <ComboBoxItem Content="700x700"/>
-                    <ComboBoxItem Content="750x750"/>
-                </ComboBox>
-                
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="Цвет стикера"
-                        Foreground="{DynamicResource BaseTextColor}"
-                        FontSize="15"
-                        Margin="20 0 0 0">
-                    </TextBlock>
-                    
-                    <StackPanel
-                        Grid.Row="1"
-                        Orientation="Horizontal">
-                        <Border
-                            x:Name="Purple"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#D7AFFF"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="20 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Pink"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#FFAFDF"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Green"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#A1EF9B"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Blue"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#9EDFFF"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Yellow"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#FFE66E"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Black"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#767676"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                        
-                        <Border
-                            x:Name="Gray"
-                            Width="40"
-                            Height="40"
-                            Cursor="Hand"
-                            CornerRadius="360"
-                            Background="#E0E0E0"
-                            MouseDown="UIElement_OnMouseDown"
-                            Margin="5 0 0 0">
-                        </Border>
-                </StackPanel>
-                </Grid>
-                
-                <TextBlock
-                    Grid.Row="3"
-                    Text="Прозрачность стикера"
-                    Foreground="{DynamicResource BaseTextColor}"
-                    FontSize="15"
-                    Margin="20 5 0 0">
-                </TextBlock>
-                
-                <ComboBox
-                    x:Name="ComboBox_Opacity"
-                    Grid.Row="3"
-                    
-                    Cursor="Hand"
-                    Style="{StaticResource ComboBoxStyle1}"
-                    SelectionChanged="ComboBox_Opacity_OnSelectionChanged"
-                    VerticalContentAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Margin="20 20 0 0">
-                    <ComboBoxItem Content="100%" IsSelected="True"/>
-                    <ComboBoxItem Content="90%"/>
-                    <ComboBoxItem Content="80%"/>
-                    <ComboBoxItem Content="70%"/>
-                    <ComboBoxItem Content="60%"/>
-                    <ComboBoxItem Content="50%"/>
-                    <ComboBoxItem Content="40%"/>
-                    <ComboBoxItem Content="30%"/>
-                    <ComboBoxItem Content="20%"/>
-                    <ComboBoxItem Content="10%"/>
-                </ComboBox>
-                
-                <StackPanel
-                    Grid.Row="4"
-                    Margin="20 15 0 0"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        x:Name="Thumbtack"
-                        Foreground="White"
-                        Width="52"
-                        Cursor="Hand"
+
+        <ScrollViewer
+            Grid.Row="2"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled"
+            Margin="0 20 0 0">
+            <WrapPanel Orientation="Horizontal">
+                <!-- Первый столбец -->
+                <StackPanel Margin="0 0 100 20">
+
+                    <TextBox
+                        x:Name="TextBox_NameSticky"
+                        Width="350"
                         HorizontalAlignment="Left"
-                        IsChecked="False"
-                        Checked="Thumbtack_OnChecked"
-                        Unchecked="Thumbtack_OnUnchecked"
-                        Style="{StaticResource toggleButton}"
-                        Margin="0 0 0 30">
-                    </CheckBox>
-                    <TextBlock 
-                        Foreground="{DynamicResource BaseTextColor}" 
-                        FontSize="15"
-                        Text="Закрепить стикер"
-                        VerticalAlignment="Center" 
-                        Margin="5 0 0 30">
+                        Margin="0 0 0 0"
+                        Style="{StaticResource TextBoxStyle}"
+                        Tag="Имя стикера ">
+                    </TextBox>
+
+                    <StackPanel Margin="0 20 0 0">
+                        <TextBlock
+                            Text="Размеры стикера"
+                            Foreground="{DynamicResource BaseTextColor}"
+                            FontSize="15">
+                        </TextBlock>
+
+                        <ComboBox
+                            x:Name="ComboBox_Size"
+                            Cursor="Hand"
+                            Style="{StaticResource ComboBoxStyle1}"
+                            SelectionChanged="ComboBox_Size_OnSelectionChanged"
+                            HorizontalAlignment="Left"
+                            Margin="0 10 0 0">
+                            <ComboBoxItem Content="250x250" />
+                            <ComboBoxItem Content="300x300" IsSelected="True" />
+                            <ComboBoxItem Content="350x350" />
+                            <ComboBoxItem Content="400x400" />
+                            <ComboBoxItem Content="450x450" />
+                            <ComboBoxItem Content="500x500" />
+                            <ComboBoxItem Content="550x550" />
+                            <ComboBoxItem Content="600x600" />
+                            <ComboBoxItem Content="650x650" />
+                            <ComboBoxItem Content="700x700" />
+                            <ComboBoxItem Content="750x750" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 20 0 0">
+
+                        <TextBlock
+                            Text="Цвет стикера"
+                            Foreground="{DynamicResource BaseTextColor}"
+                            FontSize="15"
+                            Margin="0 0 0 0">
+                        </TextBlock>
+
+                        <StackPanel
+                            Margin="0 10 0 0"
+                            Orientation="Horizontal">
+                            <Border
+                                x:Name="Purple"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#D7AFFF"
+                                MouseDown="UIElement_OnMouseDown">
+                            </Border>
+
+                            <Border
+                                x:Name="Pink"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#FFAFDF"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+
+                            <Border
+                                x:Name="Green"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#A1EF9B"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+
+                            <Border
+                                x:Name="Blue"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#9EDFFF"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+
+                            <Border
+                                x:Name="Yellow"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#FFE66E"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+
+                            <Border
+                                x:Name="Black"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#767676"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+
+                            <Border
+                                x:Name="Gray"
+                                Width="40"
+                                Height="40"
+                                Cursor="Hand"
+                                CornerRadius="360"
+                                Background="#E0E0E0"
+                                MouseDown="UIElement_OnMouseDown"
+                                Margin="5 0 0 0">
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 20 0 0">
+                        <TextBlock
+                            Text="Прозрачность стикера"
+                            Foreground="{DynamicResource BaseTextColor}"
+                            FontSize="15">
+                        </TextBlock>
+
+                        <ComboBox
+                            x:Name="ComboBox_Opacity"
+                            Cursor="Hand"
+                            Style="{StaticResource ComboBoxStyle1}"
+                            SelectionChanged="ComboBox_Opacity_OnSelectionChanged"
+                            VerticalContentAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="0 10 0 0">
+                            <ComboBoxItem Content="100%" IsSelected="True" />
+                            <ComboBoxItem Content="90%" />
+                            <ComboBoxItem Content="80%" />
+                            <ComboBoxItem Content="70%" />
+                            <ComboBoxItem Content="60%" />
+                            <ComboBoxItem Content="50%" />
+                            <ComboBoxItem Content="40%" />
+                            <ComboBoxItem Content="30%" />
+                            <ComboBoxItem Content="20%" />
+                            <ComboBoxItem Content="10%" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel
+                        Margin="0 20 0 0"
+                        Orientation="Horizontal">
+                        <CheckBox
+                            x:Name="Thumbtack"
+                            Foreground="White"
+                            Width="52"
+                            Cursor="Hand"
+                            HorizontalAlignment="Left"
+                            IsChecked="False"
+                            Checked="Thumbtack_OnChecked"
+                            Unchecked="Thumbtack_OnUnchecked"
+                            Style="{StaticResource toggleButton}">
+                        </CheckBox>
+
+                        <TextBlock
+                            Foreground="{DynamicResource BaseTextColor}"
+                            FontSize="15"
+                            Text="Закрепить стикер"
+                            VerticalAlignment="Center"
+                            Margin="5 0 0 0">
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBox
+                        Width="350"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="0 20 0 0 "
+                        x:Name="PasswordBox"
+                        Style="{StaticResource TextBoxStyle}"
+                        Tag="Пароль стикера (необязательно)">
+                    </TextBox>
+
+                    <TextBlock
+                        FontFamily="Calibri"
+                        FontWeight="Bold"
+                        Foreground="Gray"
+                        FontSize="13"
+                        VerticalAlignment="Bottom"
+                        Text="*В будущем пароль нельзя будет изменить или удалить"
+                        Margin="0 10 0 0">
                     </TextBlock>
                 </StackPanel>
-                
-                <TextBox
-                    Grid.Row="5"
-                    Width="350"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Margin="20 0 0 0 "
-                    x:Name="PasswordBox"
-                    Style="{StaticResource TextBoxStyle}"
-                    Tag="Пароль стикера (необязательно)">
-                </TextBox>
-                
-                <TextBlock
-                    Grid.Row="5"
-                    FontFamily="Calibri"
-                    FontWeight="Bold"
-                    Foreground="Gray"
-                    FontSize="13"
-                    Text="*В будущем пароль нельзя будет изменить или удалить"
-                    Margin="25 38 0 0">
-                </TextBlock>
-            </Grid>
-            
-            <!-- Menu preview sticky -->
-            <Grid
-                Grid.Column="1">
-                
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="100"></RowDefinition>
-                </Grid.RowDefinitions>
-                
-                <!-- Preview Sticky -->
-                
-                <Border
-                    Grid.Row="0"
-                    x:Name="MainFrame"
-                    Background="#F2E6FF"
-                    Width="300"
-                    Height="335"
-                    CornerRadius="15">
-                   <Border
-                       x:Name="HeaderMenu"
-                       Background="#E7CFFF"
-                       Width="300"
-                       Height="35"
-                       CornerRadius="15 15 0 0"
-                       VerticalAlignment="Top">
-                       <Grid>
-                           <Grid.ColumnDefinitions>
-                               <ColumnDefinition Width="*"></ColumnDefinition>
-                               <ColumnDefinition Width="Auto"></ColumnDefinition>
-                           </Grid.ColumnDefinitions>
-                           
-                           <TextBlock
-                               Grid.Column="0"
-                               Text="{Binding ElementName=TextBox_NameSticky,Path=Text}"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               Foreground="Gray"
-                               VerticalAlignment="Center"
-                               Margin="15 0 0 0">
-                           </TextBlock>
-                           
-                           <Icon:PackIconMaterial
-                               Grid.Column="1"
-                               Kind="WindowClose"
-                               Foreground="Gray"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="10 0 15 0">
-                           </Icon:PackIconMaterial>
-                           
-                       </Grid>
-                   </Border>
-                </Border>
-                
-                <!-- Button create sticky -->
-                <Button
-                    Grid.Row="1"
-                    Height="50"
-                    Width="250"
-                    Content="Создать"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    FontSize="20"
-                    Margin="0"
-                    Click="CreateSticky_OnClick"
-                    Style="{StaticResource addButton}">
-                </Button>
-                
-            </Grid>
-            
-        </Grid>
+
+                <!-- Второй столбец -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Preview Sticky -->
+                    <Border
+                        Grid.Row="0"
+                        x:Name="MainFrame"
+                        Background="#F2E6FF"
+                        Width="300"
+                        Height="335"
+                        CornerRadius="15">
+                        <Border
+                            x:Name="HeaderMenu"
+                            Background="#E7CFFF"
+                            Width="300"
+                            Height="35"
+                            CornerRadius="15 15 0 0"
+                            VerticalAlignment="Top">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Text="{Binding ElementName=TextBox_NameSticky,Path=Text}"
+                                    FontSize="15"
+                                    FontWeight="SemiBold"
+                                    Foreground="Gray"
+                                    VerticalAlignment="Center"
+                                    Margin="15 0 0 0">
+                                </TextBlock>
+
+                                <Icon:PackIconMaterial
+                                    Grid.Column="1"
+                                    Kind="WindowClose"
+                                    Foreground="Gray"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="10 0 15 0">
+                                </Icon:PackIconMaterial>
+                            </Grid>
+                        </Border>
+                    </Border>
+
+                    <!-- Button create sticky -->
+                    <Button
+                        Grid.Row="1"
+                        Height="50"
+                        Width="250"
+                        Content="Создать"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        Margin="0"
+                        Click="CreateSticky_OnClick"
+                        Style="{StaticResource addButton}">
+                    </Button>
+                </Grid>
+            </WrapPanel>
+        </ScrollViewer>
+
+
+        <!-- <Grid Grid.Row="2"> -->
+        <!-- -->
+        <!--     <Grid.ColumnDefinitions> -->
+        <!--         <ColumnDefinition></ColumnDefinition> -->
+        <!--         <ColumnDefinition Width="400"></ColumnDefinition> -->
+        <!--     </Grid.ColumnDefinitions> -->
+        <!-- -->
+        <!--     ~1~ Main settings new sticky @1@ -->
+        <!--     <Grid Grid.Column="0"> -->
+        <!--         <Grid.RowDefinitions> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--             <RowDefinition></RowDefinition> -->
+        <!--         </Grid.RowDefinitions> -->
+        <!-- -->
+        <!--         <TextBox -->
+        <!--             x:Name="TextBox_NameSticky" -->
+        <!--             Grid.Row="0" -->
+        <!--             Width="350" -->
+        <!--             HorizontalAlignment="Left" -->
+        <!--             Margin="20 0 0 0 " -->
+        <!--             Style="{StaticResource TextBoxStyle}" -->
+        <!--             Tag="Имя стикера "> -->
+        <!--         </TextBox> -->
+        <!-- -->
+        <!--         <TextBlock -->
+        <!--             Grid.Row="1" -->
+        <!--             Text="Размеры стикера" -->
+        <!--             Foreground="{DynamicResource BaseTextColor}" -->
+        <!--             FontSize="15" -->
+        <!--             Margin="20 0 0 0"> -->
+        <!--         </TextBlock> -->
+        <!-- -->
+        <!--         <ComboBox -->
+        <!--             x:Name="ComboBox_Size" -->
+        <!--             Grid.Row="1" -->
+        <!--             Cursor="Hand" -->
+        <!--             Style="{StaticResource ComboBoxStyle1}" -->
+        <!--             SelectionChanged="ComboBox_Size_OnSelectionChanged" -->
+        <!--             HorizontalAlignment="Left" -->
+        <!--             Margin="20 10 0 0"> -->
+        <!--             <ComboBoxItem Content="250x250" /> -->
+        <!--             <ComboBoxItem Content="300x300" IsSelected="True" /> -->
+        <!--             <ComboBoxItem Content="350x350" /> -->
+        <!--             <ComboBoxItem Content="400x400" /> -->
+        <!--             <ComboBoxItem Content="450x450" /> -->
+        <!--             <ComboBoxItem Content="500x500" /> -->
+        <!--             <ComboBoxItem Content="550x550" /> -->
+        <!--             <ComboBoxItem Content="600x600" /> -->
+        <!--             <ComboBoxItem Content="650x650" /> -->
+        <!--             <ComboBoxItem Content="700x700" /> -->
+        <!--             <ComboBoxItem Content="750x750" /> -->
+        <!--         </ComboBox> -->
+        <!-- -->
+        <!--         <Grid Grid.Row="2"> -->
+        <!--             <Grid.RowDefinitions> -->
+        <!--                 <RowDefinition></RowDefinition> -->
+        <!--                 <RowDefinition></RowDefinition> -->
+        <!--             </Grid.RowDefinitions> -->
+        <!-- -->
+        <!--             <TextBlock -->
+        <!--                 Grid.Row="0" -->
+        <!--                 Text="Цвет стикера" -->
+        <!--                 Foreground="{DynamicResource BaseTextColor}" -->
+        <!--                 FontSize="15" -->
+        <!--                 Margin="20 0 0 0"> -->
+        <!--             </TextBlock> -->
+        <!-- -->
+        <!--             <StackPanel -->
+        <!--                 Grid.Row="1" -->
+        <!--                 Orientation="Horizontal"> -->
+        <!--                 <Border -->
+        <!--                     x:Name="Purple" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#D7AFFF" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="20 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Pink" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#FFAFDF" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Green" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#A1EF9B" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Blue" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#9EDFFF" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Yellow" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#FFE66E" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Black" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#767676" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!-- -->
+        <!--                 <Border -->
+        <!--                     x:Name="Gray" -->
+        <!--                     Width="40" -->
+        <!--                     Height="40" -->
+        <!--                     Cursor="Hand" -->
+        <!--                     CornerRadius="360" -->
+        <!--                     Background="#E0E0E0" -->
+        <!--                     MouseDown="UIElement_OnMouseDown" -->
+        <!--                     Margin="5 0 0 0"> -->
+        <!--                 </Border> -->
+        <!--             </StackPanel> -->
+        <!--         </Grid> -->
+        <!-- -->
+        <!--         <TextBlock -->
+        <!--             Grid.Row="3" -->
+        <!--             Text="Прозрачность стикера" -->
+        <!--             Foreground="{DynamicResource BaseTextColor}" -->
+        <!--             FontSize="15" -->
+        <!--             Margin="20 10 0 0"> -->
+        <!--         </TextBlock> -->
+        <!-- -->
+        <!--         <ComboBox -->
+        <!--             x:Name="ComboBox_Opacity" -->
+        <!--             Grid.Row="3" -->
+        <!--             Cursor="Hand" -->
+        <!--             Style="{StaticResource ComboBoxStyle1}" -->
+        <!--             SelectionChanged="ComboBox_Opacity_OnSelectionChanged" -->
+        <!--             VerticalContentAlignment="Center" -->
+        <!--             HorizontalAlignment="Left" -->
+        <!--             Margin="20 20 0 0"> -->
+        <!--             <ComboBoxItem Content="100%" IsSelected="True" /> -->
+        <!--             <ComboBoxItem Content="90%" /> -->
+        <!--             <ComboBoxItem Content="80%" /> -->
+        <!--             <ComboBoxItem Content="70%" /> -->
+        <!--             <ComboBoxItem Content="60%" /> -->
+        <!--             <ComboBoxItem Content="50%" /> -->
+        <!--             <ComboBoxItem Content="40%" /> -->
+        <!--             <ComboBoxItem Content="30%" /> -->
+        <!--             <ComboBoxItem Content="20%" /> -->
+        <!--             <ComboBoxItem Content="10%" /> -->
+        <!--         </ComboBox> -->
+        <!-- -->
+        <!--         <StackPanel -->
+        <!--             Grid.Row="4" -->
+        <!--             Margin="20 15 0 0" -->
+        <!--             Orientation="Horizontal"> -->
+        <!--             <CheckBox -->
+        <!--                 x:Name="Thumbtack" -->
+        <!--                 Foreground="White" -->
+        <!--                 Width="52" -->
+        <!--                 Cursor="Hand" -->
+        <!--                 HorizontalAlignment="Left" -->
+        <!--                 IsChecked="False" -->
+        <!--                 Checked="Thumbtack_OnChecked" -->
+        <!--                 Unchecked="Thumbtack_OnUnchecked" -->
+        <!--                 Style="{StaticResource toggleButton}" -->
+        <!--                 Margin="0 0 0 30"> -->
+        <!--             </CheckBox> -->
+        <!--             <TextBlock -->
+        <!--                 Foreground="{DynamicResource BaseTextColor}" -->
+        <!--                 FontSize="15" -->
+        <!--                 Text="Закрепить стикер" -->
+        <!--                 VerticalAlignment="Center" -->
+        <!--                 Margin="5 0 0 030"> -->
+        <!--             </TextBlock> -->
+        <!--         </StackPanel> -->
+        <!-- -->
+        <!--         <TextBox -->
+        <!--             Grid.Row="5" -->
+        <!--             Width="350" -->
+        <!--             VerticalAlignment="Top" -->
+        <!--             HorizontalAlignment="Left" -->
+        <!--             Margin="20 0 0 0 " -->
+        <!--             x:Name="PasswordBox" -->
+        <!--             Style="{StaticResource TextBoxStyle}" -->
+        <!--             Tag="Пароль стикера (необязательно)"> -->
+        <!--         </TextBox> -->
+        <!-- -->
+        <!--         <TextBlock -->
+        <!--             Grid.Row="5" -->
+        <!--             FontFamily="Calibri" -->
+        <!--             FontWeight="Bold" -->
+        <!--             Foreground="Gray" -->
+        <!--             FontSize="13" -->
+        <!--             Text="*В будущем пароль нельзя будет изменить или удалить" -->
+        <!--             Margin="25 38 0 0"> -->
+        <!--         </TextBlock> -->
+        <!--     </Grid> -->
+        <!-- </Grid> -->
     </Grid>
 </Page>
