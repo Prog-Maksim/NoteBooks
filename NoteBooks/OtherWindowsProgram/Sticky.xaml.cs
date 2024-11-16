@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
@@ -12,6 +14,8 @@ using Microsoft.Win32;
 using StickyNotes.Models;
 using StickyNotes.Scripts;
 using Sticker = StickyNotes.Scripts.Sticker;
+using System.Windows.Controls;
+using Path = System.IO.Path;
 
 namespace StickyNotes.OtherWindowsProgram;
 
@@ -43,6 +47,8 @@ public partial class Sticky
     private double _timeSpanBottonMenu = 0.1;
 
     private string _stickyName;
+    
+    private List<SizeChangedEventHandler> imageSizeChangedHandlers = new List<SizeChangedEventHandler>();
 
     public Sticky()
     {
@@ -156,12 +162,31 @@ public partial class Sticky
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open))
                     doc.Load(fs, DataFormats.Rtf);
+                
+                foreach (var paragraph in MainRichTextBox.Document.Blocks.OfType<Paragraph>())
+                {
+                    foreach (var inline in paragraph.Inlines.OfType<InlineUIContainer>())
+                    {
+                        if (inline.Child is Image img)
+                        {
+                            img.Stretch = Stretch.Uniform;
+                            SizeChangedEventHandler handler = (s, e) =>
+                            {
+                                double newWidth = MainRichTextBox.ActualWidth - 20;
+                                img.Width = newWidth < 500 ? newWidth : 500;
+                            };
+
+                            imageSizeChangedHandlers.Add(handler);
+                            MainRichTextBox.SizeChanged += handler;
+                        }
+                    }
+                }
             }
         }
         catch (IOException)
         {
             MessageBox.Show(
-                "Файл будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!",
+                "Стикер будет открыт в лайв режиме, т.к данный стикер открыт в другой программе \n\n!Все изменения связанные с текстом не будут сохранены!",
                 "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch
@@ -383,6 +408,35 @@ public partial class Sticky
         BorderInform.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorSticky.color(fontnum)[0]));
         installIcon();
     }
+    
+    private void InsertImage(string imagePath)
+    {
+        var image = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
+        
+        Image img = new Image
+        {
+            Source = image,
+            Stretch = Stretch.Uniform
+        };
+        
+        TextPointer caretPosition = MainRichTextBox.CaretPosition;
+        InlineUIContainer container = new InlineUIContainer();
+        
+        container.Child = img;
+        caretPosition.Paragraph.Inlines.Add(container);
+        MainRichTextBox.CaretPosition = caretPosition;
+        
+        SizeChangedEventHandler handler = (s, e) =>
+        {
+            double newWidth = MainRichTextBox.ActualWidth - 20;
+            img.Width = newWidth < 500 ? newWidth : 500;
+        };
+
+        imageSizeChangedHandlers.Add(handler);
+        MainRichTextBox.SizeChanged += handler;
+    }
+
+
 
     private void RichTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
@@ -535,6 +589,19 @@ public partial class Sticky
     {
         if (_changeStickyState) Strikeout();
     }
+    
+    private void AddImage(object sender, RoutedEventArgs e)
+    {
+        OpenFileDialog dlg = new OpenFileDialog();
+        dlg.DefaultExt = ".png";
+        dlg.Filter = "JPEG Files (*.jpeg)|PNG Files (*.png)|*.jpeg|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+        Nullable<bool> result = dlg.ShowDialog();
+        if (result == true)
+        {
+            string filename = dlg.FileName;
+            InsertImage(filename);
+        }
+    }
 
     private void CheckMark_OnMouseDown(object sender, RoutedEventArgs e)
     {
@@ -664,5 +731,12 @@ public partial class Sticky
     {
         base.OnClosed(e);
         this.Closing -= MainWindow_Closing;
+
+        foreach (var item in imageSizeChangedHandlers)
+        {
+            MainRichTextBox.SizeChanged -= item;
+        }
+        
+        imageSizeChangedHandlers.Clear();
     }
 }

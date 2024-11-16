@@ -133,13 +133,13 @@
                         Width="30"
                         Click="StateBoldFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial
+                        <Icon:PackIconOcticons 
                             x:Name="IconBold"
-                            Kind="FormatBold"
+                            Kind="Bold"
                             Foreground="Gray"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                        </Icon:PackIconMaterial>
+                        </Icon:PackIconOcticons>
                     </Button>
 
 
@@ -148,13 +148,13 @@
                         Width="30"
                         Click="StateItalicFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial
+                        <Icon:PackIconOcticons  
                             x:Name="IconItalic"
-                            Kind="FormatItalic"
+                            Kind="Italic16"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
-                        </Icon:PackIconMaterial>
+                        </Icon:PackIconOcticons>
                     </Button>
 
                     <Button
@@ -162,13 +162,13 @@
                         Width="30"
                         Click="StateUnderlineFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial
+                        <Icon:PackIconPhosphorIcons 
                             x:Name="IconUnderline"
-                            Kind="FormatUnderline"
+                            Kind="TextUnderlineBold"
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
-                        </Icon:PackIconMaterial>
+                        </Icon:PackIconPhosphorIcons>
                     </Button>
 
                     <Button
@@ -176,13 +176,27 @@
                         Width="30"
                         Click="StateStrikeoutFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconMaterial
+                        <Icon:PackIconCoolicons 
                             x:Name="IconStrikeout"
-                            Kind="FormatStrikethroughVariant"
+                            Kind="Strikethrough "
                             Foreground="Gray"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
-                        </Icon:PackIconMaterial>
+                        </Icon:PackIconCoolicons>
+                    </Button>
+                    
+                    <Button
+                        Grid.Column="4"
+                        Width="30"
+                        Click="AddImage"
+                        Style="{StaticResource StickyButtonBotton}">
+                        <Icon:PackIconUnicons
+                            x:Name="IconImage"
+                            Kind="SceneryLine"
+                            Foreground="Gray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                        </Icon:PackIconUnicons>
                     </Button>
 
                     <Button
@@ -191,13 +205,13 @@
                         HorizontalAlignment="Right"
                         Style="{StaticResource StickyButtonBotton}"
                         Click="new_Sticky">
-                        <Icon:PackIconMaterial
+                        <Icon:PackIconBootstrapIcons 
                             Grid.Column="5"
                             Kind="Plus"
                             Foreground="Black"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
-                        </Icon:PackIconMaterial>
+                        </Icon:PackIconBootstrapIcons>
                     </Button>
                 </Grid>
             </Border>
