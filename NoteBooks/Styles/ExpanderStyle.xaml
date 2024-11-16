@@ -32,14 +32,13 @@
 
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Cursor" Value="Hand"></Setter>
-                            <Setter Property="Background" Value="#E5F3FF" TargetName="borderObj"></Setter>
                             <Setter Property="Stroke" TargetName="arrow"
-                                    Value="{StaticResource Expander.MouseOver.Arrow.Stroke}" />
+                                    Value="{DynamicResource Expander.Arrow}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="arrow"
-                                    Value="{StaticResource Expander.Pressed.Arrow.Stroke}" />
+                                    Value="{DynamicResource Expander.Arrow}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">

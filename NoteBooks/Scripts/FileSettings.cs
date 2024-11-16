@@ -217,7 +217,7 @@ public static class FileSettings
         StickerSetings stickerSetings = new StickerSetings(true, true, 0.5, 0.1);
         Config systemSettings = new Config(themeNameStyle.light, true, false, stickerSetings);
             
-        JsonSerializer.SerializeAsync(fs, systemSettings);
+        JsonSerializer.Serialize(fs, systemSettings);
     }
 
     private static void createFileStickersList(string file)

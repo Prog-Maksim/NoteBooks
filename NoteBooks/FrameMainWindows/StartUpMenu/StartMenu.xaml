@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:local="clr-namespace:StickyNotes.FrameMainWindows.StartUpMenu"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="StartMenu" 

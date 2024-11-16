@@ -27,47 +27,15 @@
             <!-- Left Menu -->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-
-                <!-- Menu Icon -->
-
-                <Button
-                    Grid.Row="0"
-                    Cursor="Arrow"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Margin="20 28 0 35"
-                    Style="{StaticResource topButton}">
-
-                    <Icon:PackIconMaterial Kind="Menu" Width="15" Height="15"></Icon:PackIconMaterial>
-                </Button>
+                
                 <Border
                     Grid.Row="1"
                     Background="{DynamicResource LeftMenu}"
                     CornerRadius="0, 50, 0, 10">
                     <DockPanel>
-
-                        <!-- Menu Logo -->
-                        <Border
-                            Width="80"
-                            Height="80"
-                            Padding="3"
-                            Background="{DynamicResource BacgroundColorTextBlock}"
-                            CornerRadius="100"
-                            DockPanel.Dock="Top"
-                            HorizontalAlignment="Left"
-                            Style="{DynamicResource LogoStyle}"
-                            Margin="20 -30 0 0">
-                            <Ellipse>
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="Resource/ImageTaskBar/apps.png">
-                                    </ImageBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </Border>
-
                         <!-- Menu Titles -->
                         <TextBlock
                             Text="StickyNotes"
@@ -117,11 +85,12 @@
                                 MouseEnter="UIElement_OnMouseEnter"
                                 MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial
-                                        Kind="HomeVariant"
+                                    <Icon:PackIconCoolicons 
+                                        Kind="House02" 
                                         Style="{StaticResource menuButtonIcon}">
-                                    </Icon:PackIconMaterial>
-                                    <TextBlock Text="Главное меню"></TextBlock>
+                                    </Icon:PackIconCoolicons>
+                                    
+                                    <TextBlock Text="Главная" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -136,11 +105,11 @@
                                 MouseEnter="UIElement_OnMouseEnter"
                                 MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial
-                                        Kind="FolderPlus"
+                                    <Icon:PackIconBootstrapIcons 
+                                        Kind="PatchPlus"
                                         Style="{StaticResource menuButtonIcon}">
-                                    </Icon:PackIconMaterial>
-                                    <TextBlock Text="Создать"></TextBlock>
+                                    </Icon:PackIconBootstrapIcons>
+                                    <TextBlock Text="Создать" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -152,7 +121,6 @@
                                 x:Name="InformSticky"
                                 Cursor="Hand"
                                 Style="{StaticResource menuButton}"
-                                Click="InformButtonBown"
                                 MouseEnter="UIElement_OnMouseEnter"
                                 MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
@@ -170,9 +138,10 @@
                             DockPanel.Dock="Bottom"
                             Margin="0 0 0 10">
                             <TextBlock
-                                Text="Version BETA 2.0.0"
+                                Text="VERSION 2.1.0"
                                 Foreground="LightGray"
                                 FontSize="10"
+                                FontWeight="SemiBold"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Center">
                             </TextBlock>
@@ -190,11 +159,12 @@
                                 MouseEnter="UIElement_OnMouseEnter"
                                 MouseLeave="UIElement_OnMouseLeave">
                                 <StackPanel Orientation="Horizontal">
-                                    <Icon:PackIconMaterial
-                                        Kind="Cog"
+                                    <Icon:PackIconPhosphorIcons 
+                                        Kind="Gear"
                                         Style="{StaticResource menuButtonIcon}">
-                                    </Icon:PackIconMaterial>
-                                    <TextBlock Text="Настройки"></TextBlock>
+                                    </Icon:PackIconPhosphorIcons>
+                                    
+                                    <TextBlock Text="Настройки" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -264,7 +234,6 @@
                     Margin="0 0 7 0">
                 </Frame>
             </Grid>
-
         </Grid>
     </Border>
 </Window>

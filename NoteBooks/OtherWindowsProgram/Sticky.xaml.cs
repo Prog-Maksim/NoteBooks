@@ -142,7 +142,6 @@ public partial class Sticky
         }
         catch (Exception error)
         {
-            Console.WriteLine($"{error.Source} -- {error.Message}");
             // ignored
         }
     }
@@ -271,34 +270,63 @@ public partial class Sticky
 
     private void Strikeout()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
-        else
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
+        try
+        {
+            if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
+                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
+            else
+                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
+        }
+        catch
+        {
+            
+        }
     }
 
     private void Underline()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
-        else
-            MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+        try
+        {
+            if (MainRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty)
+                .Equals(TextDecorations.Underline))
+                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
+            else
+                MainRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+        }
+        catch
+        {
+            
+        }
     }
 
     private void Bold()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
-            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
-        else
-            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+        try
+        {
+            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
+                MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            else
+                MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+        }
+        catch
+        {
+            
+        }
     }
 
     private void Italic()
     {
-        if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
-            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
-        else
-            MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
+        try
+        {
+            if (MainRichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty) is FontStyle style && style == FontStyles.Italic)
+                MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
+            else
+                MainRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
+        }
+        catch
+        {
+            
+        }
     }
 
     private void InstallColor()
@@ -387,7 +415,7 @@ public partial class Sticky
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+                MessageBox.Show(ex.Message);
             }
         }
         else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.T)

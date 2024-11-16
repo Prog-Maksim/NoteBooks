@@ -232,6 +232,7 @@
                                 Margin="10 0 0 5">
                                 <Run>Длительности анимации верхнего меню:</Run>
                                 <Run Text="{Binding ElementName=Slider1, Path=Value}"></Run>
+                                <Run Foreground="Gray"> сек</Run>
                             </TextBlock>
 
                             <StackPanel Orientation="Horizontal">
@@ -269,6 +270,7 @@
                                 Margin="10 0 0 5">
                                 <Run>Длительности анимации нижнего меню:</Run>
                                 <Run Text="{Binding ElementName=Slider2, Path=Value}"></Run>
+                                <Run Foreground="Gray"> сек</Run>
                             </TextBlock>
 
                             <StackPanel Orientation="Horizontal">
@@ -306,7 +308,9 @@
                     FontSize="15"
                     VerticalAlignment="Bottom"
                     Margin="10 0 0 5">
-                    *Все изменения применяются моментально
+                    <Run >*Все изменения применяются моментально</Run>
+                    <LineBreak/>
+                    <Run>*Для применения анимации нужно перезапустить стикер</Run>
                 </TextBlock>
             </Grid>
         </ScrollViewer>

@@ -13,14 +13,6 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>  
         
-        <Button
-            Grid.Row="0"
-            x:Name="SettingsMenuButton"
-            Click="SettingsMenuButton_OnClick"
-            Style="{StaticResource settingsButton}">
-            <Icon:PackIconMaterial Kind="Cog">
-            </Icon:PackIconMaterial>
-        </Button>
         
         <!-- Page Title -->
         <TextBlock
@@ -28,7 +20,7 @@
             Grid.Row="1"
             FontSize="32"
             FontWeight="SemiBold"
-            Margin="20 30 0 0"
+            Margin="20 65 0 0"
             HorizontalAlignment="Left"
             Foreground="{DynamicResource BaseTextColor}">
         </TextBlock>
