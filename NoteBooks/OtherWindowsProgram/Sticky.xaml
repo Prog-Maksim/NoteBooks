@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:StickyNotes.OtherWindowsProgram"
         mc:Ignorable="d"
         Title="Sticky"
         Height="335"
@@ -15,16 +16,16 @@
         Activated="Sticky_OnActivated"
         AllowsTransparency="True"
         Background="Transparent">
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome
             CaptionHeight="1"
-            CornerRadius ="10"
+            CornerRadius="10"
             ResizeBorderThickness="8"
             GlassFrameThickness="8">
         </WindowChrome>
     </WindowChrome.WindowChrome>
-    
+
     <Border
         x:Name="SomeSticky"
         BorderThickness="3"
@@ -35,9 +36,9 @@
         </Border.Background>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Border
@@ -52,9 +53,9 @@
                 MouseDown="Border_MouseDows">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <Button
@@ -109,6 +110,25 @@
                 Background="Transparent"
                 SelectionChanged="MainRichTextBox_OnSelectionChanged"
                 PreviewKeyDown="RichTextBox_OnPreviewKeyDown">
+                <RichTextBox.ContextMenu>
+                    <ContextMenu Style="{StaticResource ContextMenuStyle}">
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="Вырезать" Click="Cut_Click">
+                            <MenuItem.Icon>
+                                <Icon:PackIconMaterialDesign Kind="ContentCutRound" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="Копировать" Click="Copy_Click">
+                            <MenuItem.Icon>
+                                <Icon:PackIconFontAwesome Kind="CloneRegular" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Style="{StaticResource ContextMenuItemStyle}" Header="Вставить" Click="Paste_Click">
+                            <MenuItem.Icon>
+                                <Icon:PackIconLucide Kind="ClipboardList" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </RichTextBox.ContextMenu>
             </RichTextBox>
 
             <Border
@@ -120,12 +140,12 @@
                 CornerRadius="0 0 10 10">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Button
@@ -133,7 +153,7 @@
                         Width="30"
                         Click="StateBoldFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconOcticons 
+                        <Icon:PackIconOcticons
                             x:Name="IconBold"
                             Kind="Bold"
                             Foreground="Gray"
@@ -148,7 +168,7 @@
                         Width="30"
                         Click="StateItalicFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconOcticons  
+                        <Icon:PackIconOcticons
                             x:Name="IconItalic"
                             Kind="Italic16"
                             Foreground="Gray"
@@ -162,7 +182,7 @@
                         Width="30"
                         Click="StateUnderlineFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconPhosphorIcons 
+                        <Icon:PackIconPhosphorIcons
                             x:Name="IconUnderline"
                             Kind="TextUnderlineBold"
                             Foreground="Gray"
@@ -176,7 +196,7 @@
                         Width="30"
                         Click="StateStrikeoutFont"
                         Style="{StaticResource StickyButtonBotton}">
-                        <Icon:PackIconCoolicons 
+                        <Icon:PackIconCoolicons
                             x:Name="IconStrikeout"
                             Kind="Strikethrough "
                             Foreground="Gray"
@@ -184,7 +204,7 @@
                             HorizontalAlignment="Center">
                         </Icon:PackIconCoolicons>
                     </Button>
-                    
+
                     <Button
                         Grid.Column="4"
                         Width="30"
@@ -205,7 +225,7 @@
                         HorizontalAlignment="Right"
                         Style="{StaticResource StickyButtonBotton}"
                         Click="new_Sticky">
-                        <Icon:PackIconBootstrapIcons 
+                        <Icon:PackIconBootstrapIcons
                             Grid.Column="5"
                             Kind="Plus"
                             Foreground="Black"

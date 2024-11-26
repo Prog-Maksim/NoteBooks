@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="Styles/SliderStyle.xaml"/>
                 <ResourceDictionary Source="Styles/ProgressBarStyles.xaml"/>
                 <ResourceDictionary Source="Styles/ButtonStartUpMenuStyle.xaml"/>
+                <ResourceDictionary Source="Styles/Sticker/ContextMenuStyle.xaml"/>
                 
                 <ResourceDictionary Source="ColorTheme/LightTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>

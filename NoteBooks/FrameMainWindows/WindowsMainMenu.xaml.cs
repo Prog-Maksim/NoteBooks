@@ -241,9 +241,15 @@ public partial class WindowsMainMenu : Page
                 OtherWindowsProgram.Sticky sticky = new OtherWindowsProgram.Sticky(name);
                 sticky.Show();
             }
-            catch {}
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n\n" + ex.StackTrace);
+            }
         }
-        catch {}
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message + "\n\n\n" + ex.StackTrace);
+        }
     }
 
     private void TxtSearch_OnKeyUp(object sender, KeyEventArgs e)

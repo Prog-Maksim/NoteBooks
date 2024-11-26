@@ -563,6 +563,21 @@ public partial class Sticky
             SaveToFile();
         }
     }
+    
+    private void Cut_Click(object sender, RoutedEventArgs e)
+    {
+        MainRichTextBox.Cut();
+    }
+    
+    private void Copy_Click(object sender, RoutedEventArgs e)
+    {
+        MainRichTextBox.Copy();
+    }
+    
+    private void Paste_Click(object sender, RoutedEventArgs e)
+    {
+        MainRichTextBox.Paste();
+    }
 
     private void SettingStickySize()
     {
