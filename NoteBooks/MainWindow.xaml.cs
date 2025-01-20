@@ -11,6 +11,9 @@ namespace StickyNotes
 {
     public partial class MainWindow
     {
+        
+        public delegate void function(int num1, string text1, int num2, string text2);
+        
         public MainWindow()
         {
             InitializeComponent();

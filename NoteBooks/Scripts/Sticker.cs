@@ -63,14 +63,12 @@ public class Sticker: ColorSticky
 
     public static void createNewSticker(Models.Sticker dataSticker)
     {
-        string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-        
         StickersList data = getAllDataSticker();
 
         data.Stickers!.Add(dataSticker);
 
         string jsonData = JsonSerializer.Serialize(data);
-        File.WriteAllText(file_path, jsonData);
+        File.WriteAllText(FileSettings.stickersData, jsonData);
     }
 
     public static bool getResultDublicateStickerName(string nameSticker)
@@ -83,9 +81,7 @@ public class Sticker: ColorSticky
 
     public static StickersList getAllDataSticker()
     {
-        string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-
-        using FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate);
+        using FileStream fs = new FileStream(FileSettings.stickersData, FileMode.OpenOrCreate);
         StickersList? data = JsonSerializer.Deserialize<StickersList?>(fs);
         if (data != null)
             return data;
@@ -99,10 +95,8 @@ public class Sticker: ColorSticky
 
     private static void updateAllStickerData(StickersList data)
     {
-        string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-        
         string jsonData = JsonSerializer.Serialize(data);
-        File.WriteAllText(file_path, jsonData);
+        File.WriteAllText(FileSettings.stickersData, jsonData);
     }
 
     public static void InstallOpenSticky(string stickyName)
@@ -136,8 +130,7 @@ public class Sticker: ColorSticky
 
     private static Models.Sticker getDataSticker(string nameSticker)
     {
-        string file_path = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-        using FileStream fs = new FileStream(file_path, FileMode.OpenOrCreate);
+        using FileStream fs = new FileStream(FileSettings.stickersData, FileMode.OpenOrCreate);
         StickersList? data = JsonSerializer.Deserialize<StickersList>(fs);
         
         if (data is { Stickers: not null })

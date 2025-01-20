@@ -232,23 +232,20 @@ public partial class WindowsMainMenu : Page
     private void StickyDataGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         if(e.ClickCount != 2) return;
+
+        if (stickyDataGrid.SelectedIndex == -1)
+            stickyDataGrid.SelectedIndex = 0;
+        
+        string name = NameSticky[stickyDataGrid.SelectedIndex];
+        if (Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}"))) return;
         try
         {
-            string name = NameSticky[stickyDataGrid.SelectedIndex];
-            if (Directory.Exists(Path.Combine(ClassRegistry.PathOpenStickers, $"~{name}"))) return;
-            try
-            {
-                OtherWindowsProgram.Sticky sticky = new OtherWindowsProgram.Sticky(name);
-                sticky.Show();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\n\n\n" + ex.StackTrace);
-            }
+            OtherWindowsProgram.Sticky sticky = new OtherWindowsProgram.Sticky(name);
+            sticky.Show();
         }
         catch(Exception ex)
         {
-            MessageBox.Show(ex.Message + "\n\n\n" + ex.StackTrace);
+            MessageBox.Show(ex.Message, "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

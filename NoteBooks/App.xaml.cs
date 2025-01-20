@@ -58,6 +58,7 @@ namespace StickyNotes
             Process[] processes = Process.GetProcessesByName(procName);
             if (processes.Length > 1)
                 Application.Current.Shutdown();
+            
             try
             {
                 MainWindow mainWindow = new MainWindow
@@ -70,6 +71,7 @@ namespace StickyNotes
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "StickyNotes", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
             }
             
             openThumbtackStickers();
