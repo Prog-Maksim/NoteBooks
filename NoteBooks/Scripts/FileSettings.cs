@@ -9,27 +9,18 @@ namespace StickyNotes.Scripts;
 
 public static class FileSettings
 {
-    private static readonly string path = Path.Combine(ClassRegistry.mainBasePath, "ProgramSettings.json");
+    private static readonly string programSetting = Path.Combine(ClassRegistry.mainBasePath, "ProgramSettings.json");
+    public static readonly string stickersData = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
 
     public static bool autoStart
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            Config? config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.AutoStart;
+            return GetProgramSettings().AutoStart;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-
-            config!.AutoStart = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.AutoStart = value);
         }
     }
 
@@ -37,21 +28,11 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            Config? config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.DeleteNotification;
+            return GetProgramSettings().DeleteNotification;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-
-            config!.DeleteNotification = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.DeleteNotification = value);
         }
     }
 
@@ -59,21 +40,11 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            var config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.Theme;
+            return GetProgramSettings().Theme;
         }
         private set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-        
-            config!.Theme = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.Theme = value);
         }
     }
 
@@ -81,21 +52,11 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            var config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.StickerSetings.CloseMenuLeaveFocus;
+            return GetProgramSettings().StickerSetings.CloseMenuLeaveFocus;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-        
-            config!.StickerSetings.CloseMenuLeaveFocus = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.StickerSetings.CloseMenuLeaveFocus = value);
         }
     }
 
@@ -103,21 +64,11 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            var config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.StickerSetings.CloseAnimation;
+            return GetProgramSettings().StickerSetings.CloseAnimation;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-        
-            config!.StickerSetings.CloseAnimation = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.StickerSetings.CloseAnimation = value);
         }
     }
 
@@ -125,21 +76,11 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            var config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.StickerSetings.DelayAnimationTopMenu;
+            return GetProgramSettings().StickerSetings.DelayAnimationTopMenu;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-        
-            config!.StickerSetings.DelayAnimationTopMenu = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.StickerSetings.DelayAnimationTopMenu = value);
         }
     }
     
@@ -147,23 +88,48 @@ public static class FileSettings
     {
         get
         {
-            using FileStream fs = new FileStream(path, FileMode.Open);
-            var config = JsonSerializer.Deserialize<Config>(fs);
-            return config!.StickerSetings.DelayAnimationBottonMenu;
+            return GetProgramSettings().StickerSetings.DelayAnimationBottonMenu;
         }
         set
         {
-            Config? config;
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                config = JsonSerializer.Deserialize<Config>(fs);
-            }
-        
-            config!.StickerSetings.DelayAnimationBottonMenu = value;
-            string jsonData = JsonSerializer.Serialize(config);
-            File.WriteAllText(path, jsonData);
+            UpdateConfigProperty(config => config.StickerSetings.DelayAnimationBottonMenu = value);
         }
     }
+    
+    
+    private static Config GetProgramSettings()
+    {
+        if (!File.Exists(programSetting))
+            createSystemFiles();
+        
+        Config? config;
+        using (FileStream fs = new FileStream(programSetting, FileMode.Open))
+            config = JsonSerializer.Deserialize<Config>(fs);
+        
+        if (config == null)
+            throw new InvalidOperationException("Не удалось десериализовать конфигурационный файл.");
+
+        return config;
+    }
+
+    private static void UpdateConfigProperty(Action<Config> updateAction)
+    {
+        if (!File.Exists(programSetting))
+            createSystemFiles();
+
+        Config? config;
+        using (FileStream fs = new FileStream(programSetting, FileMode.Open))
+            config = JsonSerializer.Deserialize<Config>(fs);
+
+        if (config == null)
+            throw new InvalidOperationException("Не удалось десериализовать конфигурационный файл.");
+        
+        updateAction(config);
+        
+        string jsonData = JsonSerializer.Serialize(config);
+        File.WriteAllText(programSetting, jsonData);
+    }
+    
     
     public static void setNewColorTheme(themeNameStyle theme)
     {
@@ -203,26 +169,29 @@ public static class FileSettings
     
     public static void createSystemFiles()
     {
-        string progSettings = Path.Combine(ClassRegistry.mainBasePath, "ProgramSettings.json");
-        string stickersData = Path.Combine(ClassRegistry.mainBasePath, "StickyData.json");
-            
-        createSystemSettings(progSettings);
-        createFileStickersList(stickersData);
+        createSystemSettings();
+        createFileStickersList();
         CreateStudySticker();
     }
     
-    private static void createSystemSettings(string file)
+    private static void createSystemSettings()
     {
-        using FileStream fs = new FileStream(file, FileMode.OpenOrCreate);
+        if (File.Exists(programSetting))
+            File.Delete(programSetting);
+        
+        using FileStream fs = new FileStream(programSetting, FileMode.OpenOrCreate);
         StickerSetings stickerSetings = new StickerSetings(true, true, 0.5, 0.1);
         Config systemSettings = new Config(themeNameStyle.light, true, false, stickerSetings);
             
         JsonSerializer.Serialize(fs, systemSettings);
     }
 
-    private static void createFileStickersList(string file)
+    private static void createFileStickersList()
     {
-        using FileStream fs = new FileStream(file, FileMode.OpenOrCreate);
+        if (File.Exists(stickersData))
+            File.Delete(stickersData);
+        
+        using FileStream fs = new FileStream(stickersData, FileMode.OpenOrCreate);
         StickersList stickersList = new StickersList
         {
             Stickers = new List<Models.Sticker>()
